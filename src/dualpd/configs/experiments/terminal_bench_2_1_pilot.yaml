@@ -1,0 +1,22 @@
+schema_version: 1
+
+datasets:
+  - id: terminal
+    harness: terminal_bench
+    path: /orcd/scratch/orcd/003/shangy/dualpd/datasets/terminal-bench-2.1-pilot.jsonl
+    weight: 1
+    options:
+      environment_url: http://127.0.0.1:38903
+      environment_timeout_seconds: 4200
+      environment_capacity_wait_seconds: 1800
+      max_turns: 32
+      max_tokens_per_turn: 8192
+      max_response_tokens: 36864
+
+sampling:
+  policy: random
+  seed: 2026
+  preserve_source_order: true
+  shuffle_algorithm: source_order
+  count_algorithm: largest_remainder_v1
+  pool_reuse_algorithm: cycle_as_needed_v1

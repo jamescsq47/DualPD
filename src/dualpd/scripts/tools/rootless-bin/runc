@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Slurm compute nodes deny creation of per-container session keyrings.  Keep
+# the stock runc binary and only add its create-time opt-out for the local
+# single-UID rootless Docker daemon.
+real_runc="${DOCKER_STATIC_ROOT:-/orcd/scratch/orcd/003/shangy/dualpd/tools/docker-rootless-28.5.2/bin}/runc"
+rewritten=()
+bundle=""
+next_is_bundle=false
+is_create=false
+for argument in "$@"; do
+  if [[ "${next_is_bundle}" == true ]]; then
+    bundle="${argument}"
+    next_is_bundle=false
+  elif [[ "${argument}" == --bundle || "${argument}" == -b ]]; then
+    next_is_bundle=true
+  elif [[ "${argument}" == --bundle=* ]]; then
+    bundle="${argument#--bundle=}"
+  fi
+  rewritten+=("${argument}")
+  if [[ "${argument}" == create ]]; then
+    is_create=true
+    rewritten+=(--no-new-keyring)
+  fi
+done
+if [[ "${is_create}" == true && -n "${bundle}" && -f "${bundle}/config.json" ]]; then
+  # The single-entry GID map cannot represent the conventional tty group 5.
+  # devpts accepts gid=0 and does not affect non-interactive task execution.
+  # This kernel also rejects a nested sysfs mount; bind the read-only sysfs
+  # view already prepared by RootlessKit instead.
+  config="${bundle}/config.json"
+  temporary="${config}.singleuid.tmp"
+  jq '
+    (.mounts[] | select(.destination == "/dev/pts").options) |=
+      map(if . == "gid=5" then "gid=0" else . end) |
+    (.mounts[] | select(.destination == "/sys")) = {
+      destination: "/sys", type: "bind", source: "/sys",
+      options: ["rbind", "ro", "nosuid", "noexec", "nodev"]
+    }
+  ' "${config}" >"${temporary}"
+  mv -- "${temporary}" "${config}"
+fi
+exec "${real_runc}" "${rewritten[@]}"
