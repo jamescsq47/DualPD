@@ -9,5 +9,5 @@ __path__ = [str(Path(__file__).resolve().parent)]
 __version__ = "0.1.0"
 
 if __name__ == "__main__":
-    from dualpd.cli import main
+    from dualpd.runtime.cli import main
     main()

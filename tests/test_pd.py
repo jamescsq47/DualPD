@@ -8,7 +8,7 @@ from dualpd.inference import (
     build_engine_timeseries,
     build_summary,
 )
-from dualpd.pd_metrics import generation_turns, sglang_meta_attrs
+from dualpd.runtime.pd_metrics import generation_turns, sglang_meta_attrs
 
 
 def test_sglang_meta_attrs_derives_ttft_and_tpot():

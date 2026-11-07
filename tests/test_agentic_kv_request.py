@@ -6,7 +6,7 @@ import urllib.error
 import numpy as np
 import pytest
 
-from dualpd.agentic_kv_request import (
+from dualpd.runtime.agentic_kv_request import (
     add_agentic_kv_metadata,
     build_agentic_extra_key,
     confirm_agentic_generation_final,
@@ -122,7 +122,7 @@ def test_terminal_callback_retries_transient_503(monkeypatch):
     monkeypatch.setenv("SGLANG_AGENTIC_KV_LIFECYCLE", "true")
     monkeypatch.setenv("PD_AGENTIC_FINAL_CALLBACK_URL", "http://router/dualpd/application_final")
     monkeypatch.setattr("urllib.request.urlopen", open_request)
-    monkeypatch.setattr("dualpd.agentic_kv_request.time.sleep", lambda _seconds: None)
+    monkeypatch.setattr("dualpd.runtime.agentic_kv_request.time.sleep", lambda _seconds: None)
     assert confirm_agentic_generation_final(
         {"agentic_request_id": "retry-final"}, 4, p_ready_dir=""
     )

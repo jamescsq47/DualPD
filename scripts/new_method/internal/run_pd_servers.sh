@@ -645,7 +645,7 @@ done
 start_search_server() {
   setsid env CUDA_VISIBLE_DEVICES="${SEARCH_GPU}" SEARCH_SERVER_GPU_IDS=0 \
     SEARCH_SERVER_EMBEDDING_CACHE="${SEARCH_SERVER_EMBEDDING_CACHE}" \
-    python "${PD_DIR}/search_server.py" \
+    python -m dualpd.data.browsecomp.search_server \
       --model Qwen/Qwen3-Embedding-8B \
       --corpus Tevatron/browsecomp-plus-corpus \
       --corpus-embedding-dataset miaolu3/browsecomp-plus \
@@ -841,7 +841,7 @@ done
 router_entry=(python -m sglang_router.launch_router)
 router_policy_args=()
 if [[ "${PD_LATE_BINDING}" == "1" ]]; then
-  router_entry=(python "${PD_LATE_BIND_ROUTER_ENTRY:-${PD_DIR}/launch_late_binding_router.py}")
+  router_entry=(python "${PD_LATE_BIND_ROUTER_ENTRY:-${PD_DIR}/scripts/new_method/internal/launch_late_binding_router.py}")
   router_policy_args=(--policy random)
 fi
 setsid env \

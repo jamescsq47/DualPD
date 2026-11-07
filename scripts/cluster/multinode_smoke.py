@@ -35,7 +35,7 @@ def post(url, payload):
 def run(cfg, output):
     sys.path.insert(0, str(Path(cfg["slime_root"]) / "."))
     from transformers import AutoTokenizer
-    from dualpd.agentic_kv_request import (
+    from dualpd.runtime.agentic_kv_request import (
         add_agentic_kv_metadata, build_agentic_extra_key,
         confirm_agentic_generation_final, confirm_agentic_generation_tool,
     )

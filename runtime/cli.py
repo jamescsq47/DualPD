@@ -11,7 +11,7 @@ def main():
     parser.add_argument("command", choices=("inference", "router", "multinode", "slurm", "doctor"))
     args = parser.parse_args(sys.argv[1:2])
     rest = sys.argv[2:]
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parents[1]
     if args.command == "doctor":
         modules = ["dualpd.runtime.types", "dualpd.runtime.generation", "dualpd.data.config",
                    "dualpd.data.browsecomp", "dualpd.data.swe_bench_openenv"]
@@ -22,13 +22,13 @@ def main():
             raise SystemExit("unexpected slime dependency loaded")
         print("OK: standalone workload imports; no slime modules loaded")
         return
-    modules = {"inference": "dualpd.inference",
-               "router": "dualpd.launch_late_binding_router"}
+    modules = {"inference": "dualpd.inference"}
     if args.command in modules:
         sys.argv = [f"dualpd {args.command}", *rest]
         runpy.run_module(modules[args.command], run_name="__main__")
         return
-    scripts = {"multinode": root / "scripts/cluster/multinode.py",
+    scripts = {"router": root / "scripts/new_method/internal/launch_late_binding_router.py",
+               "multinode": root / "scripts/cluster/multinode.py",
                "slurm": root / "scripts/cluster/qwen35_slurm.py"}
     path = scripts[args.command]
     if not path.is_file():

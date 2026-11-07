@@ -26,7 +26,7 @@ export NIXL_PLUGIN_DIR=/tmp/pd-runtime/nixl-132-pr1987-plugin
 while IFS= read -r variable; do unset "${variable}"; done < <(compgen -v SGLANG_AGENTIC_)
 while IFS= read -r variable; do unset "${variable}"; done < <(compgen -v SGLANG_PD_)
 unset SCHEDULE_FILE EXPERIMENT_CONFIG LOCAL_GPUS LOCAL_PORTS LOCAL_ROUTER_PORT MEASUREMENT_DURATION_SECONDS
-export PD_LATE_BIND_ROUTER_ENTRY="${PD_DIR}/launch_late_binding_router.py"
+export PD_LATE_BIND_ROUTER_ENTRY="${PD_DIR}/scripts/new_method/internal/launch_late_binding_router.py"
 export MODEL_PATH=/homes/siqic/Qwen3.5-27B PD_DATA_ROOT=/tmp/pd-data
 export WORKLOAD_CONFIG="${PD_DIR}/configs/experiments/swe_bench_verified_openenv_structured_tool_8k_t64_500.yaml"
 export MODEL_REASONING_PARSER=glm45 MODEL_TOOL_CALL_PARSER=qwen3_coder
@@ -228,7 +228,7 @@ print(json.dumps(record,indent=2))
 PY
 mkdir -p "${RUN_DIR}/source-snapshot"
 while IFS= read -r source_file; do cp --parents "${source_file}" "${RUN_DIR}/source-snapshot/"; done < <(rg --files -g '*.py' data)
-cp inference.py agentic_kv_request.py pd_metrics.py launch_late_binding_router.py "${RUN_DIR}/source-snapshot/"
+cp --parents inference.py runtime/agentic_kv_request.py runtime/pd_metrics.py scripts/new_method/internal/launch_late_binding_router.py "${RUN_DIR}/source-snapshot/"
 router_source="${DUALPD_ENGINE_ROOT:-${PD_DIR}/../sglang_pd}/python/sglang/srt/disaggregation/dualpd/router/late_binding_router.py"
 cp "${router_source}" "${RUN_DIR}/source-snapshot/late_binding_router.py"
 cp "${BASH_SOURCE[0]}" "${RUN_DIR}/source-snapshot/launcher.sh"

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ENGINE = ROOT.parent / "sglang_pd"
 FRONTEND = [
     "tests/test_standalone.py",
+    "tests/test_layout_references.py",
     "tests/test_agentic_kv_request.py",
     "tests/test_workload_plugins.py",
     "tests/test_swe_bench_openenv_harness.py",

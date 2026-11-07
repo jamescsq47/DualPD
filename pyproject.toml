@@ -20,7 +20,7 @@ analysis = ["matplotlib>=3.9", "pandas>=2", "scipy>=1.13"]
 swe = ["docker>=7", "swebench", "mini-swe-agent==2.4.6"]
 
 [project.scripts]
-dualpd = "dualpd.cli:main"
+dualpd = "dualpd.runtime.cli:main"
 
 [tool.setuptools.package-data]
 dualpd = ["configs/**/*", "scripts/**/*", "docs/*.md", "data/**/*.yaml", "data/**/*.json", "data/**/*.txt", "data/**/*.j2", "requirements*.txt", "requirement.txt"]
@@ -28,6 +28,7 @@ dualpd = ["configs/**/*", "scripts/**/*", "docs/*.md", "data/**/*.yaml", "data/*
 [tool.pytest.ini_options]
 testpaths = [
   "tests/test_standalone.py",
+  "tests/test_layout_references.py",
   "tests/test_agentic_kv_request.py",
   "tests/test_workload_plugins.py",
   "tests/test_swe_bench_openenv_harness.py",

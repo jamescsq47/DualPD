@@ -249,7 +249,9 @@ def run_matrix(root):
                 env.update(case['env'],RUN_DIR=str(run),RESULTS_DIR=str(root/'archives'/run.name),PD_MATRIX_CASE_ID=marker)
                 assert not subprocess.check_output(['docker','ps','-aq','--filter',f'label=pd.swe.run_id={label}'],text=True,timeout=20).strip(), 'pre-existing run label'
                 atomic_json(run/'queue_case.json',dict(case,env=case['env'],marker=marker,label=label))
-                (run/'dualpd.model_http_transport.py').write_bytes((PD/'dualpd.model_http_transport.py').read_bytes())
+                transport_snapshot = run/'source-snapshot/runtime/model_http_transport.py'
+                transport_snapshot.parent.mkdir(parents=True, exist_ok=True)
+                transport_snapshot.write_bytes((PD/'runtime/model_http_transport.py').read_bytes())
                 item.update(state='starting',started_at=time.time());update_report(case,item);save()
                 check_sources(expected)
                 with (run/'supervisor.log').open('x') as log:

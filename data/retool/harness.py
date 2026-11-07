@@ -20,7 +20,7 @@ from typing import Any
 
 from jinja2 import Template
 
-from dualpd.agentic_kv_request import (
+from dualpd.runtime.agentic_kv_request import (
     add_agentic_kv_metadata,
     build_agentic_extra_key,
     confirm_agentic_generation_final,
@@ -28,7 +28,7 @@ from dualpd.agentic_kv_request import (
     generation_has_visible_content,
     lifecycle_enabled,
 )
-from dualpd.pd_metrics import sglang_meta_attrs
+from dualpd.runtime.pd_metrics import sglang_meta_attrs
 from dualpd.runtime.tracing import span as dashboard_span
 from dualpd.runtime.generation import GenerateState
 from dualpd.runtime.http_utils import post

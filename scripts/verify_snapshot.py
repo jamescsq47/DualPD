@@ -65,8 +65,12 @@ def main():
         return ast.dump(RemoveImports().visit(tree), include_attributes=False)
     for name in core:
         old = WORKSPACE / "slime/examples/pd" / name
-        new = (ENGINE / "python/sglang/srt/disaggregation/dualpd/router" / name
-               if name == "late_binding_router.py" else ROOT / name)
+        if name == "late_binding_router.py":
+            new = ENGINE / "python/sglang/srt/disaggregation/dualpd/router" / name
+        elif name in {"agentic_kv_request.py", "pd_metrics.py", "model_http_transport.py"}:
+            new = ROOT / "runtime" / name
+        else:
+            new = ROOT / name
         old_ast = without_imports(old)
         new_ast = without_imports(new)
         # Flattening also updates one docstring and one installation hint.

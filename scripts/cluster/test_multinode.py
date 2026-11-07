@@ -80,7 +80,7 @@ class MultiNodeV2PlanTests(unittest.TestCase):
             "-m", "sglang.srt.disaggregation.dualpd.router.global_pd_router"])
         self.assertIn("--mini-lb", result["router"]["command"])
         self.assertNotIn(
-            "dualpd.launch_late_binding_router.py", result["router"]["command"]
+            "launch_late_binding_router.py", result["router"]["command"]
         )
         self.assertEqual(
             result["router"]["environment"][

@@ -8,8 +8,8 @@ import sys
 import tempfile
 import time
 
-from dualpd.agentic_kv_request import lifecycle_enabled
-from dualpd.pd_metrics import sglang_meta_attrs
+from dualpd.runtime.agentic_kv_request import lifecycle_enabled
+from dualpd.runtime.pd_metrics import sglang_meta_attrs
 from dualpd.runtime.tracing import span as dashboard_span
 from dualpd.runtime.generation import GenerateState
 from dualpd.runtime.http_utils import post

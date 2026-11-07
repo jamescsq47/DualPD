@@ -96,7 +96,7 @@ mkdir -p "${RUN_DIR}/source-snapshot"
 while IFS= read -r source_file; do
   cp --parents "${source_file}" "${RUN_DIR}/source-snapshot/"
 done < <(rg --files -g '*.py' data)
-cp inference.py model_http_transport.py agentic_kv_request.py pd_metrics.py "${RUN_DIR}/source-snapshot/"
+cp --parents inference.py runtime/model_http_transport.py runtime/agentic_kv_request.py runtime/pd_metrics.py "${RUN_DIR}/source-snapshot/"
 cp --parents scripts/common/runtime.sh scripts/new_method/internal/inference_checkpointed.py \
   scripts/new_method/internal/analyze_mamba_swe_run.py scripts/tools/analyze_swe_bench_run.py \
   "${RUN_DIR}/source-snapshot/"

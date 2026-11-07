@@ -23,7 +23,7 @@ PD_DIR = Path(__file__).resolve().parents[2]
 if str(PD_DIR) not in sys.path:
     sys.path.insert(0, str(PD_DIR))
 
-from dualpd.agentic_kv_request import build_agentic_extra_key
+from dualpd.runtime.agentic_kv_request import build_agentic_extra_key
 
 
 TOOL_MARKER = " VALIDATION_TOOL_END"

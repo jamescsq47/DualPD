@@ -99,7 +99,7 @@ def test_flat_project_has_direct_entrypoints_without_compatibility_layers():
 
 
 @pytest.mark.parametrize("entry", [
-    "launch_late_binding_router.py",
+    "scripts/new_method/internal/launch_late_binding_router.py",
     "scripts/new_method/internal/launch_mamba_late_binding_router.py",
 ])
 def test_router_entry_preserves_overlay_without_new_router_namespace(entry, tmp_path):

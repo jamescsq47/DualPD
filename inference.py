@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING, Any
 import httpx
 from prometheus_client.parser import text_string_to_metric_families
 
-from dualpd.pd_metrics import distribution, generation_turns
+from dualpd.runtime.pd_metrics import distribution, generation_turns
 
 if TYPE_CHECKING:
     from dualpd.runtime.types import Sample
@@ -538,7 +538,7 @@ async def run_one(
     scheduled_wall: float,
     semaphore: asyncio.Semaphore,
 ) -> dict[str, Any]:
-    from dualpd.generate_with_hybrid import generate_unified
+    from dualpd.data.generation import generate_unified
     from dualpd.runtime.generation import GenerateState
     from dualpd.runtime.types import Sample
 
@@ -1121,7 +1121,7 @@ async def run_closed_loop(
 
 
 async def async_main(cli: argparse.Namespace) -> None:
-    from dualpd.model_http_transport import http_client_scope
+    from dualpd.runtime.model_http_transport import http_client_scope
 
     async with http_client_scope():
         await _async_main(cli)
@@ -1132,7 +1132,7 @@ async def _async_main(cli: argparse.Namespace) -> None:
     from dualpd.data.dispatch import select_samples
     from dualpd.data.loading import load_samples
     from dualpd.runtime.generation import GenerateState
-    from dualpd.model_http_transport import init_http_client, transport_config
+    from dualpd.runtime.model_http_transport import init_http_client, transport_config
     from dualpd.runtime.types import Sample
 
     cli.output_dir.mkdir(parents=True, exist_ok=True)

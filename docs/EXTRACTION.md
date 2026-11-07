@@ -69,6 +69,29 @@ GPU placement and 300+1200/T450 measurement windows remain unchanged.
 
 ## Verification commands
 
+### Root-module cleanup
+
+The root contains only `inference.py`, `dualpd.py`, `__init__.py`,
+`__main__.py` and `setup.py`. Application-side request metadata/ACK helpers,
+metrics, HTTP transport and the CLI live under `runtime/`. They remain client
+code: no KV allocator, ownership or DMA state machine is moved out of SGLang.
+Mixed-harness generation is in `data/generation.py`; the pre-existing workload
+sampling implementation in `data/dispatch.py` remains unchanged.
+
+Root compatibility aliases for BrowseComp, Retool, tools and search were
+removed after all active callers were changed to the real `data.*` modules.
+Search launchers use `python -m dualpd.data.browsecomp.search_server`.
+The local Router deployment shim is under `scripts/new_method/internal/`,
+alongside the legacy Mamba shim; Router implementation remains engine-owned.
+Source snapshots now preserve the relocated runtime files' relative paths.
+
+Install the updated editable package again to refresh the console entrypoint:
+`pip install --no-deps --no-build-isolation -e .`. The command resolves
+`dualpd.runtime.cli`, not the removed root `cli.py`. Only the new isolated
+environment is refreshed; baseline and original worktree environments are not
+modified. Root-layout, active-import, shell-reference, outside-checkout CLI and
+historical-overlay checks are part of the CPU gate.
+
 ```bash
 .venv/bin/python scripts/check_cpu.py
 .venv/bin/python scripts/verify_snapshot.py

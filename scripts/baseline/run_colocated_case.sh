@@ -107,7 +107,7 @@ for port in "${ports_to_check[@]}"; do pd_check_port_free "${port}"; done
 
 start_search_server() {
   setsid env CUDA_VISIBLE_DEVICES="${SEARCH_GPU}" SEARCH_SERVER_GPU_IDS=0 \
-    "${PD_ENV_BIN}/python" search_server.py --model Qwen/Qwen3-Embedding-8B \
+    "${PD_ENV_BIN}/python" -m dualpd.data.browsecomp.search_server --model Qwen/Qwen3-Embedding-8B \
     --corpus Tevatron/browsecomp-plus-corpus \
     --corpus-embedding-dataset miaolu3/browsecomp-plus \
     --host 0.0.0.0 --port "${SEARCH_PORT}" >"${RUN_DIR}/logs/search.log" 2>&1 &

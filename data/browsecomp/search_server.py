@@ -12,7 +12,7 @@
 
 #!/usr/bin/env python3
 """
-python search_server.py --host 0.0.0.0 --port 8000
+python -m dualpd.data.browsecomp.search_server --host 0.0.0.0 --port 8000
 """
 
 import os

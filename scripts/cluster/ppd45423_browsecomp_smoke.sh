@@ -254,7 +254,7 @@ done
 setsid env CUDA_VISIBLE_DEVICES=7 SEARCH_SERVER_GPU_IDS=0 \
   HF_HOME="${HF_HOME}" HF_DATASETS_CACHE="${HF_HOME}/datasets" \
   SEARCH_SERVER_EMBEDDING_CACHE="${EMBEDDINGS}" PYTHONPATH="${PD}:${ROOT}/slime" \
-  "${PYTHON}" "${PD}/search_server.py" --host 127.0.0.1 --port "${SEARCH_PORT}" \
+  "${PYTHON}" -m dualpd.data.browsecomp.search_server --host 127.0.0.1 --port "${SEARCH_PORT}" \
   >"${RUN_DIR}/logs/search.log" 2>&1 &
 pids+=("$!")
 search_pid="$!"

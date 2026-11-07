@@ -6,11 +6,11 @@ workloads and configs live directly here. There is no `src/dualpd/` wrapper or
 
 | Location | Contents |
 |---|---|
-| Root Python files | Main inference, client request protocol and thin launch entries |
+| Root Python files | `inference.py` and Python package/install entrypoints only |
 | `data/` | Workload loaders, agent loops, tools and verifiers |
 | `configs/` | Workload, serving and experiment configuration |
 | `scripts/` | Launchers, analysis and automation; cluster tools are in `scripts/cluster/` |
-| `runtime/` | Standalone sample, generation state, HTTP and trace utilities |
+| `runtime/` | Client KV protocol, metrics, HTTP, CLI, sample/state and trace utilities |
 | `tests/` | Regression tests; reports are in `tests/reports/` |
 | `docs/` | Design and usage documentation |
 | `runs-host/` | Existing experiment result documents |
@@ -36,9 +36,16 @@ container images remain external inputs.
 Routing implementations belong to `sglang_pd`, under
 `python/sglang/srt/disaggregation/dualpd/router/`: `late_binding_router.py`
 for the local path and `global_pd_router.py` for the TCP path. DualPD only
-selects configuration and launches them; `launch_late_binding_router.py` is a
-thin entrypoint, not a second implementation. `agentic_kv_request.py` remains
-here because it builds application requests and publishes tool/final ACKs.
+selects configuration and launches them;
+`scripts/new_method/internal/launch_late_binding_router.py` is a thin entrypoint,
+not a second implementation. `runtime/agentic_kv_request.py` remains on the
+application side because it builds requests and publishes tool/final ACKs.
+
+Harness dispatch is in `data/generation.py`; workload selection remains in
+`data/dispatch.py`. BrowseComp and Retool use their real modules under
+`data/browsecomp/` and `data/retool/`, not root-level compatibility aliases.
+Run the local search service with
+`python -m dualpd.data.browsecomp.search_server --help`.
 
 See `docs/EXTRACTION.md` for migration scope and `tests/reports/README.md` for
 validation evidence. The original source worktrees remain available for comparison.

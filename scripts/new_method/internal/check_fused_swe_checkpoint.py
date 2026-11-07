@@ -14,7 +14,7 @@ from pathlib import Path
 import requests
 from transformers import AutoTokenizer
 from dualpd.data.swe_bench_openenv.harness import _render_prompt
-from dualpd.agentic_kv_request import (
+from dualpd.runtime.agentic_kv_request import (
     add_agentic_kv_metadata, build_agentic_extra_key,
     confirm_agentic_generation_tool, confirm_agentic_generation_final,
 )

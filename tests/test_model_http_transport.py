@@ -10,7 +10,7 @@ import httpx
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from dualpd.model_http_transport import AiohttpTransport, http_client_scope, init_http_client, transport_config
+from dualpd.runtime.model_http_transport import AiohttpTransport, http_client_scope, init_http_client, transport_config
 from dualpd.runtime import http_utils
 
 
