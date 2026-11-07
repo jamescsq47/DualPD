@@ -283,7 +283,6 @@ def common_env(cfg):
         "SGLANG_AGENTIC_MULTINODE_PEER_TP_SIZE": str(cfg["tp_size"]),
         "PD_INFERENCE_RETURN_LOGPROB": "false",
         "SGLANG_AGENTIC_KV_LIFECYCLE": "true",
-        "SGLANG_AGENTIC_MEMORY_AUTHORITY_V2": "true",
         # V2 does not set any of the V1 storage/marker/ledger switches.  Its
         # scheduler startup returns before those managers are constructed.
         "SGLANG_PD_DECODE_ENABLE_RADIX_CACHE": "true",

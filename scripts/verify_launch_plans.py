@@ -54,6 +54,18 @@ def main():
                             (config["slime_root"], migrated["slime_root"]),
                             (config["sglang_root"], migrated["sglang_root"])]
             expected = remap(old.plan(config), replacements)
+            # This historical helper flag had no runtime reader. The real
+            # MULTINODE_ENABLED selector and every operational setting remain.
+            def remove_obsolete_helper_flag(value):
+                if isinstance(value, dict):
+                    obsolete = value.pop("SGLANG_AGENTIC_MEMORY_AUTHORITY_V2", None)
+                    assert obsolete in (None, "true")
+                    for item in value.values():
+                        remove_obsolete_helper_flag(item)
+                elif isinstance(value, list):
+                    for item in value:
+                        remove_obsolete_helper_flag(item)
+            remove_obsolete_helper_flag(expected)
             # Router code is engine-owned now; all flags and environments
             # remain identical, only its executable module entry changes.
             router_command = expected["router"]["command"]

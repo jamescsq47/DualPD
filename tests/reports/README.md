@@ -6,11 +6,11 @@ environments were retained. Runtime SGLang version is 0.5.10.post1.
 | Check | Result | Evidence |
 |---|---|---|
 | Standalone frontend + launch regression | 183 passed | frontend.xml, frontend.log |
-| Engine CPU lifecycle/control/lease/Router regression | 381 passed + 2 passed subtests (383 JUnit records) | engine.xml, engine.log |
+| Engine CPU lifecycle/control/lease/Router regression | 392 passed + 2 passed subtests (394 JUnit records) | engine.xml, engine.log |
 | H100-host TP/Mamba/Host/fault regression | 415 passed | h100-regression.xml |
-| Engine original/relocated source verification | 4420 files byte-identical, 73 relocated modules/tests hash-identical, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
+| Engine original/relocated source verification | 4411 files byte-identical, 64 mapped files hash-identical, 9 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
 | Frontend serving algorithms | 12 core files AST-identical apart from imports and two flattened documentation/diagnostic paths | ../../scripts/verify_snapshot.py |
-| Launch-plan comparison | 9 configurations identical except root paths, Router module entry and path-dependent config hash | ../../scripts/verify_launch_plans.py |
+| Launch-plan comparison | 9 configurations identical except root paths, Router module entry, path-dependent config hash and removal of one no-op helper flag | ../../scripts/verify_launch_plans.py |
 | Standalone package build | Wheel built; runtime configs, scripts and design document present | pip wheel and wheel member inspection |
 
 The H100-host regression used Slurm job **28109209 on node2700**, with **1 H100,
@@ -79,3 +79,33 @@ Only `DualPD/.venv` was reinstalled to refresh its console script. CPU tests wer
 run outside the filesystem sandbox because FlashInfer imports write a user
 cache log and transport tests use localhost sockets. This does not initialize
 GPU model services or constitute a new 300+1200/T450 measurement.
+
+## First internal engine cleanup
+
+The current supported CPU gate has 577 passing JUnit records (183 frontend,
+392 engine, two subtests). It includes the new ledger/alias/pickle tests and
+memory-scheduler-bridge tests. An additional fresh multi-node launcher check
+passed all 22 tests after the no-op flag was removed.
+
+The Host staging implementation decreased from 10131 to 7676 lines by moving
+the identical ledger state/CAS code to its own 2485-line, CUDA-independent
+module. The 41 existing engine tests were relocated, not deleted. Only an
+assertion-only test of the unused helper flag was removed. The AST gate proves
+the nine ledger nodes and remaining DMA/worker behavior unchanged; literal
+environment identifier inventory retains all 143 remaining identifiers.
+
+Extended CPU discovery recorded **506 passes and 9 failures**, all nine due to
+`libcuda.so.1` loading inside two application-termination test functions.
+`engine-extended-discovery.xml` retains those failures. Selecting the supported
+CPU cases gives **506 passes, 9 deselected** in `engine-extended-cpu.xml`; these
+overlap the main gate and must not be added as unique coverage. The command
+omits 13 modules whose collection requires the CUDA driver and the token-content
+suite whose helper import has the same dependency. Full collection and the
+separate frontend Host suite also hit that driver dependency; the latter is
+recorded in `host-cleanup-cpu.xml`. None of these driver-dependent checks is
+claimed as a pass or silently weakened to obtain a green result.
+
+Independent static audit returned **GO**, including all eight ownership
+invariants. No GPU tests or benchmark measurements were run in this cleanup.
+See ../../../sglang_pd/docs/DUALPD_CLEANUP.md for retained switches, exact
+removed helpers, import/pickle compatibility boundaries and remaining work.

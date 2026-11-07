@@ -75,6 +75,7 @@ class MultiNodeV2PlanTests(unittest.TestCase):
             self.assertFalse(any("METADATA_DIR" in key for key in env))
             self.assertTrue(legacy_v1_keys.isdisjoint(env))
             self.assertNotIn("SGLANG_AGENTIC_GROUP_RANK", env)
+            self.assertNotIn("SGLANG_AGENTIC_MEMORY_AUTHORITY_V2", env)
         self.assertEqual(result["router"]["command"][0], self.cfg["python"])
         self.assertEqual(result["router"]["command"][1:3], [
             "-m", "sglang.srt.disaggregation.dualpd.router.global_pd_router"])

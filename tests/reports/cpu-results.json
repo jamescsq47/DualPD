@@ -23,7 +23,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 105.44692015647888
+    "elapsed_seconds": 111.27164769172668
   },
   {
     "group": "engine",
@@ -34,15 +34,17 @@
       "-q",
       "--tb=short",
       "--junitxml=/home/shangy/dualpd/DualPD/tests/reports/engine.xml",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_group_protocol.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_group_transfer.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_multinode.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_kv_lifecycle.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_transfer_queues.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_host_transfer.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_multinode_runtime.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_remote_host.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_memory_authority.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_group_protocol.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_group_transfer.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_multinode.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_kv_lifecycle.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_transfer_queues.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_host_transfer.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_multinode_runtime.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_remote_host.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_memory_authority.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_host_ledger.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_memory_scheduler_bridge.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_late_binding_router.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_global_pd_router.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_slow_congestion_router.py",
@@ -51,6 +53,6 @@
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 61.51114106178284
+    "elapsed_seconds": 67.22499299049377
   }
 ]

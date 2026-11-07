@@ -23,6 +23,15 @@ def main():
     ).decode().split("\0")
     allowed = {"python/sglang/srt/mem_cache/hicache_storage.py",
                "python/sglang/srt/disaggregation/AGENTS.md"}
+    reviewed_refactors = {item["original"] for item in source_map["files"]
+                         if "current_sha256" in item}
+    refactor_validation = None
+    if reviewed_refactors:
+        validation = subprocess.run(
+            [sys.executable, str(ENGINE / source_map["refactor_validation"])],
+            capture_output=True, text=True, check=True,
+        )
+        refactor_validation = json.loads(validation.stdout)
     equal = 0
     differences = []
     for name in filter(None, files):
@@ -32,10 +41,11 @@ def main():
             differences.append([name, "missing"])
         elif old.read_bytes() == new.read_bytes():
             equal += 1
-        elif name not in allowed:
+        elif name not in allowed and name not in reviewed_refactors:
             differences.append([name, "unexpected change"])
     for item in source_map["files"]:
-        if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != item["sha256"]:
+        expected_hash = item.get("current_sha256", item["sha256"])
+        if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != expected_hash:
             differences.append([item["path"], "relocated content changed"])
     router_map = json.loads((ENGINE / "router-source-map.json").read_text())
     for item in router_map["files"]:
@@ -87,6 +97,7 @@ def main():
     result = {"engine_byte_identical_files": equal,
               "relocated_modules_and_tests": len(relocations),
               "router_implementations_hash_identical": len(router_map["files"]),
+              "reviewed_refactor_equivalence": refactor_validation,
               "frontend_core_ast_identical_except_imports": len(core),
               "intentional_engine_changes": sorted(allowed), "differences": differences}
     print(json.dumps(result, indent=2))

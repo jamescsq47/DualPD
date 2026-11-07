@@ -105,6 +105,16 @@ Logs, JUnit XML and machine-readable return codes are saved in `tests/reports/`.
 `verify_snapshot.py` is a migration-only reference check requiring the retained
 original sibling snapshots. Production imports and the CPU gate do not need them.
 
+The first internal engine cleanup moves the unchanged Host ledger to
+`agentic_host_ledger.py` and engine tests to `dualpd/tests/`. Historical Host
+imports remain class-identical aliases. The source map retains original hashes,
+with current hashes for nine explicitly reviewed source/test transformations;
+`sglang_pd/tools/verify_dualpd_cleanup.py` performs strict AST and environment
+identifier checks against the pre-cleanup commit. The multi-node launch-plan
+comparison now also allows removal of the unused
+`SGLANG_AGENTIC_MEMORY_AUTHORITY_V2` helper export; real activation remains
+`SGLANG_AGENTIC_MULTINODE_ENABLED`. All operational flags and defaults remain.
+
 An old router test expected `remote_read_epoch`, which is absent from the source
 engine. It now checks the actual existing recovery_claim_id, owner, state and
 per-rank pinned claims instead. No engine ownership behavior was changed for it.
