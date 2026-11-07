@@ -74,10 +74,10 @@ assert not any(n == "slime" or n.startswith("slime.") for n in sys.modules)
 
 
 def test_standalone_root_and_legacy_config_are_compatible(tmp_path):
-    spec = importlib.util.spec_from_file_location("standalone_multinode", ROOT / "tools/dualpd/multinode.py")
+    spec = importlib.util.spec_from_file_location("standalone_multinode", ROOT / "scripts/cluster/multinode.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    config = json.loads((ROOT / "tools/dualpd/multinode.example.json").read_text())
+    config = json.loads((ROOT / "scripts/cluster/multinode.example.json").read_text())
     config["dualpd_root"] = config.pop("slime_root")
     path = tmp_path / "config.json"
     path.write_text(json.dumps(config))
@@ -86,10 +86,11 @@ def test_standalone_root_and_legacy_config_are_compatible(tmp_path):
     assert module.plan(loaded)["workers"]
 
 
-def test_compatibility_entrypoints_and_reports_are_local():
-    legacy = ROOT / "examples/pd"
-    assert legacy.resolve() == ROOT / "src/dualpd"
-    assert (legacy / "runs-host").resolve() == ROOT / "results"
+def test_flat_project_has_direct_entrypoints_without_compatibility_layers():
+    assert not (ROOT / "examples").exists()
+    assert not (ROOT / "src").exists()
+    assert (ROOT / "inference.py").is_file()
+    assert (ROOT / "runs-host").is_dir()
     for path in ("scripts/new_method/run_4p4d_numa_case.sh", "scripts/baseline/run_pd_case.sh",
                  "configs/experiments/swe_bench_verified_openenv_structured_tool_8k_t64_500_apptainer.yaml"):
-        assert (legacy / path).is_file()
+        assert (ROOT / path).is_file()

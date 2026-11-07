@@ -46,6 +46,13 @@ def main():
             "data/swe_bench/apptainer_backend.py", "data/retool/harness.py"]
     def without_imports(path):
         tree = ast.parse(path.read_text())
+        # Package location constants necessarily change when flattening.
+        tree.body = [node for node in tree.body if not (
+            isinstance(node, ast.Assign) and any(
+                isinstance(t, ast.Name) and t.id in {"REPO_ROOT", "WORKSPACE_ROOT"}
+                for t in node.targets
+            )
+        )]
         class RemoveImports(ast.NodeTransformer):
             def visit_Import(self, node):
                 return None
@@ -54,7 +61,7 @@ def main():
         return ast.dump(RemoveImports().visit(tree), include_attributes=False)
     for name in core:
         old = WORKSPACE / "slime/examples/pd" / name
-        new = ROOT / "src/dualpd" / name
+        new = ROOT / "." / name
         old_ast = without_imports(old)
         new_ast = without_imports(new)
         new_ast = new_ast.replace("dualpd.runtime.http_utils", "slime.utils.http_utils")

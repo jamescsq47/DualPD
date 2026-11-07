@@ -7,7 +7,14 @@ build/
 dist/
 *.log
 *.lock
-validation/*.jsonl
+tests/reports/*.jsonl
 .cache/
-results/**/*.jsonl
-results/**/*.csv
+runs-host/**/*.jsonl
+runs-host/**/*.csv
+
+__pycache__/
+artifacts/
+runs/
+runs-host/**/logs/
+*.nsys-rep
+*.sqlite

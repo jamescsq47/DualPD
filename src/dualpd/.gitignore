@@ -1,6 +1,0 @@
-__pycache__/
-artifacts/
-runs/
-runs-host/**/logs/
-*.nsys-rep
-*.sqlite

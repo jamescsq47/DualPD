@@ -15,18 +15,18 @@ ROOT = Path(__file__).resolve().parents[1]
 ENGINE = ROOT.parent / "sglang_pd"
 FRONTEND = [
     "tests/test_standalone.py",
-    "src/dualpd/tests/test_agentic_kv_request.py",
-    "src/dualpd/tests/test_late_binding_router.py",
-    "src/dualpd/tests/test_workload_plugins.py",
-    "src/dualpd/tests/test_swe_bench_openenv_harness.py",
-    "src/dualpd/tests/test_swe_bench_harness.py",
-    "src/dualpd/tests/test_model_http_transport.py",
-    "tools/dualpd/test_multinode.py",
-    "tools/dualpd/test_global_pd_router.py",
-    "tools/dualpd/test_process_supervisor.py",
-    "tools/dualpd/test_qwen35_slurm.py",
-    "tools/dualpd/test_qwen35_native_pd_slurm.py",
-    "tools/dualpd/test_qwen35_colocated_slurm.py",
+    "tests/test_agentic_kv_request.py",
+    "tests/test_late_binding_router.py",
+    "tests/test_workload_plugins.py",
+    "tests/test_swe_bench_openenv_harness.py",
+    "tests/test_swe_bench_harness.py",
+    "tests/test_model_http_transport.py",
+    "scripts/cluster/test_multinode.py",
+    "scripts/cluster/test_global_pd_router.py",
+    "scripts/cluster/test_process_supervisor.py",
+    "scripts/cluster/test_qwen35_slurm.py",
+    "scripts/cluster/test_qwen35_native_pd_slurm.py",
+    "scripts/cluster/test_qwen35_colocated_slurm.py",
 ]
 ENGINE_TESTS = [
     "test_agentic_group_protocol.py", "test_agentic_group_transfer.py",
@@ -38,11 +38,11 @@ ENGINE_TESTS = [
 
 
 def main():
-    output = ROOT / "validation"
+    output = ROOT / "tests/reports"
     output.mkdir(exist_ok=True)
     env = dict(os.environ)
     env["PYTHONPATH"] = os.pathsep.join(map(str, [
-        ENGINE / "python", ROOT / "src", ROOT, ROOT / "tools/dualpd",
+        ENGINE / "python", ROOT, ROOT / "scripts/cluster",
     ]))
     groups = [
         ("frontend", ROOT, FRONTEND),

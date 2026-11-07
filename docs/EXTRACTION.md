@@ -26,8 +26,9 @@ training submission/reward/weight-update code is omitted. Local HTTP pooling,
 timeouts, retries, proxy policy and response closure remain unchanged. Ray-based
 training dispatch is not part of the standalone inference API.
 
-Historical `examples/pd` paths resolve within the new checkout through a
-compatibility symlink. Flat harness imports are remapped to `dualpd.*`; no
+The project root directly corresponds to the former `examples/pd` directory.
+The intermediate source tree and compatibility symlinks have been removed.
+Flat harness imports are remapped to `dualpd.*`; no
 `slime` import alias or bundled Slime package is installed. The standalone JSON
 name `dualpd_root` is accepted alongside the old `slime_root` key, and a conflict
 is rejected. Existing experiment inputs and values remain explicit.
@@ -43,7 +44,7 @@ is rejected. Existing experiment inputs and values remain explicit.
 The CPU gate covers request metadata, router reservations and retries, workload
 sampling, SWE tool loops, HTTP transport, multi-node plans, process cleanup, TP
 control protocol, cancellation/fault handling, Host transfer and memory leases.
-Logs, JUnit XML and machine-readable return codes are saved in `validation/`.
+Logs, JUnit XML and machine-readable return codes are saved in `tests/reports/`.
 `verify_snapshot.py` is a migration-only reference check requiring the retained
 original sibling snapshots. Production imports and the CPU gate do not need them.
 
@@ -76,9 +77,9 @@ use an available allocation, and record:
 No end-to-end GPU model-serving or performance acceptance is claimed by the extraction itself.
 Focused TP/Mamba/Host/fault unit regressions additionally passed on node2700
 with an allocated H100 and CUDA libraries; this is not end-to-end model serving.
-The exact results and execution boundary are recorded in ../validation/README.md.
+The exact results and execution boundary are recorded in ../tests/reports/README.md.
 All eight lifecycle acceptance criteria in
-`../src/dualpd/docs/AGENTIC_PD_DESIGN_INVARIANTS.md` remain binding. Deleting an
+`AGENTIC_PD_DESIGN_INVARIANTS.md` remain binding. Deleting an
 apparently obsolete transport branch is a separate change requiring reachability
 evidence and lifecycle/fault tests; this migration does not infer obsolescence
 from `legacy`/`v2` naming or from a default-off experiment switch.
@@ -86,7 +87,7 @@ from `legacy`/`v2` naming or from a default-off experiment switch.
 ## Historical experiment replay
 
 The shared BrowseComp matrix implementation is tracked in
-`tools/dualpd/matrix_controller.py`. Existing model-specific wrappers can use it
+`scripts/cluster/matrix_controller.py`. Existing model-specific wrappers can use it
 without loading code from a scratch run directory. Frozen DRAM rerun controllers
 still intentionally require their immutable launch_config/code_identity and
 engine snapshot. Those are experiment data dependencies, not project libraries.

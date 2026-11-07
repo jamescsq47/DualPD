@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools/dualpd"))
+sys.path.insert(0, str(ROOT / "scripts/cluster"))
 
 
 def load(name, path):
@@ -32,8 +32,8 @@ def remap(value, replacements):
 
 def main():
     old = load("original_multinode_plan", ROOT.parent / "slime/tools/dualpd/multinode.py")
-    new = load("standalone_multinode_plan", ROOT / "tools/dualpd/multinode.py")
-    fixture = json.loads((ROOT / "tools/dualpd/multinode.example.json").read_text())
+    new = load("standalone_multinode_plan", ROOT / "scripts/cluster/multinode.py")
+    fixture = json.loads((ROOT / "scripts/cluster/multinode.example.json").read_text())
     fixture["slime_root"] = str(ROOT.parent / "slime")
     fixture["sglang_root"] = str(ROOT.parent / "sglang-src/pd")
     rows = []
@@ -49,7 +49,9 @@ def main():
             migrated = copy.deepcopy(config)
             migrated["slime_root"] = str(ROOT)
             migrated["sglang_root"] = str(ROOT.parent / "sglang_pd")
-            replacements = [(config["slime_root"], migrated["slime_root"]),
+            replacements = [(config["slime_root"] + "/examples/pd", migrated["slime_root"]),
+                            (config["slime_root"] + "/tools/dualpd", migrated["slime_root"] + "/scripts/cluster"),
+                            (config["slime_root"], migrated["slime_root"]),
                             (config["sglang_root"], migrated["sglang_root"])]
             expected = remap(old.plan(config), replacements)
             actual = new.plan(migrated)

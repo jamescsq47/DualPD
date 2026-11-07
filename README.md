@@ -1,62 +1,37 @@
 # DualPD
 
-Standalone agentic PD serving, workload harnesses, experiment orchestration and
-resource analysis. The engine is the sibling `../sglang_pd` repository.
-Slime is no longer imported by the inference runtime.
+`DualPD/` itself is the former `slime/examples/pd/` directory. Entry scripts,
+workloads and configs live directly here. There is no `src/dualpd/` wrapper or
+`examples/pd/` compatibility directory.
 
-## Install and launch
+| Location | Contents |
+|---|---|
+| Root Python files | Main inference, routing and request protocol interfaces |
+| `data/` | Workload loaders, agent loops, tools and verifiers |
+| `configs/` | Workload, serving and experiment configuration |
+| `scripts/` | Launchers, analysis and automation; cluster tools are in `scripts/cluster/` |
+| `runtime/` | Standalone sample, generation state, HTTP and trace utilities |
+| `tests/` | Regression tests; reports are in `tests/reports/` |
+| `docs/` | Design and usage documentation |
+| `runs-host/` | Existing experiment result documents |
+| `patches/` | Dependency/compatibility patches retained for reproducibility |
 
-Use the existing compatible SGLang environment to create an isolated environment:
+From this directory:
 
 ```bash
-/path/to/pd/bin/python -m venv --system-site-packages .venv
 .venv/bin/python -m pip install --no-deps -e .
-.venv/bin/python -m pip install setuptools-scm
-.venv/bin/python -m pip install --no-deps --no-build-isolation -e ../sglang_pd/python
 source scripts/env.sh
+.venv/bin/python inference.py --help
 .venv/bin/python -m dualpd doctor
-.venv/bin/python -m dualpd inference --help
 .venv/bin/python -m dualpd slurm --help
+.venv/bin/python scripts/check_cpu.py
 ```
 
-For a clean environment, install this project's dependencies and the matching
-engine fork. SWE dependencies are optional (`pip install -e '.[swe]'`);
-BrowseComp retrieval requires its existing embedding service and cached corpus.
-No model, dataset or container image is bundled.
+The sibling `../sglang_pd` is the modified engine. Install it in the isolated
+environment with `pip install --no-deps --no-build-isolation -e ../sglang_pd/python`
+(the build needs setuptools-scm). Baseline experiments retain their explicitly
+configured baseline Python and engine. Models, datasets, retrieval caches and
+container images remain external inputs.
 
-The supported cluster workflow is an **editable source installation**. The
-inference and router entrypoints are packaged; the cluster commands additionally
-need the checkout's `tools/dualpd` scripts. Models, dataset roots, Slurm allocation,
-GPU placement, containers and baseline Python environments remain explicit inputs.
-`scripts/env.sh` selects the modified engine: source it only for that method.
-Baseline launchers use their separately configured clean baseline environments.
-
-## Layout
-
-| Directory | Purpose |
-|---|---|
-| `src/dualpd/runtime` | Inference sample, tokenizer/sampling state, dataset loading, HTTP and trace |
-| `src/dualpd/data` | BrowseComp, SWE-bench, Retool and other workload adapters |
-| `src/dualpd/inference.py` | Open/closed-loop load generator and metric recording |
-| `src/dualpd/late_binding_router.py` | Local shared-arena router |
-| `tools/dualpd` | TCP router, launch/control tools, matrices, watchdogs and analysis |
-| `configs` | Existing workload schedules and serving profiles |
-| `results` | Existing result documents and retained small artifacts |
-| `examples/pd` | Compatibility symlink to `src/dualpd` for existing launch commands |
-
-The former README and all experiment instructions are retained in
-`src/dualpd/README.md`; historical paths and defaults in that document are
-historical evidence, not the standalone installation guide.
-
-## Compatibility and validation
-
-See `docs/EXTRACTION.md` for the scope, source identities, supported engine paths,
-and the distinction between CPU regression checks and GPU performance validation.
-The migration preserves harness prompts, sampling settings, request-generation
-metadata, lifecycle notifications, warmup/measurement windows and metric schemas.
-Historical experiment controllers that replay a frozen run still require that
-run's immutable artifacts. The shared BrowseComp matrix controller is now tracked
-as `tools/dualpd/matrix_controller.py` rather than imported from scratch.
-
-The old `slime/` and `sglang-src/pd/` directories remain available for comparison.
-Do not combine their Python modules with this checkout in the same process.
+See `docs/EXTRACTION.md` for migration scope and `tests/reports/README.md` for
+validation evidence. The original source worktrees remain available for comparison.
