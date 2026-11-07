@@ -16,7 +16,7 @@ from sglang.srt.disaggregation.decode_kvcache_offload_manager import (
     DecodeKVCacheOffloadManager,
 )
 
-from dualpd.late_binding_router import LateBindingMiniLoadBalancer
+from sglang.srt.disaggregation.dualpd.router.late_binding_router import LateBindingMiniLoadBalancer
 
 
 def _directory():

@@ -37,6 +37,10 @@ def main():
     for item in source_map["files"]:
         if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != item["sha256"]:
             differences.append([item["path"], "relocated content changed"])
+    router_map = json.loads((ENGINE / "router-source-map.json").read_text())
+    for item in router_map["files"]:
+        if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != item["sha256"]:
+            differences.append([item["path"], "router content changed"])
     # All these serving paths must retain their complete implementation; only
     # their import namespaces are remapped during extraction.
     core = ["inference.py", "agentic_kv_request.py", "late_binding_router.py",
@@ -61,14 +65,24 @@ def main():
         return ast.dump(RemoveImports().visit(tree), include_attributes=False)
     for name in core:
         old = WORKSPACE / "slime/examples/pd" / name
-        new = ROOT / "." / name
+        new = (ENGINE / "python/sglang/srt/disaggregation/dualpd/router" / name
+               if name == "late_binding_router.py" else ROOT / name)
         old_ast = without_imports(old)
         new_ast = without_imports(new)
+        # Flattening also updates one docstring and one installation hint.
+        # Normalize only these two literal references, not executable logic.
+        text_paths = {
+            "data/retool/harness.py": "examples/pd/inference.py",
+            "data/swe_bench/verifier.py": "examples/pd/requirements-swe-bench.txt",
+        }
+        if name in text_paths:
+            old_ast = old_ast.replace(text_paths[name], text_paths[name].removeprefix("examples/pd/"))
         new_ast = new_ast.replace("dualpd.runtime.http_utils", "slime.utils.http_utils")
         if old_ast != new_ast:
             differences.append([name, "serving AST differs beyond imports"])
     result = {"engine_byte_identical_files": equal,
               "relocated_modules_and_tests": len(relocations),
+              "router_implementations_hash_identical": len(router_map["files"]),
               "frontend_core_ast_identical_except_imports": len(core),
               "intentional_engine_changes": sorted(allowed), "differences": differences}
     print(json.dumps(result, indent=2))

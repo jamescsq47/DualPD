@@ -10,13 +10,11 @@
       "--junitxml=/home/shangy/dualpd/DualPD/tests/reports/frontend.xml",
       "tests/test_standalone.py",
       "tests/test_agentic_kv_request.py",
-      "tests/test_late_binding_router.py",
       "tests/test_workload_plugins.py",
       "tests/test_swe_bench_openenv_harness.py",
       "tests/test_swe_bench_harness.py",
       "tests/test_model_http_transport.py",
       "scripts/cluster/test_multinode.py",
-      "scripts/cluster/test_global_pd_router.py",
       "scripts/cluster/test_process_supervisor.py",
       "scripts/cluster/test_qwen35_slurm.py",
       "scripts/cluster/test_qwen35_native_pd_slurm.py",
@@ -24,7 +22,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 47.61834907531738
+    "elapsed_seconds": 59.10027742385864
   },
   {
     "group": "engine",
@@ -43,10 +41,15 @@
       "python/sglang/srt/disaggregation/dualpd/test_agentic_host_transfer.py",
       "python/sglang/srt/disaggregation/dualpd/test_agentic_multinode_runtime.py",
       "python/sglang/srt/disaggregation/dualpd/test_agentic_remote_host.py",
-      "python/sglang/srt/disaggregation/dualpd/test_agentic_memory_authority.py"
+      "python/sglang/srt/disaggregation/dualpd/test_agentic_memory_authority.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_late_binding_router.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_global_pd_router.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_slow_congestion_router.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_single_p_congestion_monitor.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_package_boundary.py"
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 30.186395168304443
+    "elapsed_seconds": 58.67110586166382
   }
 ]

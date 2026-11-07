@@ -8,6 +8,11 @@
     "commit": "0775d931f0912623b6773a6d6746c6d2befb8439",
     "source_map": "../sglang_pd/dualpd-source-map.json"
   },
+  "standalone_engine": {
+    "directory": "../sglang_pd",
+    "commit": "bc67aa0814364f2c7ce3df3f83f9d5ff013c5b5f",
+    "router_source_map": "../sglang_pd/router-source-map.json"
+  },
   "runtime": {
     "python_validated": "3.12.14",
     "sglang_version": "0.5.10.post1",

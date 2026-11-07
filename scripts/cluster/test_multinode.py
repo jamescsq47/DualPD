@@ -76,11 +76,8 @@ class MultiNodeV2PlanTests(unittest.TestCase):
             self.assertTrue(legacy_v1_keys.isdisjoint(env))
             self.assertNotIn("SGLANG_AGENTIC_GROUP_RANK", env)
         self.assertEqual(result["router"]["command"][0], self.cfg["python"])
-        self.assertTrue(
-            result["router"]["command"][1].endswith(
-                "scripts/cluster/global_pd_router.py"
-            )
-        )
+        self.assertEqual(result["router"]["command"][1:3], [
+            "-m", "sglang.srt.disaggregation.dualpd.router.global_pd_router"])
         self.assertIn("--mini-lb", result["router"]["command"])
         self.assertNotIn(
             "dualpd.launch_late_binding_router.py", result["router"]["command"]

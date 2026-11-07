@@ -565,7 +565,7 @@ def router_plan(cfg):
     # The custom MiniLB dispatches P immediately and D only after the P-ready
     # callback.  It preserves the immutable lifecycle envelope and uses no
     # filesystem control state.
-    command = [cfg["python"], str(Path(cfg["slime_root"]) / "scripts/cluster/global_pd_router.py"),
+    command = [cfg["python"], "-m", "sglang.srt.disaggregation.dualpd.router.global_pd_router",
                "--mini-lb", "--pd-disaggregation", "--policy", "random", "--host", "0.0.0.0",
                "--port", str(router["port"]), "--prometheus-port", str(router["metrics_port"]),
                "--health-check-timeout-secs", "60", "--health-failure-threshold", "10"]

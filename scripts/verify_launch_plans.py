@@ -54,6 +54,11 @@ def main():
                             (config["slime_root"], migrated["slime_root"]),
                             (config["sglang_root"], migrated["sglang_root"])]
             expected = remap(old.plan(config), replacements)
+            # Router code is engine-owned now; all flags and environments
+            # remain identical, only its executable module entry changes.
+            router_command = expected["router"]["command"]
+            assert router_command[1].endswith("/scripts/cluster/global_pd_router.py")
+            router_command[1:2] = ["-m", "sglang.srt.disaggregation.dualpd.router.global_pd_router"]
             actual = new.plan(migrated)
             # Root paths are part of the immutable config, so its digest must
             # change; compare the complete commands/environments themselves.

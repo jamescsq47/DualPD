@@ -210,7 +210,9 @@ print(json.dumps(record,indent=2))
 PY
 mkdir -p "${RUN_DIR}/source-snapshot"
 while IFS= read -r source_file; do cp --parents "${source_file}" "${RUN_DIR}/source-snapshot/"; done < <(rg --files -g '*.py' data)
-cp inference.py agentic_kv_request.py pd_metrics.py late_binding_router.py launch_late_binding_router.py "${RUN_DIR}/source-snapshot/"
+cp inference.py agentic_kv_request.py pd_metrics.py launch_late_binding_router.py "${RUN_DIR}/source-snapshot/"
+router_source="${DUALPD_ENGINE_ROOT:-${PD_DIR}/../sglang_pd}/python/sglang/srt/disaggregation/dualpd/router/late_binding_router.py"
+cp "${router_source}" "${RUN_DIR}/source-snapshot/late_binding_router.py"
 cp "${BASH_SOURCE[0]}" "${RUN_DIR}/source-snapshot/launcher.sh"
 cp "${WORKLOAD_CONFIG}" "${RUN_DIR}/workload.yaml"
 cp "${PD_DATA_ROOT}/swe-bench-verified/test.jsonl" "${RUN_DIR}/dataset.jsonl"

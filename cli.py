@@ -22,7 +22,8 @@ def main():
             raise SystemExit("unexpected slime dependency loaded")
         print("OK: standalone workload imports; no slime modules loaded")
         return
-    modules = {"inference": "dualpd.inference", "router": "dualpd.late_binding_router"}
+    modules = {"inference": "dualpd.inference",
+               "router": "dualpd.launch_late_binding_router"}
     if args.command in modules:
         sys.argv = [f"dualpd {args.command}", *rest]
         runpy.run_module(modules[args.command], run_name="__main__")

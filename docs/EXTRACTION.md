@@ -32,8 +32,42 @@ Flat harness imports are remapped to `dualpd.*`; no
 `slime` import alias or bundled Slime package is installed. The standalone JSON
 name `dualpd_root` is accepted alongside the old `slime_root` key, and a conflict
 is rejected. Existing experiment inputs and values remain explicit.
+Source equivalence additionally accounts for the flattened inference path in
+the Retool docstring and the requirements path in a SWE installation error;
+these are literal documentation/diagnostic changes, not serving logic.
 
 ## Regression gate
+
+### Router ownership cleanup
+
+Both Router implementations and their unit tests now live in the engine's
+`python/sglang/srt/disaggregation/dualpd/router/` package. The local
+late-binding and TCP/global implementations are byte-identical to the frontend
+snapshot. The frontend keeps only thin launch entries, deployment planning and
+the application-side request/ACK protocol. No engine Router imports DualPD.
+The package initializer is lazy so importing one variant never activates the
+other variant's FastAPI routes.
+
+The explicitly historical Mamba launcher retains its matched ledger protocol.
+Its immutable Router revision is vendored inside the engine instead of loaded
+from the original Slime Git repository at runtime. It is not the default Router
+and is not substituted for the current implementation. Router source hashes
+are recorded in `sglang_pd/router-source-map.json`.
+
+Thin local launch entries resolve the sibling engine directory (overridable
+with `DUALPD_ENGINE_ROOT`) without prepending it to `sys.path`. Historical
+Mamba/Fused overlays therefore remain selected for SGLang protocol imports;
+an old overlay need not contain the new Router namespace. A regression test
+blocks that namespace and verifies both launchers still process `--help`
+without changing the selected overlay or adding/reordering source search paths
+(Torch's generated temporary compilation directory is permitted).
+
+Lifecycle mapping for this move: no state transitions, fence/CAS changes,
+reservation changes or TP decisions. Success, failure, timeout, cancellation
+and shutdown follow the same implementation. Thresholds, sampling, host sizes,
+GPU placement and 300+1200/T450 measurement windows remain unchanged.
+
+## Verification commands
 
 ```bash
 .venv/bin/python scripts/check_cpu.py

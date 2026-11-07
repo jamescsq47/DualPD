@@ -8,6 +8,8 @@ import sys
 from types import SimpleNamespace
 from unittest.mock import patch
 
+import pytest
+
 from dualpd.runtime.generation import GenerateState
 from dualpd.runtime.types import Sample
 
@@ -63,7 +65,7 @@ class BlockSlime(importlib.abc.MetaPathFinder):
             raise AssertionError("standalone import tried to load " + fullname)
 sys.meta_path.insert(0, BlockSlime())
 import dualpd.inference, dualpd.data.browsecomp, dualpd.data.swe_bench_openenv
-import dualpd.late_binding_router
+import sglang.srt.disaggregation.dualpd.router.late_binding_router
 assert not any(n == "slime" or n.startswith("slime.") for n in sys.modules)
 '''
     env = dict(os.environ)
@@ -94,3 +96,45 @@ def test_flat_project_has_direct_entrypoints_without_compatibility_layers():
     for path in ("scripts/new_method/run_4p4d_numa_case.sh", "scripts/baseline/run_pd_case.sh",
                  "configs/experiments/swe_bench_verified_openenv_structured_tool_8k_t64_500_apptainer.yaml"):
         assert (ROOT / path).is_file()
+
+
+@pytest.mark.parametrize("entry", [
+    "launch_late_binding_router.py",
+    "scripts/new_method/internal/launch_mamba_late_binding_router.py",
+])
+def test_router_entry_preserves_overlay_without_new_router_namespace(entry, tmp_path):
+    code = '''
+import importlib.abc, runpy, sys, tempfile
+from pathlib import Path
+import sglang.srt.disaggregation
+overlay = sglang.srt.disaggregation
+overlay_paths = list(overlay.__path__)
+paths = list(sys.path)
+class OldOverlay(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname == "sglang.srt.disaggregation.dualpd" or fullname.startswith("sglang.srt.disaggregation.dualpd."):
+            raise ModuleNotFoundError("old overlay has no Router package: " + fullname)
+sys.meta_path.insert(0, OldOverlay())
+entry = sys.argv[1]
+sys.argv = [entry, "--help"]
+try:
+    runpy.run_path(entry, run_name="__main__")
+except SystemExit as exc:
+    assert exc.code == 0
+else:
+    raise AssertionError("launcher did not process --help")
+# Torch may append its own generated /tmp compilation directory on import.
+# No original search path may be removed/reordered, and no source checkout
+# may be added in place of the selected overlay.
+assert [p for p in sys.path if p in paths] == paths
+assert all(Path(p).is_relative_to(tempfile.gettempdir()) for p in sys.path if p not in paths)
+assert sys.modules["sglang.srt.disaggregation"] is overlay
+assert list(overlay.__path__) == overlay_paths
+'''
+    env = dict(os.environ)
+    env.pop("PYTHONPATH", None)
+    env.pop("DUALPD_ENGINE_ROOT", None)
+    result = subprocess.run([sys.executable, "-c", code, str(ROOT / entry)],
+                            cwd=tmp_path, env=env, text=True,
+                            capture_output=True, timeout=90)
+    assert result.returncode == 0, result.stdout[-1000:] + result.stderr[-3000:]

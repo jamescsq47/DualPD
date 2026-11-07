@@ -71,9 +71,10 @@ def test_agentic_launcher_accepts_more_p_than_d():
     assert "DECODE GPU groups must split evenly" not in launcher
     assert 'domain="$((index % ${#prefill_gpu_groups[@]}))"' in launcher
 
-    router = (
-        Path(__file__).parents[2] / "late_binding_router.py"
-    ).read_text()
+    import importlib.util
+    router = Path(importlib.util.find_spec(
+        "sglang.srt.disaggregation.dualpd.router.late_binding_router"
+    ).origin).read_text()
     assert "and not self.global_decode" in router
     assert "to share arbitrary D counts across P domains" in router
 

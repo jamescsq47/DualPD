@@ -16,13 +16,11 @@ ENGINE = ROOT.parent / "sglang_pd"
 FRONTEND = [
     "tests/test_standalone.py",
     "tests/test_agentic_kv_request.py",
-    "tests/test_late_binding_router.py",
     "tests/test_workload_plugins.py",
     "tests/test_swe_bench_openenv_harness.py",
     "tests/test_swe_bench_harness.py",
     "tests/test_model_http_transport.py",
     "scripts/cluster/test_multinode.py",
-    "scripts/cluster/test_global_pd_router.py",
     "scripts/cluster/test_process_supervisor.py",
     "scripts/cluster/test_qwen35_slurm.py",
     "scripts/cluster/test_qwen35_native_pd_slurm.py",
@@ -34,6 +32,11 @@ ENGINE_TESTS = [
     "test_agentic_transfer_queues.py", "test_agentic_host_transfer.py",
     "test_agentic_multinode_runtime.py", "test_agentic_remote_host.py",
     "test_agentic_memory_authority.py",
+    "router/tests/test_late_binding_router.py",
+    "router/tests/test_global_pd_router.py",
+    "router/tests/test_slow_congestion_router.py",
+    "router/tests/test_single_p_congestion_monitor.py",
+    "router/tests/test_package_boundary.py",
 ]
 
 
