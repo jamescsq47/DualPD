@@ -21,6 +21,7 @@ FRONTEND = [
     "tests/test_swe_bench_openenv_harness.py",
     "tests/test_swe_bench_harness.py",
     "tests/test_model_http_transport.py",
+    "tests/test_engine_cleanup_quickcheck.py",
     "scripts/cluster/test_multinode.py",
     "scripts/cluster/test_process_supervisor.py",
     "scripts/cluster/test_qwen35_slurm.py",

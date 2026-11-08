@@ -3,9 +3,19 @@
 Validated in the new isolated `DualPD/.venv`; source worktrees and their Python
 environments were retained. Runtime SGLang version is 0.5.10.post1.
 
+Current CPU gate: **600 passing JUnit records** (206 frontend, 392 engine and
+two engine subtests). The 23 new frontend tests cover the reusable allocation
+regression runner: exact audited source/config, untracked source detection,
+single per-job lock, real nested-shell TERM cleanup and already-exited leader
+draining, complete JSONL polling, resource gates and throughput comparison.
+`engine-cleanup-runner.xml` is a separate overlapping rerun, not 23 extra records.
+Independent audit GO applies to baseline-r2 only. Job28285059 is requested for
+seven days; while it remains pending there is no new model/throughput result.
+See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
+
 | Check | Result | Evidence |
 |---|---|---|
-| Standalone frontend + launch regression | 183 passed | frontend.xml, frontend.log |
+| Standalone frontend + launch regression | 206 passed | frontend.xml, frontend.log |
 | Engine CPU lifecycle/control/lease/Router regression | 392 passed + 2 passed subtests (394 JUnit records) | engine.xml, engine.log |
 | H100-host TP/Mamba/Host/fault regression | 415 passed | h100-regression.xml |
 | Engine original/relocated source verification | 4411 files byte-identical, 64 mapped files hash-identical, 9 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
