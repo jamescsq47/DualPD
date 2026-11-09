@@ -87,10 +87,14 @@ requires representative functionality/ownership validation as well as throughput
 
 ## Current Host work sequence
 
-The DMA ABI leaf passed the actual throughput comparison. Registration/prewarm
-has passed632 CPU records,415 native fault cases and independent code/exact-plan
-audits; its own GPU comparison is still running. Neither event completes the
-remaining Host cleanup or stages3–8 above.
+The DMA ABI and registration/prewarm layers passed actual throughput comparisons
+against the original baseline (−0.16% and−0.40% Decode respectively). The physical
+buffer/Arena layer passed651 CPU records,543 native fault cases and2 real tiny
+H100 registered/bounce roundtrips. Its independently audited full BrowseComp
+comparison `host-buffers-r1` passed at11254.37 Decode token/s (−0.09% versus
+original baseline),100% parent reuse,0 failures and clean GPU/port/helper gates
+on job28285059/node2700. None of these
+events completes the remaining Host cleanup or stages3–8 above.
 
 After registration performance acceptance, the next coherent extraction is the
 physical snapshot/buffer/Arena layer: indexed DMA descriptors, CPU copy workers,
@@ -102,3 +106,28 @@ only to their defining module. In particular, hybrid tests must still patch
 Manager hooks in Host staging while snapshot-factory hooks move with the snapshot
 implementation. Native TP, partial-launch/fence, descriptor, hybrid-state and
 Host release/retry tests must pass before a separate actual performance check.
+
+After physical-buffer performance acceptance, the next proposed coherent Host
+boundary is the D writer/optional Relay role: four exact nodes
+`_LEDGER_ENTRY_UNSET`, `_cleanup_nixl_room`, `AgenticDRelayWorker` and
+`AgenticDHostStagingClient`. The new writer module should import ledger, buffers,
+DMA, lifecycle/base/utils directly, never import staging back. It owns the one
+sentinel object used by both the `progress` default and identity check; staging
+reexports that same object and both classes. Preserve the historical logger.
+Existing class/instance hooks remain valid by alias identity. In particular,
+`test_agentic_hybrid_dma.py`'s `_device_indices_to_host` patch is a P-manager hook
+and must remain at staging; do not mechanically retarget all private hooks.
+Scope was independently reviewed read-only during the preceding frozen model
+run; this is not permission to edit before its performance gate passes.
+
+Writer extraction needs explicit sentinel/default-argument identity and cold
+import/legacy pickle tests, omitted-vs-explicit-None-vs-provided-entry/local-only
+progress checks, partial-launch drain/quarantine, CPU commit/unregister retry,
+TP peer abort and failed drain ACK, plus Relay room/close ordering. Existing
+production behavior is the reference, not a reason to weaken new assertions.
+
+Independent scoping also identified a pre-existing optional-Relay risk:
+`_fail_active()` publishes fallback in `finally` even if `_finish_active()` fails
+to synchronize. Do not silently alter it in an AST-identical extraction or claim
+it fixed. Retain it as a separately scoped fault-test/ownership analysis item;
+any semantic repair requires its own lifecycle mapping and independent audit.

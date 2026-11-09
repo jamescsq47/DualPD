@@ -54,7 +54,7 @@ allocation was submitted.
 | Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | 11265.01 | 75367.90 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `baseline-r3` |
 | Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | 11246.55 | 74816.50 | 99.992% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-dma-r1`; Decode−0.16% |
 | Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | 11220.31 | 75281.01 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-registration-r1`; Decode−0.40% |
-| Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | — | — | — | CPU651 records; H100 fault543 and actual roundtrip2 passed | Throughput pending `host-buffers-r1` |
+| Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | 11254.37 | 75462.39 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-buffers-r1`; Decode−0.09% |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -217,3 +217,39 @@ Parent-prefix reuse100%; P/D per-GPU Forward70.19%/98.38%; tail120 s Decode
 are all empty; a fresh SSH probe also confirms no live controller/launcher,
 GPU0 and job-scope OOM counters0. This passes the stage's gross-regression gate,
 not a statistical equivalence claim for all models or completion of later stages.
+
+Registration ownership accounting is retained in `ownership-summary.json`:
+11595 P→D Host IDs match across queue/durable/P-release/H2D/Host-release;
+21607 D→P Direct send/receive IDs match and all map to D source release;
+141 D→P Host durables match explicit D releases. All7 measured-window Host
+durables restore/release;134 additional durables occur only during controlled
+drain without individual restore completion. Final process cleanup is verified
+separately; event sets do not prove instantaneous ownership or release latency.
+
+Physical buffer comparison has now launched on the same job/node. Exact plan
+SHA256 `8020523c3454b70a3875d5cc46e4d1b5aa147a2aec2569ef37fa8db247621edc`
+received independent GO. Detached SSH controller974553 (PPID1), launcher974577,
+is in the allocated extern/task0 cgroup; job memory limit1800 GiB and scoped
+OOM counters0. Its live runtime reports running and the first model GPU process
+is present. This is startup evidence only, not performance acceptance.
+Source/configuration are frozen until results and final cleanup are complete.
+
+Follow-up live checks confirm all8 P/D model services ready, all8 registration
+prewarm contexts complete, and search/router healthy. The680-source BrowseComp
+schedule has loaded; business warmup is active. Controller974553 and its owned
+launcher974577 remain live, with a fresh Decode counter491271 at1794215623.19.
+Job memory events remain0. No throughput acceptance is inferred from this
+startup/warmup sample; the full measured window and final gates are outstanding.
+
+Physical buffer final result:301.006 s warmup and1200.000 s measurement,
+6688 completions,0 failures, Decode11254.37 (0.999055 of ORIGINAL baseline),
+Prefill75462.39, parent reuse100%. P/D per-GPU Forward70.22%/98.43%;
+tail120 Decode1318396 tokens. Job-scoped memory-event deltas0, three post-cleanup
+probes passed; independent SSH confirms both controller/launcher gone, GPU0 and
+job OOM0. Whole-run event sets match11338 P→D Host snapshots at all five stages
+and21628 D→P Direct send/receive/source-release IDs. All137 D→P Host durables
+match D source release;9 measured-window snapshots restore/release,128 additional
+durables occur only during controlled drain without individual restoration.
+See `ownership-summary.json`; final process cleanup is separate evidence.
+This passes the gross-regression gate, not statistical equivalence or final
+acceptance of all model/TP configurations and later cleanup stages.

@@ -16,8 +16,9 @@ on node2700. Baseline-r3 completed300+1200 seconds with Decode11265.01 token/s,
 Prefill75367.90 token/s, zero failures and a clean resource gate. DMA performance
 passed at11246.55 Decode token/s (−0.16%), zero failures and clean resources.
 Registration passed at11220.31 Decode token/s (−0.40%), zero failures and clean
-resources. Physical buffer/Arena extraction has CPU/code audit GO; its full
-BrowseComp performance comparison remains pending.
+resources. Physical buffer/Arena extraction passed its full BrowseComp comparison
+at11254.37 Decode token/s (−0.09%), zero failures and clean resources. The next
+D writer/Relay extraction is under CPU/code audit, not performance accepted.
 See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
 
 | Check | Result | Evidence |
@@ -58,8 +59,8 @@ Independent static/state-machine audit returned **GO**. It independently checked
 source equivalence, module identity, standalone imports from /tmp, Sample
 serialization and the type-only HiCache import cleanup.
 
-There is **one accepted standalone BrowseComp baseline and passed DMA/registration
-comparisons**, not acceptance of the later buffer extraction or new SWE
+There is **one accepted standalone BrowseComp baseline and passed DMA/registration/
+physical-buffer comparisons**, not acceptance of the later D writer extraction or new SWE
 accuracy results. Previous
 T450/throughput/accuracy tables are retained historical
 measurements, not new measurements of these directories. See ../../docs/EXTRACTION.md
