@@ -60,6 +60,32 @@ timeout, cancellation and shutdown to the existing owner/fence/CAS and release
 rules. Preserve eight invariants and require complete original reconstruction,
 native TP/Mamba/Host faults, independent audit and a separate frozen comparison.
 
+Read-only workset findings during router-tcp-r1 (engine3d1e524): lease44 lines
+and broker1223 lines have no Scheduler global reference. Their external globals
+are typing aliases, dataclass/deque/threading, NumPy/Torch and kv_to_page_indices.
+Keep those two complete definitions together; leave the separate33-line early-
+Direct receive record for its coherent Direct component rather than putting it
+inside a generic workset file. Preserve eager annotation evaluation (no new
+future-annotations directive), old Scheduler aliases and the native definition/
+initialization order.
+
+The existing test_agentic_h2d_decoupling.py readiness-sync test patches
+sched_module.kv_to_page_indices specifically for broker.service. Its two-call
+assertion must remain intact, retargeting only that defining-module private hook
+after extraction. This file is not part of the previous557-native inventory;
+explicitly add it for the workset stage. A current search also finds Scheduler
+consumers in TP Host commit/cancel, resident Mamba admission, request-owned Mamba,
+prompt checkpoint, memory-usage snapshot, decode-memory bridge, multinode shell
+and frontend scheduler-priority tests. Review/include these relevant fixtures,
+not just the already passing coarse TP/Host inventory.
+
+The first native Scheduler edit also needs an explicit reviewed same-path entry
+in dualpd-source-map.json: the current snapshot verifier otherwise correctly
+rejects it as a changed native file. Prove reconstruction of the entire original
+native module and all remaining mixed methods/initialization, not a filename or
+hash waiver. Moving only these two classes is an intermediate gate, not stage4
+completion; actual Direct/TP/ready/admission responsibilities still need cleanup.
+
 ## Still required afterward
 
 Genuinely remove metadata-only control-plane imports of native Host/DMA/worker
