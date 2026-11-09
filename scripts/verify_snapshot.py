@@ -16,6 +16,11 @@ ENGINE = WORKSPACE / "sglang_pd"
 
 
 def main():
+    benchmark_validation = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/verify_benchmark_components.py")],
+        capture_output=True, text=True, check=True,
+    )
+    benchmark_validation = json.loads(benchmark_validation.stdout)
     configuration_validation = subprocess.run(
         [sys.executable, str(ROOT / "scripts/verify_case_configuration.py")],
         capture_output=True, text=True, check=True,
@@ -110,6 +115,7 @@ def main():
         if old_ast != new_ast:
             differences.append([name, "serving AST differs beyond imports"])
     result = {"engine_byte_identical_files": equal,
+              "reviewed_benchmark_components": benchmark_validation,
               "reviewed_case_configuration": configuration_validation,
               "mapped_modules_and_tests": len(relocations),
               "relocated_modules_and_tests": sum(old != new for old, new in relocations.items()),

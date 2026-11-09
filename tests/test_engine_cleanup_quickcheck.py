@@ -227,10 +227,11 @@ def test_cpu_list_includes_both_numa_ranges():
 def test_recipe_follows_selected_checkout_instead_of_host_realpath(monkeypatch):
     selected = Path("/deployment-alias/DualPD")
     monkeypatch.setattr(runner, "ROOT", selected)
-    recipe = runner.load_recipe()
-    assert recipe.base.PD == recipe.base.SLIME == selected
-    assert recipe.base.REPO == selected.parent
-    assert recipe.base.MODIFIED_SGLANG == runner.ENGINE / "python"
+    env, command = runner.environment(Path("/fixture/run"))
+    assert command == ["bash", str(selected / "scripts/new_method/run_4p4d_numa_case.sh")]
+    assert env["SCHEDULE_FILE"] == str(selected / "configs/workloads/fixed_browsecomp_source_order_n680.json")
+    assert env["PYTHONPATH"] == f"{runner.ENGINE / 'python'}:{selected}"
+    assert env["DUALPD_ENGINE_ROOT"] == str(runner.ENGINE)
 
 
 def test_selected_root_spelling_survives_mount_alias(tmp_path):
@@ -243,10 +244,15 @@ def test_selected_root_spelling_survives_mount_alias(tmp_path):
         "import importlib.util; from pathlib import Path; "
         f"s=importlib.util.spec_from_file_location('alias_check',{str(selected / 'scripts/cluster/engine_cleanup_quickcheck.py')!r}); "
         "m=importlib.util.module_from_spec(s);s.loader.exec_module(m); "
-        "print(m.ROOT);print(m.load_recipe().base.PD)"
+        "e,c=m.environment(Path('/fixture/run')); "
+        "print(m.ROOT);print(c[1]);print(e['SCHEDULE_FILE']);print(e['PYTHONPATH'])"
     )
     output = subprocess.check_output([str(runner.PYTHON), "-c", code], env=env, text=True)
-    assert output.splitlines() == [str(selected), str(selected)]
+    assert output.splitlines() == [
+        str(selected), str(selected / "scripts/new_method/run_4p4d_numa_case.sh"),
+        str(selected / "configs/workloads/fixed_browsecomp_source_order_n680.json"),
+        f"{selected.parent / 'sglang_pd/python'}:{selected}",
+    ]
 
 
 def test_stopping_wrapper_reaches_nested_cleanup_trap(tmp_path):

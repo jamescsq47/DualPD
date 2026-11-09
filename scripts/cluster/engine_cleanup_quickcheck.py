@@ -21,7 +21,6 @@ import re
 import signal
 import socket
 import subprocess
-import sys
 import time
 
 # Login and compute hosts can resolve the same /home mount to different NFS
@@ -31,6 +30,37 @@ ROOT = Path(os.environ.get("DUALPD_ROOT", Path(__file__).absolute().parents[2]))
 ENGINE = ROOT.parent / "sglang_pd"
 PYTHON = ROOT / ".venv/bin/python"
 SCRIPT = ROOT / "scripts/cluster" / Path(__file__).name
+
+
+def load_benchmark_component(name):
+    if name not in {"browsecomp_qwen3_8b_h100", "measurement"}:
+        raise ValueError("unknown maintained benchmark component")
+    path = ROOT / "scripts/benchmarks" / (name + ".py")
+    spec = importlib.util.spec_from_file_location("_dualpd_benchmark_" + name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load maintained benchmark component: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+# Direct-script use needs no installed dualpd package or sys.path injection.
+# Resolve only to validate physical source identity; retain chosen path spelling
+# in all environment values and launch commands, including NFS/symlink aliases.
+if Path(__file__).resolve() != SCRIPT.resolve():
+    raise RuntimeError("selected checkout does not match controller source")
+recipe = load_benchmark_component("browsecomp_qwen3_8b_h100")
+measurement = load_benchmark_component("measurement")
+
+
+def validate_component_sources():
+    for actual, relative in (
+        (__file__, "scripts/cluster/engine_cleanup_quickcheck.py"),
+        (recipe.__file__, "scripts/benchmarks/browsecomp_qwen3_8b_h100.py"),
+        (measurement.__file__, "scripts/benchmarks/measurement.py"),
+    ):
+        if Path(actual).resolve() != (ROOT / relative).resolve():
+            raise RuntimeError(f"benchmark component outside selected checkout: {relative}")
 
 
 def write_json(path, value):
@@ -47,45 +77,12 @@ def command(args, **kwargs):
     return subprocess.check_output(args, text=True, timeout=60, **kwargs).strip()
 
 
-def load_recipe():
-    spec = importlib.util.spec_from_file_location(
-        "cleanup_browsecomp_recipe",
-        SCRIPT.with_name("browsecomp_qwen3_8b_lowc_h100_matrix.py"),
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    # The historical recipe resolves __file__ internally. Its deployment roots
-    # must follow the explicitly selected checkout, not a node's mount alias.
-    module.base.PD = ROOT
-    module.base.SLIME = ROOT
-    module.base.REPO = ROOT.parent
-    module.base.MODIFIED_SGLANG = ENGINE / "python"
-    return module
-
-
 def environment(directory):
-    recipe = load_recipe()
-    env, launch = recipe.modified_environment(
-        ("browsecomp8b4p4d", "new_method", 256), directory,
-    )
-    # No package install or mutation of shared pd/pd_baseline environments.
-    env.update(
-        PD_ENV_BIN=str(PYTHON.parent),
-        PATH=f"{PYTHON.parent}:{recipe.base.PD_ENV / 'bin'}:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/bin",
-        PYTHONPATH=f"{ENGINE / 'python'}:{ROOT}",
-        DUALPD_ENGINE_ROOT=str(ENGINE),
-        MAX_CONTEXT_LENGTH="40960", MAX_RESPONSE_LENGTH="36864",
-        TERM="dumb",
-        # Preserve the historical formal protocol, also valid as a regression
-        # gate. Shorter smoke runs must never enter the accepted results table.
-        WARMUP_SECONDS="300", MAX_WARMUP_SECONDS="420", MEASURE_SECONDS="1200",
-    )
-    env.pop("HF_TOKEN", None)  # Everything needed is cached; never persist a token.
-    return env, launch
+    return recipe.environment(ROOT, ENGINE, PYTHON, directory)
 
 
 def source_state():
+    validate_component_sources()
     if command(["git", "-C", str(ENGINE), "status", "--porcelain"]):
         raise RuntimeError("engine must be committed and clean before GPU validation")
     hashes = frontend_sources(ROOT)
@@ -214,9 +211,8 @@ def helpers():
 
 
 def resources(env):
-    base = load_recipe().base
-    return {"gpu_processes": base.gpu_processes(),
-            "occupied_ports": base.occupied_ports(base.configured_ports(env)),
+    return {"gpu_processes": measurement.gpu_processes(),
+            "occupied_ports": measurement.occupied_ports(measurement.configured_ports(env)),
             "helpers": helpers()}
 
 
@@ -399,8 +395,7 @@ def run_on_node(path):
         if (directory / "launch_config.json").exists():
             raise RuntimeError("never overwrite an attempted run; prepare a fresh attempt")
         write_json(directory / "pre-cleanup.json", cleanup_gate(env, timeout=30))
-        base = load_recipe().base
-        before = base.memory_events()
+        before = measurement.memory_events()
         write_json(directory / "launch_config.json", {
             "env": env, "command": plan["command"], "job_id": job_id,
             "node": socket.gethostname(), "source": plan["source"],
@@ -430,8 +425,8 @@ def run_on_node(path):
             if failure:
                 raise RuntimeError(failure)
             validate_plan(path)
-            base.ensure_analysis(directory)
-            result = base.summarize(directory, before)
+            measurement.ensure_analysis(directory, python=recipe.ANALYSIS_ENV / "bin/python", root=ROOT)
+            result = measurement.summarize(directory, before)
             compared = comparison(plan, result)
             write_json(directory / "result.json", {
                 **result, **compared, "stage": plan["stage"], "source": plan["source"],

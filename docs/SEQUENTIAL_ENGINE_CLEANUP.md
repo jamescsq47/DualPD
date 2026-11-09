@@ -62,14 +62,28 @@ token/s (−0.47% versus ORIGINAL),100% parent reuse,6658 protocol successes,
 0 execution failures/OOM and clean final GPU/ports/helpers/owned-process gates.
 Complete request and ownership records are saved with the new pool case.
 
-Stages7–8 remain open: maintained versus replay entry classification, installed
+Stage7a is now implemented but not performance accepted: current quickcheck
+uses explicit-root scripts/benchmarks recipe/measurement modules instead of
+importing historical controllers. Complete immutable three-module proof,
+18 source mutations and54 focused tests+33subtests pass. Three accepted real
+logs reproduce all25 summary values old/new exactly with fixed-zero cgroup
+fixtures. Direct isolated-Python entry and foreign-checkout rejection pass.
+Full CPU990 records, real-kernel native1018, actual H100 registered/bounce2,
+88 shell syntax checks and independent final CODE GO now pass. The native
+testcase inventory exactly matches the accepted stage6 run. An initial native
+preflight was mistakenly invoked on the login host and stopped at missing
+libcuda before tests; no environment or engine was changed, and the corrected
+SSH H100 invocation passes. A committed exact-plan GO and new full300+1200
+comparison remain required before further source cleanup.
+
+Stages7–8 remain open: maintained versus replay entry classification/archival, installed
 package/source/reference audit, actual
 TCP/TP2 and hybrid model-path coverage, and final representative performance and
 cleanup acceptance. None is replaced by local TP1 results or launch dry plans.
 
 ## Historical stage notes (superseded where a later acceptance is recorded)
 
-### Stage7 preparation (stage6 accepted; implementation still pending)
+### Stage7 preparation and immutable references
 
 Independent read-only review confirms that the current quickcheck imports the
 historical low-concurrency matrix, which dynamically imports matrix_controller.

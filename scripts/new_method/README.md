@@ -1,67 +1,56 @@
-# Request-generation KV pipeline
+# Local request-generation KV launchers
 
-These launchers use the modified `pd` environment.  Every launcher validates
-the environment fingerprint before allocating GPUs.
+This directory contains reusable topology entries and retained historical
+recipes. Router, allocator, transport and lifecycle implementations belong to
+the sibling `sglang_pd` engine.
 
-Supported entry points:
+## Maintained execution chain
 
-- `run_1p3d_case.sh`: current validated formal configuration; Mixed 1:1,
-  c256, seed 2026, 300-second warmup and 1200-second measurement.
-- `run_1p5d_case.sh`: scale-out 1P:5D configuration.
-- `run_2p6d_numa_case.sh`: two-NUMA-domain 2P:6D configuration.
-- `run_4p4d_numa_case.sh`: four-P-domain 4P:4D configuration.  Each D uses
-  the Host/slow-path arena of its same-NUMA paired P, while completed Prefill
-  KV may still be late-bound to any feasible D.
-- `run_qwen3_8b_tp1_browsecomp_4p4d.sh`: formal Qwen3-8B pure-BrowseComp
-  source-order run, TP=1, 4P:4D, closed-loop c256, 300-second steady-state
-  warmup and 1200-second measurement.
-- `internal/`: lifecycle and model-service implementation used by the entry
-  points.  KV payloads use Direct or Shared Host Arenas; lifecycle metadata is
-  kept in the run-scoped `/dev/shm` directory.  Do not launch these directly.
+The current staged regression enters through
+`scripts/cluster/engine_cleanup_quickcheck.py`. Its recipe and measurement
+helpers are in `scripts/benchmarks/`; see that directory's README. It explicitly
+selects Qwen3-8B TP1 4P:4D/c256, 680 source-order samples, seed2026,
+temperature0, tool/admission1s, total D→P512/P→D256GiB Host capacity and
+300s business warmup+1200s measurement.
 
-Both D→P and P→D Shared Host payloads default to the `memfd` backend.  The
-arenas are pageable ordinary CPU memory, are first-touched under each P
-process' NUMA binding, and do not consume the `/dev/shm` mount quota.  Only
-small ledgers and marker directories remain in `/dev/shm`.  The Qwen3-8B
-4P:4D launcher reserves independent 256 GiB D→P and 64 GiB P→D arenas per P.
-Set `SGLANG_AGENTIC_KV_SHARED_HOST_ARENA_BACKEND=tmpfs` and/or
-`SGLANG_AGENTIC_KV_P2D_HOST_ARENA_BACKEND=tmpfs` to use the file-backed data
-plane.
+Reusable execution components remain:
 
-Both directions lazily acquire the final request extent from a bounded
-process-local CUDA-registered window cache on a transport worker.  The generic
-defaults are 8-GiB windows/64-GiB cache; the Qwen3-8B 4P:4D launcher uses a
-1280-GiB per-process upper bound. Global Decode/Prefill routing lets one
-process visit all four P domains, so the bound covers `4 * (256+64) GiB` and
-prevents already-warmed remote arenas from evicting one another.
-D2H DMA lands directly in the durable arena and H2D DMA reads directly
-from it. On CUDA 13, a background CPU index mirror coalesces adjacent allocator
-tokens and `cuMemcpyBatchAsync` moves every run with copy engines only, removing
-both the extra CPU memcpy and gather/scatter SM kernels from all four Slow legs.
-The Qwen3-8B launcher uses two lanes and 4096-token batches. Registration or
-batch-API unavailability before DMA safely falls back to the prior gather/
-scatter two-bounce pipeline. Set
-`SGLANG_AGENTIC_KV_REGISTERED_EXTENT_DMA=0` to force that fallback.  D→P Slow
-control uses a bounded, sticky round-robin active window instead of scanning
-every retained snapshot.
+- `run_1p3d_case.sh`, `run_1p5d_case.sh`, `run_2p6d_numa_case.sh`,
+  `run_4p4d_numa_case.sh` and the TP2 topology wrappers construct case arguments.
+- `internal/run_agentic_pipeline.sh` and `run_pd_servers.sh` supervise model/
+  workload services and dependency-ordered cleanup.
+- `internal/agentic_case_environment.sh` builds16 common case argv entries.
+- `internal/apply_experiment_profile.sh` preserves explicit caller overrides
+  and fails before startup on trusted profile-loader errors.
+- `internal/launch_late_binding_router.py` is a thin engine launch bridge.
 
-The same launcher enables `SGLANG_AGENTIC_KV_REGISTER_EAGER_ARENA=1`.  The
-first transport-worker access registers every backing-arena window during
-warmup, then drops the temporary references while retaining the mappings in
-the bounded cache.  This keeps sparse D→P requests from paying a one-time
-page-registration cost inside the measurement window; a prewarm failure is
-non-fatal and returns to request-level registration/fallback.
+Case-layer historical fallback thresholds remain2s/2s; the maintained
+regression explicitly selects1s/1s. Only4P4D applies the optional profile at this
+case layer. Fingerprint, allocation, NUMA and resource gates remain mandatory.
 
-The current policy uses a 2-second fast-tool threshold, one 2-second
-tool-return-relative Direct setup bound, exact-size Direct receive pages,
-arrival/native Prefill admission independent of KV source, two-stage Slow
-Host/HBM routing, late Decode binding and P-ready compute-ahead backpressure.
+## Host and transfer configuration
 
-```bash
-cd /homes/siqic/slime
-bash examples/pd/scripts/new_method/run_1p3d_case.sh
-```
+Host payloads use ordinary CPU DRAM through memfd; small control metadata uses
+run-scoped `/dev/shm` directories. The current regression configures128GiB D→P
+and64GiB P→D per physical P rank, four ranks total. Both directions retain
+independent capacity/ownership. Slow Host landing and later Prefill placement
+are independent; an arena's P domain does not bind all recovery computation.
 
-Override `RUN_DIR`, GPU/port variables, `MAX_INFLIGHT`, `WARMUP_SECONDS`, or
-`MEASURE_SECONDS` through the environment.  The retained reference result is
-`runs-host/new-method/1p3d-c256-s2026-w300-m1200`.
+The current recipe explicitly selects registered final-extent DMA,8GiB windows,
+a768GiB per-process registered-cache bound, startup prewarm/barrier, two lanes
+and4096-token chunks. The cache bound is not an extra physical arena allocation.
+Before-DMA unsupported registration/batch operations retain the bounce fallback.
+Actual ablations and Direct/Host/fence/workset/TP semantics remain governed by
+`docs/AGENTIC_PD_DESIGN_INVARIANTS.md`, not redefined here.
+
+## Retained historical recipes
+
+Model/workload-named, fused/checkpoint and pinned-Mamba launchers/support remain
+for replay. In particular, `run_qwen3_8b_tp1_browsecomp_4p4d.sh` defaults to
+c384,1200s warmup,2s/2s and different Host/cache values. It is not the current
+regression entry. The existing profile YAML likewise records an earlier trial,
+not a substitute for the maintained recipe.
+
+Preserve recorded parameters and pinned inputs. Historical dependency closure
+and archival remain pending stage7 work; these retained recipes do not imply new
+acceptance of every historical model/TP/default configuration.

@@ -20,6 +20,9 @@
       "tests/test_case_configuration.py",
       "tests/test_case_configuration_structure.py",
       "tests/test_multinode_ports.py",
+      "tests/test_benchmark_recipe.py",
+      "tests/test_benchmark_measurement.py",
+      "tests/test_benchmark_structure.py",
       "scripts/cluster/test_multinode.py",
       "scripts/cluster/test_process_supervisor.py",
       "scripts/cluster/test_qwen35_slurm.py",
@@ -28,7 +31,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 74.06821322441101
+    "elapsed_seconds": 85.76066470146179
   },
   {
     "group": "engine",
@@ -70,6 +73,6 @@
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 126.79268431663513
+    "elapsed_seconds": 146.57758021354675
   }
 ]

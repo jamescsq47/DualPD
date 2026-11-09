@@ -553,3 +553,19 @@ See acceptance-audit.json, request-integrity.json and ownership-summary.json.
 The allocation/keeper remain retained. This unlocks stage7 implementation,
 not a new unaudited GPU run or overall completion; actualTCP/TP2/hybrid,
 maintained/replay classification and final integration remain open.
+
+Stage7a benchmark component extraction is implemented but not performance
+accepted yet. Current runner loads its two allowlisted modules directly from
+the selected ROOT, checks physical source identity without changing environment
+path spelling, and no longer imports historical lowc/matrix controllers. Both
+historical modules are unchanged. Whole immutable152a620 proof checks the three
+complete runtime modules,93 final keyword bindings and seven measurement
+functions. Monitor/stop/three-clean/unknown-process safety bodies are unchanged.
+Old/new full environment/argv, isolated direct launch, foreign-root rejection,
+18 destructive mutations and54focused+33subtests pass. Three real accepted
+logs reproduce all25 old/new summary values; fixed-zero cgroup fixtures do not
+claim live resource observations. Full CPU990/native1018/H100CUDA2,88 shell
+syntax checks and independent CODE GO pass, with unchanged native inventory.
+One native preflight accidentally ran on login and failed at missinglibcuda;
+the corrected H100 SSH test passes without environment/source changes. No new
+model result exists yet; commit/exact-plan audit/full300+1200 remain required.
