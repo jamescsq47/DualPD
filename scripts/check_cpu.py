@@ -51,6 +51,8 @@ ENGINE_TESTS = [
     "router/tests/test_package_boundary.py",
     "router/tests/test_local_structure.py",
     "router/tests/test_tcp_structure.py",
+    "router/tests/test_control_dependencies.py",
+    "router/tests/test_control_dependency_structure.py",
 ]
 
 

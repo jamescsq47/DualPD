@@ -24,7 +24,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 73.1727066040039
+    "elapsed_seconds": 62.175026178359985
   },
   {
     "group": "engine",
@@ -60,10 +60,12 @@
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_single_p_congestion_monitor.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_package_boundary.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_local_structure.py",
-      "python/sglang/srt/disaggregation/dualpd/router/tests/test_tcp_structure.py"
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_tcp_structure.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_control_dependencies.py",
+      "python/sglang/srt/disaggregation/dualpd/router/tests/test_control_dependency_structure.py"
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 115.91170954704285
+    "elapsed_seconds": 128.10035157203674
   }
 ]

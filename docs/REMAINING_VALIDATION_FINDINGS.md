@@ -37,3 +37,19 @@ Namespace fixtures and native-module private hook patches require an explicit
 compatibility design; do not leave large agentic bodies inline merely because
 their old globals are difficult, or silently make fixtures require a mixin
 instance. Exact group/body/module reconstruction remains required.
+
+## Configuration scope: active CLI versus historical shell defaults
+
+Read-only inspection during scheduler-components-r2 finds
+qwen35_slurm.py --fast-tool-seconds default1.0, whereas common historical shell
+wrappers including run_4p4d_numa_case.sh still fall back to2 for both
+FAST_TOOL_THRESHOLD_SECONDS and DIRECT_WAIT_SECONDS. Several archived model
+recipes also explicitly set2; the active cleanup comparison explicitly sets1/1
+and is unaffected. These are entry-specific defaults, not evidence that any
+accepted comparison silently used2 or30 seconds.
+
+Stage6/7 must distinguish maintained current defaults from historical replay
+profiles, preserve explicit overrides and label the selected scope. Do not
+blindly merge all parsers/defaults, rewrite recorded experiments, or silently
+change a recipe while claiming source/config identity. The current serving
+source remains frozen and no default is changed by this finding.

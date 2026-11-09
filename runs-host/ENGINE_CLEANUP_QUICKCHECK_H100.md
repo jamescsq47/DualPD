@@ -59,6 +59,7 @@ allocation was submitted.
 | Local Router capacity/admission/HTTP extraction | `72518d3db7ece7e79fedd759d2bcf0f53d48521e` | 11206.66 | 75201.48 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `router-local-r1`; Decode−0.52% |
 | TCP Router extraction: unchanged local-path regression | `3d1e52419255892bc5bde0c8c25c4ca74adae38e` | 11203.87 | 75023.20 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted local regression `router-tcp-r1`; Decode−0.54%; not TCP model coverage |
 | Scheduler complete-workset lease/broker extraction | `2dbb67ccc5c4c2a61a00440efe58831b08d1c08c` | 11207.29 | 74549.10 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `scheduler-workset-r1`; Decode−0.51%; remaining Scheduler roles still open |
+| Scheduler Direct/TP/ready/ownership component extraction | `a550ccaecad5d2b27ebb15a2788c1e1dc0daff8f` | 11238.17 | 74979.20 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `scheduler-components-r2`; Decode−0.24%; actual TCP/hybrid coverage remains open |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -395,3 +396,74 @@ sampling definitions, not contradictory full-window throughput. No algorithm or
 accepted result is changed; see tail-sampling-audit.json. Retain the canonical
 sampled-progress metric for comparable liveness gates, not an exact120-second
 token-total claim.
+
+Scheduler-components-r1 launched at about14:03 UTC on the same dedicated
+job28285059/node2700. Enginea550ccaecad5d2b27ebb15a2788c1e1dc0daff8f and
+frontend e221909499d93c2ce513ce6c9752de44e6cbbd4d are recorded in the exact
+plan/code audit. PlanSHA23c7c17c179a1ba2c95305e8c531d0dbe2becc00e5457e65eb611bce4d0ae474
+has independent GO after CPU766, real-kernel native969, actualCUDA2,
+independent36 and unchanged nine launch plans. First native fixture failure is
+preserved separately from the passing rerun; no runtime barrier was changed.
+Controller1039054 and launcher1039078 are live in the owned extern cgroup;
+three preflight GPU/port/helper probes are empty and scoped memory events0.
+Serving sources are frozen for full300+1200 versus ORIGINALbaseline-r3.
+This is model startup, not performance/ownership/final-cleanup acceptance or
+actual TCP model-path coverage. Later cleanup stages remain required.
+
+Live follow-up at14:16 UTC: all eight P/D model services and all eight Host
+registration contexts are ready (maximum119.608 s prewarm, before measurement).
+Search/Router are healthy,680 fixed sources are loaded, and business warmup is
+active. Canonical Decode counters rise84103→132880→173288→207417 across samples
+1794233754.847 through1794233761.398. Controller/launcher remain in the owned
+extern cgroup, scoped memory events0, and serving source is still frozen. These
+are liveness observations, not a completed steady-state or throughput result.
+
+Scheduler-components-r1 is NOT accepted. Its300.640+1200.000-second window
+completed with6675 measured completions and0 failures, but final requests.jsonl
+write raised OSError122 Disk quota exceeded. The scratch user directory is
+about1TiB; global filesystem free space is not the user's remaining quota.
+The resulting568740967-byte logical request file is incomplete (JSON parsing
+fails after612 valid rows), so it cannot establish parent-reuse/full result
+acceptance. Launcher exits1; runtime recordsfailed. Final resource probes pass:
+GPU/ports/helpers all0, both owned controller/launcher gone and scoped OOM0.
+One transient NVML probe timeout occurred during normal registered-memory drain
+and resolved; it did not trigger a restart or allocation cancellation.
+
+Preserve the failed attempt and all historical data. Prepare a fresh
+scheduler-components-r2 on the same job/node and unchanged engine/frontend,
+moving only result/run-directory-derived paths to the existing user-owned
+/orcd/pool/004/shangy/dualpd/runs/engine-cleanup-validation-20261108 hierarchy
+(421GiB available at diagnosis). Models/data/input order/commands/protocol and
+ORIGINALbaseline-r3 reference remain fixed. The retry needs independent exact-
+plan GO and a complete new300+1200 window; missing records are not reconstructed
+or fabricated from aggregate counts. Serving code remains frozen meanwhile.
+
+Retry scheduler-components-r2 received independent exact-plan GO
+(SHAa01593496a71098063d2c19b2e46e40f05e37581da27f5a1d5495b058798152f)
+and launched at about14:49 UTC on the same allocation/node. Controller1049992
+and launcher1050016 are live; all three preflight resource probes are empty.
+Enginea550ccaecad5d2b27ebb15a2788c1e1dc0daff8f, frontend serving manifest,
+runner, input hashes and ORIGINALreference are unchanged; only RUN_DIR moves.
+The new attempt is currently startup, not accepted performance or completion.
+
+Final scheduler-components-r2 acceptance: independent audit GO after actual
+300.587666-second warmup and1200.011824-second measurement. Result SHA256
+6c1f86161797ed4c700c0f928112cd76c232be616e3e8dc4c56e19d588cb0208.
+All8281 request records parse, have unique indices, and6683 finish in the
+measurement window, matching its counters:2370 completed+4313 truncated with
+no error/failed/aborted records. Protocol success is not task accuracy or proof
+that every task naturally completed. Decode11238.167499 token/s is0.997617155
+of ORIGINALbaseline-r3; this is a gross-regression check, not statistical
+equivalence. Scoped memory-event deltas are0. Final owned SSH verification finds
+controller1049992/launcher1050016 gone, GPU/helper processes and configured
+listener ports empty. Allocation28285059 and its keeper remain retained.
+
+Whole-run ownership event sets: P2D Host11089 queued=durable=P release=H2D
+complete=Host release; D2P Direct21487 sent=received=mapped D source releases.
+D2P Host129 durable=explicit D release;9 measured-window snapshots restore and
+release, while120 become durable only during drain and lack individual restore
+events. Final process cleanup is separate from individual snapshot restoration.
+These event sets do not establish instantaneous release latency or reconstruct
+P2D Direct releases. R1 remains a failed quota-limited attempt, not accepted.
+This unlocks subsequent control-plane cleanup, not a new GPU launch or full-goal
+completion; actual TCP/TP2/hybrid and configuration/launcher work remain open.
