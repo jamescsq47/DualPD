@@ -76,6 +76,16 @@ focused18/18 and actualCUDA2 pass, with9 launch plans unchanged. The code audit
 is GO; exact-plan audit and the frozen BrowseComp comparison remain required.
 Direct/TP/ready/admission separation and all later stages remain open.
 
+Scheduler workset subsequently received exact-plan GO and full performance
+acceptance:300.601+1200.000 seconds,11207.29 Decode token/s (−0.51% versus
+ORIGINAL baseline),100% reuse,6654 completions and clean final gates; see the
+accepted result table and ownership-summary.json. Direct/TP/ready separation
+is now applied as54 complete methods with four thin native ownership hooks.
+Full CPU766 records and native969 records pass; the initial native fixture's
+old barrier patch failure is preserved alongside a clean r2 rerun. Exact source
+reconstruction and all nine launch plans pass. GPU DMA and the new full-window
+comparison are pending, and stages5–8 plus genuine TCP model coverage remain open.
+
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
 independent audit GO, and a real before/after BrowseComp throughput comparison.
 A regression requires investigation or a repeated comparison before advancing.

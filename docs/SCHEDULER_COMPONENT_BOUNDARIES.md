@@ -154,3 +154,70 @@ Scheduler, retain the sole proven no-op selector removal, and report194 as the
 broader preserved scope rather than hardcoding143 or waiving new identifiers.
 Native Scheduler still owns many constructor-time settings; do not move those
 parsers or change dynamic reads just to satisfy an inventory check.
+
+## Final draft prepared during the frozen workset case
+
+The four native ownership hooks will be thin explicit delegations, not permanent
+long inline implementations. Their complete original bodies belong together in
+one stateless AgenticOwnershipHooks helper; it acts on the supplied native
+Scheduler authority, not a new physical owner. Root signatures, annotations,
+docstrings and same-thread safe-point calls remain, each with one return of
+the matching helper call. All self/req/batch arguments, return objects and
+exceptions must pass through unchanged. The native initialization/event loop/
+mixed integration sites remain in place and reconstruct exactly.
+
+An UNAPPLIED candidate and complete reconstruction gate are isolated under
+/orcd/scratch/orcd/003/shangy/dualpd/runs/engine-cleanup-validation-20261108/scheduler-components-draft.
+It contains54 complete implementations (50 in the three components plus4
+ownership operations), seven narrowly inverted concrete-class lookups, and four
+exact native wrappers. Strict import provenance/order, global bindings, compat
+module AST, class inventory, historical record identity and the old RankSet
+fixture rewrite are checked. Portable tests pass36/36; the generated production
+gate chained with the existing workset proof passes53/53 in the isolated draft.
+The draft-only pytest plugin selects the real immutable git history; it does
+not stub native modules. The combination includes one actual maintained-workset
+cold import through the isolated editable environment, so it is not an
+all-stdlib test run. An independent first attempt used a different installed
+engine and passed52/failed1 on that cold import (module absent there); retain
+the environment failure and do not weaken the test or claim it as a complete
+independent53 pass. All cases require explicit maintained paths in the later
+full native gate. Failed intermediate docstring generation
+is retained in draft-evidence.json and portable-tests-v2.xml; the generator was
+corrected without weakening the exact AST/docstring assertion.
+
+These are draft/source checks only. Actual canonical imports, MRO, eager type
+objects, old record pickle, native callbacks/fences/cancellation and throughput
+still need new tests and independent code/plan GO after the active workset case
+finishes measurement AND cleanup acceptance. No candidate has been applied to
+the serving repositories during that case.
+
+## Formal application and regression evidence (2026-11-09)
+
+After scheduler-workset-r1 completed and passed independent cleanup/ownership
+acceptance, the reviewed component candidate was applied to the maintained
+engine. All54 bodies, seven concrete-class lookups, four thin wrappers and the
+complete inverse native-module proof pass. The broader194-identifier inventory,
+74-file source map and nine launch-plan comparisons pass without differences.
+Full CPU checks pass208 frontend plus558 engine JUnit records (766 total).
+
+The first real-kernel native run has969 records,968 pass and one failure:
+the V2 activation barrier fixture still patched the old native module after
+the implementation moved into agentic_scheduler_tp. The actual barrier received
+the fixture's object instead of a ProcessGroup. Only that fixture's two patch
+targets (positive and no-extra-barrier negative tests) and one import changed;
+all assertions and production barriers remain intact. Exact original-test AST
+reconstruction and the source-map hash cover this relocation. Retain the first
+failure in tests/reports/scheduler-components-h100-regression.xml; the complete
+rerun uses scheduler-components-h100-regression-r2.xml. Native/CUDA/independent
+GO and the next full frozen performance window must pass before acceptance.
+
+The r2 real-kernel regression subsequently finishes successfully:967 ordinary
+tests plus2 subtests,969 JUnit records, zero failures/errors/skips. An independent
+portable rerun also passes36/36. This resolves the fixture regression without a
+runtime workaround. GPU DMA and full-window throughput remain separate gates.
+
+Independent scoped code GO subsequently confirms all eight invariants. Both
+actual H100 registered-final-extent and bounce-fallback roundtrips pass (2/2,
+scheduler-components-cuda.xml). Engine a550ccaecad5d2b27ebb15a2788c1e1dc0daff8f
+records this stage; the next model comparison still needs exact-plan GO and
+complete300+1200 plus ownership/final-cleanup acceptance.

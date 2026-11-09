@@ -63,3 +63,14 @@ tests/reports/workset-test-evidence.json, with the original failed XML retained.
 
 Direct progress, TP coordination and ready/admission remain subsequent
 responsibilities, followed by the other full-goal stages.
+
+The frozen scheduler-workset-r1 comparison is now independently accepted:
+300.600558 s warmup+1200.000298 s measurement, Decode11207.29 token/s (−0.51%
+against ORIGINAL baseline), Prefill74549.10,6654 completions,100% parent reuse,
+0 failures/scoped memory events and final GPU/ports/helpers empty. Event sets
+match11413 P2D Host snapshots across five phases and21370 Direct snapshots
+through mapped D release. All143 D2P Host durables have D source release;
+11 measured-window durables restore/release,132 only-drain durables are
+documented separately, not individually restored or counted as measured loss.
+Independent result/source/ownership/fresh-SSH cleanup audit is GO. This unlocks
+the next runtime edit, not the next GPU run or full Scheduler completion.

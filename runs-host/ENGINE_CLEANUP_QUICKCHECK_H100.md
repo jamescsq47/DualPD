@@ -58,6 +58,7 @@ allocation was submitted.
 | D Host writer/Relay extraction | `f720985e4efe6f37cafcdd39a7cd9f7d5d2532e7` | 11214.24 | 74889.97 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-writer-r1`; Decode−0.45% |
 | Local Router capacity/admission/HTTP extraction | `72518d3db7ece7e79fedd759d2bcf0f53d48521e` | 11206.66 | 75201.48 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `router-local-r1`; Decode−0.52% |
 | TCP Router extraction: unchanged local-path regression | `3d1e52419255892bc5bde0c8c25c4ca74adae38e` | 11203.87 | 75023.20 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted local regression `router-tcp-r1`; Decode−0.54%; not TCP model coverage |
+| Scheduler complete-workset lease/broker extraction | `2dbb67ccc5c4c2a61a00440efe58831b08d1c08c` | 11207.29 | 74549.10 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `scheduler-workset-r1`; Decode−0.51%; remaining Scheduler roles still open |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
