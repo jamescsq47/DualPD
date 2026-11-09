@@ -18,7 +18,9 @@ passed at11246.55 Decode token/s (−0.16%), zero failures and clean resources.
 Registration passed at11220.31 Decode token/s (−0.40%), zero failures and clean
 resources. Physical buffer/Arena extraction passed its full BrowseComp comparison
 at11254.37 Decode token/s (−0.09%), zero failures and clean resources. The next
-D writer/Relay extraction has passed CPU/code audit, not performance accepted.
+D writer/Relay extraction also passed its actual BrowseComp comparison at11214.24
+Decode token/s (−0.45%),100% reuse, zero failures/OOM and clean resources. Router
+and remaining cleanup stages have not yet received performance acceptance.
 See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
 
 | Check | Result | Evidence |
@@ -72,7 +74,7 @@ source equivalence, module identity, standalone imports from /tmp, Sample
 serialization and the type-only HiCache import cleanup.
 
 There is **one accepted standalone BrowseComp baseline and passed DMA/registration/
-physical-buffer comparisons**, not acceptance of the later D writer extraction or new SWE
+physical-buffer/writer comparisons**, not acceptance of later Router work or new SWE
 accuracy results. Previous
 T450/throughput/accuracy tables are retained historical
 measurements, not new measurements of these directories. See ../../docs/EXTRACTION.md

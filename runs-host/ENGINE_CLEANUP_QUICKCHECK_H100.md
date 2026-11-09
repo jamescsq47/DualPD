@@ -55,7 +55,7 @@ allocation was submitted.
 | Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | 11246.55 | 74816.50 | 99.992% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-dma-r1`; Decode−0.16% |
 | Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | 11220.31 | 75281.01 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-registration-r1`; Decode−0.40% |
 | Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | 11254.37 | 75462.39 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-buffers-r1`; Decode−0.09% |
-| D Host writer/Relay extraction | `f720985e4efe6f37cafcdd39a7cd9f7d5d2532e7` | — | — | — | CPU665 records; H100 fault557 and real roundtrip2 passed | Throughput pending `host-writer-r1` |
+| D Host writer/Relay extraction | `f720985e4efe6f37cafcdd39a7cd9f7d5d2532e7` | 11214.24 | 74889.97 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-writer-r1`; Decode−0.45% |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -268,3 +268,32 @@ in `tests/reports/host-writer-import-evidence.json`. Relay's pre-existing
 finally-on-fence-error risk is documented unchanged; the frozen benchmark leaves
 that optional path disabled and cannot certify it. Full performance acceptance
 and all remaining cleanup stages are still outstanding.
+
+D writer comparison launched on job28285059/node2700 with detached SSH
+controller987384 and owned launcher987408. Exact plan SHA256
+`a008b50d436963028c4273a5af09e7213d87ec90855c064c0bd5a7b0b69b14e3`
+received independent GO; effective config and inputs match BOTH original
+baseline-r3 and host-buffers-r1 (only RUN_DIR differs). Live allocation/cgroup
+checks show1800 GiB job limit and scoped memory events0. Three preflight resource
+probes passed and runtime reports running. Engine/configuration are frozen until
+the full300+1200 and final cleanup/result gates complete. This is startup, not
+performance acceptance of writer or completion of remaining stages.
+
+Writer live follow-up: all8 model services and registration-prewarm contexts
+became ready; search/router started and680 BrowseComp sources loaded at about
+10:12 UTC. Runtime/actual PID probes confirm controller987384 and launcher987408
+live, with fresh Decode709314 at1794219181.97 during business warmup. This does
+not replace the final full-window/ownership/cleanup acceptance.
+
+Writer final result at about10:40 UTC:301.030 s warmup and1200.020 s measurement,
+6671 completions,0 failures, Decode11214.24 (0.995493 of ORIGINAL baseline),
+Prefill74889.97, parent reuse100%. P/D per-GPU Forward69.68%/98.42%; tail120
+Decode1334845 tokens. Scoped memory-event deltas0 and post-cleanup GPU/ports/
+helpers all empty. Fresh SSH confirms controller/launcher gone, GPU0 and job
+OOM0. Whole-run sets match12008 P→D Host snapshots at all five stages and21496
+D→P Direct send/receive IDs, all mapped to D source release. All156 D→P Host
+durables match D release;15 measured-window durables restore/release,141 additional
+durables occur only in controlled drain with no individual restore completion.
+See `ownership-summary.json`; process reclamation is verified separately.
+The original-baseline gross-regression gate passes; this is not statistical
+equivalence, optional Relay fault correctness or full TP/model acceptance.

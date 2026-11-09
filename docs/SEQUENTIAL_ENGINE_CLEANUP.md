@@ -131,3 +131,52 @@ Independent scoping also identified a pre-existing optional-Relay risk:
 to synchronize. Do not silently alter it in an AST-identical extraction or claim
 it fixed. Retain it as a separately scoped fault-test/ownership analysis item;
 any semantic repair requires its own lifecycle mapping and independent audit.
+
+## After the D-writer performance gate
+
+Independent read-only scoping recommends advancing to stage3 Router rather than
+benchmarking more Host helper moves. P-manager remains the single P-side
+lifecycle coordinator for admission, workset leases, restoration, cancellation
+and release; underlying DMA/registration/buffers/ledger/D-writer are distinct.
+Its size alone is not a reason to split method ranges mechanically. Numerous
+explicit `AgenticPHostStagingManager.method(self, ...)` calls support namespace
+fixtures and class-level monkeypatches; naive mixins/global rebinding would
+change those hooks. Final review may still require an explicit complete H2D
+operation-state component with compatibility adapters, not copied helper bodies.
+
+Stage3 should separate Router capacity/reservations, admission and HTTP
+orchestration, preserving local versus TCP policies and all queue/timeout/cancel
+branches. Keep the pinned legacy Router byte-identical. Any new source proof
+must reconstruct the complete original class/method bodies in original order;
+do not simply exempt modified Router files from hash/serving-AST verification.
+
+Stage5 must move the coherent metadata/storage definitions AND change pure
+control-plane imports to ledger/protocol leaves (including P2D constants). Moving
+metadata alone is not proof of CUDA independence: the writer-stage H100 cold
+import trace demonstrated the inherited native dependency initialization chain.
+No source changes for these later stages occur while writer-r1 is frozen.
+
+Writer-r1 subsequently passed301.030+1200.020 seconds at11214.24 Decode token/s
+(−0.45% versus original baseline),100% parent reuse and0 failures/OOM, with final
+GPU/port/helper gates empty and controllers gone. This releases the next code
+stage's freeze; actual Router organization and its own performance acceptance
+remain required. Stages3–8 have not been completed by the Host work.
+
+Router pre-scope found a specific archival-entry constraint: standalone
+`launch_late_binding_router.py` loads the maintained Router file under
+`dualpd_engine_late_binding_router` so native imports remain on the selected old
+overlay. Relative helper imports need a file-as-package spec with
+`submodule_search_locations=[routerdir]`, inserted in sys.modules before exec;
+do not append an active checkout to sys.path or replace the native overlay.
+Test both canonical-package and private-file entry paths. Preserve exact logger
+names for both paths, not helper `__name__`. Keep concrete Router `__init__`
+and MiniLoadBalancer last in its MRO; extracted mixins must not add constructors
+or super calls. Move `_PrefillRedirect` intact because its own zero-argument
+super belongs to that exception class. Existing instance/class hooks must still
+resolve through the canonical concrete Router.
+
+The Router legacy-load test directly rebinds root `_sync_json_get` in
+`test_legacy_load_network_wait_runs_outside_router_loop` (not a monkeypatch API).
+If `_fetch_decode_load_legacy` moves, retarget only that defining-module hook and
+retain all assertions, especially network work running outside the ASGI thread.
+An old-root function reexport alone does not forward global rebinding.
