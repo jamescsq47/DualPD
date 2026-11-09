@@ -52,6 +52,15 @@ restore/release,131 only-drain durables are documented separately. This is a
 gross-regression pass, not statistical equivalence. TCP Router is unchanged and still part of stage3;
 stages4–8 are not completed by this local extraction.
 
+TCP Router separation is now implemented but not performance accepted: the281-
+line concrete root retains8 methods and all decorated callbacks/main/service
+guard; capacity12 and HTTP9 methods share the same instance. Whole29-method/
+module reconstruction, exact imports and untouched original15 tests pass. The
+focused37 cases and independent37/37 give code GO; full CPU713 records, native740
+records, actualCUDA2 and9 launch plans pass. The next frozen local BrowseComp
+case is a nonregression check only, not TCP model-path throughput validation.
+Representative actual TCP coverage and all later stages remain required.
+
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
 independent audit GO, and a real before/after BrowseComp throughput comparison.
 A regression requires investigation or a repeated comparison before advancing.

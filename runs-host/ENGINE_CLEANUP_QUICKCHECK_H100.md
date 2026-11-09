@@ -341,3 +341,14 @@ read-only verification script reproduces the preceding writer summary exactly.
 This passes the gross-regression gate, not statistical equivalence or full
 TP/model-path acceptance. Next runtime stage is the separate TCP Router;
 Scheduler/control-plane/configuration/launcher/final stages remain required.
+
+TCP Router preparation: concrete root281 lines,8 retained methods plus unchanged
+callbacks/main/entry; capacity12 and HTTP9 methods in two method-only components.
+Whole original29-method/module AST reconstructs; exact imports/global bindings
+and original15 test sources retained. Focused37 and independent37/37 pass with
+code GO. Full CPU713 records, node2700 native740 records and2 actual DMA roundtrips
+pass, zero failures/errors/skips;9 launch plans match. The initial new slots-
+pickle fixture error is recorded in router-tcp-test-evidence.json and corrected
+without runtime changes. The pending same-config BrowseComp case is explicitly
+an unchanged-local-path nonregression check, not actual TCP model-path coverage.
+All later Scheduler/control-plane/configuration/launcher/final work remains open.

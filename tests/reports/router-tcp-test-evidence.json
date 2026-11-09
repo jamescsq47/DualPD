@@ -1,0 +1,14 @@
+{
+  "stage": "TCP Router capacity and HTTP separation",
+  "original_tests": {"passed":15,"source_unchanged":true},
+  "initial_new_structure_tests": {"passed":15,"failed":1,"cause":"New fixture attempted protocol0 pickle of a slotted dataclass instance; unchanged original @dataclass(slots=True) does not support that protocol either."},
+  "fixture_correction": "Retain explicit protocol0 TypeError, test historical class path with protocol0 and historical instance path with protocol2, compare all fields and resolved annotations. No runtime production code was changed for this fixture failure.",
+  "final_focused": {"passed":37,"failures":0,"new_tests":22,"original_tests":15,"seconds":3.73},
+  "new_runtime_fault_coverage": ["stream close and backend failure settle tasks and clear all shadow charges", "close cancels live poll/generation tasks", "capacity timeout does not charge/grant a target", "ready waiter cancellation removes its waiter", "native ASGI callbacks and causal load-epoch reservation retirement"],
+  "independent_focused": {"passed":37,"failures":0,"seconds":3.96,"decision":"GO"},
+  "full_cpu": {"frontend_passed":208,"engine_passed":503,"engine_subtests_passed":2,"junit_records":713,"failures":0},
+  "native_h100": {"passed":738,"subtests_passed":2,"junit_records":740,"failures":0},
+  "actual_h100_dma": {"passed":2,"failures":0,"seconds":2.66},
+  "launch_plans": {"identical_except_documented_paths":9},
+  "performance": "Pending; the frozen local BrowseComp comparison does not exercise the TCP model path."
+}
