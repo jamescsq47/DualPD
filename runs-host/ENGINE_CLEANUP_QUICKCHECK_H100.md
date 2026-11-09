@@ -1,8 +1,8 @@
 # Sequential engine cleanup: BrowseComp quick regression
 
 This is a new staged validation record, not a replacement for the historical
-300 s + 1200 s BrowseComp benchmark tables. No new GPU throughput result has
-been measured yet.
+300 s + 1200 s BrowseComp benchmark tables. The baseline below is measured from
+the extracted projects; each subsequent cleanup still needs its own comparison.
 
 ## Dedicated allocation request
 
@@ -51,9 +51,10 @@ allocation was submitted.
 
 | Stage | Engine revision | Decode token/s | Prefill token/s | Parent reuse | Functional/cleanup gate | Status |
 |---|---|---:|---:|---:|---|---|
-| Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | — | — | — | Pre-run clean; loading model | Running `baseline-r3` on node2700 |
+| Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | 11265.01 | 75367.90 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `baseline-r3` |
+| Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | — | — | — | 613 CPU records passed; AST equivalent; code audit GO | GPU comparison pending |
 
-The existing CPU results (577 passing records) and AST equivalence are
+The CPU results and AST equivalence are
 preconditions, not substitutes for the GPU throughput check requested here.
 
 ## Initial controller readiness (historical, superseded)
@@ -119,5 +120,32 @@ scope evidence is `baseline-r3/cgroup-before.json`; do not equate unavailable
 or unrelated OOM counters with node-global no-OOM proof.
 
 Progress lives under `baseline-r3/runtime.json`, `launcher.log`,
-`ssh-node-controller.log` and `logs/`. The result and post-cleanup gates are
-still pending. Do not advance to a new engine stage before actual acceptance.
+`ssh-node-controller.log` and `logs/`. The completed `result.json` records
+300.983 s warmup, 1200.001 s measurement, 6704 completions, zero failures,
+Decode11265.01 token/s and Prefill75367.90 token/s. Completion-weighted
+page-aligned parent reuse is100%; average per-physical-GPU Forward time is
+70.10% Prefill and98.51% Decode. Decode also made1332929 tokens of progress in
+the final120 s. Scoped memory-event deltas are all0.
+
+At approximately01:57 EST /06:57 UTC, `runtime.json` became complete and
+`post-cleanup.json` confirmed GPU processes0, configured occupied ports0 and
+Apptainer/FUSE helpers0 across three consecutive probes. A subsequent independent
+SSH probe again found all0, no live controller PID940624, and job-scope OOM
+counters0. The allocation keeper remains available for the next stage.
+
+## Host DMA extraction gate
+
+Frontend208 tests and engine403 tests plus2 subtests passed (613 JUnit records).
+Independent code audit GO covers the unchanged CUDA ABI/submission semantics,
+six historical helper/type aliases and canonical private caches. The verifier
+checks all10 relocated DMA nodes and the remaining Host worker AST unchanged.
+The exact GPU plan still requires independent audit before execution.
+
+Baseline whole-run logs (including warmup and controlled drain, not measured
+window rates) contain11241 unique P→D Host snapshots at each queued, durable,
+Prefill-release, H2D-complete and Host-release stage. D→P contains120 D2H
+starts/completions, all120 with a mapped D source-release event;8 have an H2D
+completion and Host release. The remaining112 durable snapshots have no H2D
+completion in these logs; they must not be presented as restored or as a
+measured leak without terminal/cancellation accounting. Final process cleanup
+is verified independently above.

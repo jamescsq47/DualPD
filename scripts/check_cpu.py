@@ -35,6 +35,7 @@ ENGINE_TESTS = [
     "test_agentic_multinode_runtime.py", "test_agentic_remote_host.py",
     "test_agentic_memory_authority.py",
     "test_agentic_host_ledger.py",
+    "test_agentic_host_dma.py",
     "test_agentic_memory_scheduler_bridge.py",
     "router/tests/test_late_binding_router.py",
     "router/tests/test_global_pd_router.py",

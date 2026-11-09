@@ -3,20 +3,23 @@
 Validated in the new isolated `DualPD/.venv`; source worktrees and their Python
 environments were retained. Runtime SGLang version is 0.5.10.post1.
 
-Current CPU gate: **602 passing JUnit records** (208 frontend, 392 engine and
+Current CPU gate: **613 passing JUnit records** (208 frontend, 403 engine and
 two engine subtests). The 25 new frontend tests cover the reusable allocation
 regression runner: exact audited source/config, untracked source detection,
 single per-job lock, real nested-shell TERM cleanup and already-exited leader
 draining, complete JSONL polling, resource gates and throughput comparison.
 `engine-cleanup-runner.xml` is a separate overlapping rerun, not 25 extra records.
-Independent audit GO applies to baseline-r3 only. Job28285059 is now RUNNING on
-node2700; the restarted baseline has no accepted throughput result yet.
+Independent exact-plan audit GO applies to baseline-r3; the DMA extraction also
+has a code audit GO, pending its own exact GPU plan audit. Job28285059 is RUNNING
+on node2700. Baseline-r3 completed300+1200 seconds with Decode11265.01 token/s,
+Prefill75367.90 token/s, zero failures and a clean resource gate. DMA performance
+has not yet been measured.
 See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
 
 | Check | Result | Evidence |
 |---|---|---|
 | Standalone frontend + launch regression | 208 passed | frontend.xml, frontend.log |
-| Engine CPU lifecycle/control/lease/Router regression | 392 passed + 2 passed subtests (394 JUnit records) | engine.xml, engine.log |
+| Engine CPU lifecycle/control/lease/Router regression | 403 passed + 2 passed subtests (405 JUnit records) | engine.xml, engine.log |
 | H100-host TP/Mamba/Host/fault regression | 415 passed | h100-regression.xml |
 | Engine original/relocated source verification | 4411 files byte-identical, 64 mapped files hash-identical, 9 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
 | Frontend serving algorithms | 12 core files AST-identical apart from imports and two flattened documentation/diagnostic paths | ../../scripts/verify_snapshot.py |
@@ -40,8 +43,9 @@ Independent static/state-machine audit returned **GO**. It independently checked
 source equivalence, module identity, standalone imports from /tmp, Sample
 serialization and the type-only HiCache import cleanup.
 
-There is **no new full BrowseComp or SWE end-to-end performance/accuracy
-acceptance**. Previous T450/throughput/accuracy tables are retained historical
+There is **one accepted standalone BrowseComp baseline**, not acceptance of
+the subsequent DMA extraction or new SWE accuracy results. Previous
+T450/throughput/accuracy tables are retained historical
 measurements, not new measurements of these directories. See ../../docs/EXTRACTION.md
 for inherited optional/archival test limitations discovered by broad test scans.
 
