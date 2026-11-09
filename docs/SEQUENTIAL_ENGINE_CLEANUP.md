@@ -38,6 +38,9 @@ and do not cancel another user's jobs.
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
 independent audit GO, and a real before/after BrowseComp throughput comparison.
 A regression requires investigation or a repeated comparison before advancing.
+Keep the original accepted baseline as the performance reference across stages,
+not only each immediate predecessor, so small sequential drops cannot hide
+cumulative regression. Record neighboring-stage results as additional context.
 Quick checks are not new 300+1200 formal benchmark results. Record their exact
 windows and uncertainty separately. Do not declare completion after merely
 finishing the first safe extraction or while GPU validation is still missing.
@@ -57,9 +60,14 @@ Prepare each unique attempt with `--prepare --plan /scratch/attempt/plan.json
 all frontend source files (including untracked modules), effective environment,
 input hashes and isolated paths. Refactor stages additionally require
 `--reference /scratch/before/result.json`. Obtain independent audit GO for the
-exact plan SHA256 in a sibling `audit.json`, then use `--wait-for-job --plan
-/scratch/attempt/plan.json`. The controller polls the existing job every 30 s,
-starts one overlapping step only after RUNNING, and never submits replacements.
+exact plan SHA256 in a sibling `audit.json`. The current verified launch path is
+detached SSH to the allocated node with `--on-node --plan /scratch/attempt/plan.json`;
+verify its actual adopted Slurm cgroup, memory limit, PPID1 and live progress
+after SSH disconnects. A login-side background process tied to a Codex session
+is not a durable controller. The optional `--wait-for-job` path still polls the
+existing job every30 s and starts an overlapping step only after RUNNING; it is
+not the transport used by the accepted baseline/DMA runs. Neither path submits
+replacement allocations.
 Its progress is durable in `controller.json` and `runtime.json` rather than
 repeated chat output.
 
@@ -76,3 +84,21 @@ OOM and full-window gates. A >10% Decode drop is recorded as requiring repeat
 or investigation, not accepted. This threshold detects gross regressions; a
 single pass is not a claim of statistical equivalence. The final stage still
 requires representative functionality/ownership validation as well as throughput.
+
+## Current Host work sequence
+
+The DMA ABI leaf passed the actual throughput comparison. Registration/prewarm
+has passed632 CPU records,415 native fault cases and independent code/exact-plan
+audits; its own GPU comparison is still running. Neither event completes the
+remaining Host cleanup or stages3–8 above.
+
+After registration performance acceptance, the next coherent extraction is the
+physical snapshot/buffer/Arena layer: indexed DMA descriptors, CPU copy workers,
+launch fence, staging/bounce buffers, lazy/materialized snapshot views and
+extent suballocation. These share mapping/fence lifetimes and should be tested
+as a complete layer, not through a benchmark for every helper. Keep the current
+snapshot classes and historical imports identical; move private-hook test patches
+only to their defining module. In particular, hybrid tests must still patch
+Manager hooks in Host staging while snapshot-factory hooks move with the snapshot
+implementation. Native TP, partial-launch/fence, descriptor, hybrid-state and
+Host release/retry tests must pass before a separate actual performance check.
