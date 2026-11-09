@@ -27,6 +27,8 @@ the structurally different local record. Whole29-method/class/module AST
 reconstruction, defining-module runtime bindings, unchanged callback bodies/
 decorators, old aliases and native base/MRO must be proved. Existing tests patch
 root.send_application_final and the shared aiohttp module; retain those contracts.
+Helpers must not import the concrete root back: a -m service entry otherwise
+risks loading it twice and registering duplicate callbacks on the shared app.
 Relevant tests must explicitly retain causal post-materialization sampling,
 TP token charging, capacity waits, idempotent callback retry, frontend-cancel
 shielding, backend settlement and streaming/logprob cleanup. The local frozen
