@@ -37,6 +37,8 @@ ENGINE_TESTS = [
     "test_agentic_host_ledger.py",
     "test_agentic_host_dma.py",
     "test_agentic_host_registration.py",
+    "test_agentic_host_buffers.py",
+    "test_agentic_dma_descriptors.py",
     "test_agentic_startup_prewarm.py",
     "test_agentic_memory_scheduler_bridge.py",
     "router/tests/test_late_binding_router.py",

@@ -3,27 +3,30 @@
 Validated in the new isolated `DualPD/.venv`; source worktrees and their Python
 environments were retained. Runtime SGLang version is 0.5.10.post1.
 
-Current CPU gate: **632 passing JUnit records** (208 frontend, 422 engine and
+Current CPU gate: **651 passing JUnit records** (208 frontend, 441 engine and
 two engine subtests). The 25 new frontend tests cover the reusable allocation
 regression runner: exact audited source/config, untracked source detection,
 single per-job lock, real nested-shell TERM cleanup and already-exited leader
 draining, complete JSONL polling, resource gates and throughput comparison.
 `engine-cleanup-runner.xml` is a separate overlapping rerun, not 25 extra records.
 Independent exact-plan audit GO applies to baseline-r3 and host-dma-r1; the
-registration extraction has code audit GO, pending its exact GPU plan audit.
+registration extraction also passed its exact-plan audit and actual throughput gate.
 Job28285059 is RUNNING
 on node2700. Baseline-r3 completed300+1200 seconds with Decode11265.01 token/s,
 Prefill75367.90 token/s, zero failures and a clean resource gate. DMA performance
 passed at11246.55 Decode token/s (−0.16%), zero failures and clean resources.
-Registration performance has not yet been measured.
+Registration passed at11220.31 Decode token/s (−0.40%), zero failures and clean
+resources. Physical buffer/Arena extraction has CPU/code audit GO; its full
+BrowseComp performance comparison remains pending.
 See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
 
 | Check | Result | Evidence |
 |---|---|---|
 | Standalone frontend + launch regression | 208 passed | frontend.xml, frontend.log |
-| Engine CPU lifecycle/control/lease/Router regression | 422 passed + 2 passed subtests (424 JUnit records) | engine.xml, engine.log |
-| H100-host TP/Mamba/Host/fault regression | 415 passed on current registration extraction | host-registration-h100-regression.xml; prior h100-regression.xml retained |
-| Engine original/relocated source verification | 4410 files byte-identical, 63 mapped files hash-identical, 10 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
+| Engine CPU lifecycle/control/lease/Router regression | 441 passed + 2 passed subtests (443 JUnit records) | engine.xml, engine.log |
+| H100-host TP/Mamba/Host/fault regression | 543 passed on current physical buffer extraction | host-buffers-h100-regression.xml; prior stage reports retained |
+| Actual tiny H100 registered/bounce roundtrips | 2 passed; rerun after final fixture-hash GO | host-buffers-cuda.xml |
+| Engine original/relocated source verification | 4407 files byte-identical, 60 mapped files hash-identical, 13 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
 | Frontend serving algorithms | 12 core files AST-identical apart from imports and two flattened documentation/diagnostic paths | ../../scripts/verify_snapshot.py |
 | Launch-plan comparison | 9 configurations identical except root paths, Router module entry, path-dependent config hash and removal of one no-op helper flag | ../../scripts/verify_launch_plans.py |
 | Standalone package build | Wheel built; runtime configs, scripts and design document present | pip wheel and wheel member inspection |
@@ -55,8 +58,8 @@ Independent static/state-machine audit returned **GO**. It independently checked
 source equivalence, module identity, standalone imports from /tmp, Sample
 serialization and the type-only HiCache import cleanup.
 
-There is **one accepted standalone BrowseComp baseline and a passed DMA-stage
-comparison**, not acceptance of the later registration extraction or new SWE
+There is **one accepted standalone BrowseComp baseline and passed DMA/registration
+comparisons**, not acceptance of the later buffer extraction or new SWE
 accuracy results. Previous
 T450/throughput/accuracy tables are retained historical
 measurements, not new measurements of these directories. See ../../docs/EXTRACTION.md

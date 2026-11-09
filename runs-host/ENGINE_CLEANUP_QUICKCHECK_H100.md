@@ -53,7 +53,16 @@ allocation was submitted.
 |---|---|---:|---:|---:|---|---|
 | Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | 11265.01 | 75367.90 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `baseline-r3` |
 | Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | 11246.55 | 74816.50 | 99.992% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-dma-r1`; Decode−0.16% |
-| Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | — | — | — | 632 CPU records +415 native fault tests passed; exact-plan audit GO | Running `host-registration-r1` |
+| Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | 11220.31 | 75281.01 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-registration-r1`; Decode−0.40% |
+| Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | — | — | — | CPU651 records; H100 fault543 and actual roundtrip2 passed | Throughput pending `host-buffers-r1` |
+
+Physical buffer stage retains twelve function/class and sixteen libc initializer
+ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
+environment identifiers remain unchanged. Independent code audit GO covers the
+physical ownership/fault invariants. The first tiny CUDA run preceded confirmation
+of the final strengthened fixture hash; this ordering slip was identified and the
+same exact two tests were rerun after GO (2 passed in2.65s). Native fault fixtures
+are not full TP>1 model tests. Full performance acceptance remains pending.
 
 The CPU results and AST equivalence are
 preconditions, not substitutes for the GPU throughput check requested here.
@@ -199,3 +208,12 @@ job's extern/task0, with1800 GiB limit and job OOM counters0. Pre-cleanup confir
 GPU/ports/helpers0. Controller962919 owns launcher962943 and writes progress to
 `host-registration-r1/runtime.json`. The source/configuration is frozen; this is
 not performance acceptance of registration or completion of later cleanup work.
+
+Registration result completed at approximately2026-11-09 03:43 EST /08:43 UTC:
+300.607 s warmup,1200.004 s measurement,6667 completions,0 failures,
+Decode11220.31 token/s (ratio0.996032 to the original baseline), Prefill75281.01.
+Parent-prefix reuse100%; P/D per-GPU Forward70.19%/98.38%; tail120 s Decode
+1347257 tokens. Scoped memory-event deltas are all0. Post-cleanup GPU/ports/helpers
+are all empty; a fresh SSH probe also confirms no live controller/launcher,
+GPU0 and job-scope OOM counters0. This passes the stage's gross-regression gate,
+not a statistical equivalence claim for all models or completion of later stages.
