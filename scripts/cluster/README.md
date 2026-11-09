@@ -2,18 +2,36 @@
 
 开发在本地 `dualpd` 工作区进行。用户在目标机器执行 Bash 脚本，将原始报告回传；不要求远端安装 Codex。
 
+以下命令均从独立项目 `DualPD/` 根目录执行，不再使用旧 Slime 的
+`tools/dualpd` 路径。
+
+## 当前维护入口与历史回放
+
+当前维护入口包括 `multinode.py`/`multinode.sh`、`qwen35_slurm.py`、
+`qwen35_native_pd_slurm.py`、`qwen35_colocated_slurm.py`、
+`process_supervisor.py`，以及 `engine_cleanup_*` 验证和 allocation 工具。
+BrowseComp 整理回归使用 `engine_cleanup_quickcheck.py`，固定配方及测量组件
+位于 `../benchmarks/`，不再导入历史 matrix controller。
+
+目录中的模型专用 matrix/autopilot/watchdog 和已记录实验启动脚本仍在做依赖
+审查，尚未整体迁移或删除。其硬编码路径、容量、超时和消融开关可能定义历史
+回放身份，不能直接视为当前默认配置。`multinode_smoke.py` 是旧文件控制协议
+的探针，不是当前 V2 TCP 模型验收入口。迁移进度和性能门禁见
+`../../docs/SEQUENTIAL_ENGINE_CLEANUP.md`；当前完整 CPU 门禁是
+`python scripts/check_cpu.py`，不能用默认 pytest 选择范围替代。
+
 ## 硬件和拓扑采集
 
 在每个计划参与实验的节点运行一次。最好在实际运行推理服务的容器和 Python 环境内执行；如怀疑容器隐藏了 RDMA/NUMA 信息，可在宿主机再采一份并注明区别。
 
 ```bash
-bash tools/dualpd/collect_hardware_topology.sh
+bash scripts/cluster/collect_hardware_topology.sh
 ```
 
 可选参数示例（IP 请替换为另一节点的地址）：
 
 ```bash
-bash tools/dualpd/collect_hardware_topology.sh \
+bash scripts/cluster/collect_hardware_topology.sh \
   --output /tmp/dualpd-node-a-report \
   --peer 10.0.0.2 \
   --python /path/to/conda/env/bin/python

@@ -14,7 +14,12 @@ versus ORIGINALbaseline,100% parent reuse and clean final gates. Stage6
 configuration code has CPU928/native1018/CUDA2 and independent CODE GO; its new
 model comparison is also accepted at11212.44 Decode token/s,−0.47% versus
 ORIGINALbaseline,100% parent reuse and clean final gates. Calling a local
-Router comparison a TCP model test would be incorrect. Nine model/TP dry plans
+Router comparison a TCP model test would be incorrect. Stage7a's maintained
+benchmark extraction comparison is independently accepted at11193.29 Decode
+token/s (−0.64% versus ORIGINAL),100% reuse and clean final gates; this removes
+historical-controller dependencies from the maintained quickcheck, not from all
+replay families. Historical archival remains in progress.
+Nine model/TP dry plans
 and real-kernel TP/Mamba fault fixtures are source/functionality evidence, not
 actual distributed model forwards or accuracy verification.
 
@@ -93,23 +98,24 @@ endpoint/rank and physically relevant transitions. Observer/fault tests and
 audit are required before relying on those records. Nothing is added during
 the frozen local comparison.
 
-The current launcher combines all same-host worker ports for overlap checks,
-but Router ports are checked only against the configured logical Router node's
-worker, and relay ports only against the logical relay node's worker/Router.
-Two different logical node IDs on one physical host can therefore hide a
-cross-group listener collision. The eventual launcher cleanup must check a
-complete per-physical-host port union (all workers/bootstrap/reverse, Router,
-metrics, relay), with rejection tests. Until then an exact probe plan needs
-that independent union check, not merely load_config success. This is a concrete
-unfixed validation gap, not an observed failure of the active local experiment.
+The historical launcher checked Router and relay listeners only against their
+own logical node's worker ports, allowing cross-group collisions on one host.
+Stage6 fixes those three checks: worker-port unions include all groups with the
+same explicit host_ip, and relay/Router co-location compares host_ip rather
+than logical node_id. Real-parser rejection tests and unchanged valid launch
+plans cover that configuration fix. It does not discover DNS aliases or
+multi-NIC physical-host identity. The actual TCP probe must therefore use one
+consistent routable IPv4 for same-host groups and independently review the full
+listener union; parser acceptance alone still does not establish live readiness.
 
 The external read-only diagnose_samehost_ports.py under control-plane-draft
-reproduces both gaps against the actual current load_config: an example reduced
+reproduced both gaps against the pre-stage6 load_config: an example reduced
 to disjoint TP2 groups at the same IPv4 is accepted when either router.port or
 group_control.port equals the other logical group's worker port. The diagnostic
 mocks only Path.read_text to supply JSON in memory; it creates no listener,
 process, launch or config change. Acceptance of those invalid configs is the
-recorded bug, not a passing launcher safety gate.
+recorded historical bug, not a passing launcher safety gate or evidence that
+the stage6 fix is absent from the current tree.
 
 ## Other representative coverage and final handoff
 
@@ -168,6 +174,13 @@ sinks, add CUDA copies/synchronization, invoke protocol/release actions, acquire
 new scheduling locks or block on file I/O in the hot callback. Deferred recording
 must treat dropped/overflowed records as evidence failure, not success. No such
 observer is implemented or accepted by these design findings.
+
+Observe physical after-state on exceptional exits too: native cleanup or lease
+removal can succeed before a later capacity callback or transport cleanup raises.
+An exception alone must not be interpreted as "ownership was retained". The
+external generic recorder preparation currently preserves the original exception
+but records only its before-state on that path; a real-hook design must close
+this observation gap without suppressing or replacing the original exception.
 
 The retained SGLANG_AGENTIC_KV_APP_OWNS_TERMINATION switch is a legitimate
 application-owned terminality scope: AgenticRequestMetadata.classify_output

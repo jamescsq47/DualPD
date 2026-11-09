@@ -62,6 +62,7 @@ allocation was submitted.
 | Scheduler Direct/TP/ready/ownership component extraction | `a550ccaecad5d2b27ebb15a2788c1e1dc0daff8f` | 11238.17 | 74979.20 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `scheduler-components-r2`; Decode−0.24%; actual TCP/hybrid coverage remains open |
 | Router control-plane dependency cleanup | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11223.49 | 75081.77 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `control-dependencies-r1`; Decode−0.37%; actual TCP/hybrid coverage remains open |
 | Case configuration/parser consolidation (frontend `152a620`) | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11212.44 | 75041.43 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `case-configuration-r1`; Decode−0.47%; profile/TCP input validation covered by CPU gates, not this model path |
+| Maintained benchmark recipe/measurement extraction (frontend `6bc1523`) | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11193.29 | 75079.41 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `benchmark-components-r1`; Decode−0.64%; historical replay migration and actual TCP/TP2 remain open |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -569,3 +570,52 @@ syntax checks and independent CODE GO pass, with unchanged native inventory.
 One native preflight accidentally ran on login and failed at missinglibcuda;
 the corrected H100 SSH test passes without environment/source changes. No new
 model result exists yet; commit/exact-plan audit/full300+1200 remain required.
+
+Benchmark-components-r1 starts about17:46 UTC on retained job28285059/node2700
+after independent exact-plan GO. Frontend clean6bc15235174dee9eb5f4b331d558b777ee031d9b;
+engine clean d265f7946aa3d1369ecdadf9d2d39a77c84e300b. Plan SHA
+bff7f085d3ee447640c08ecb542d801d244f32eae8f6cb2cc3d66c8e0f60b366;
+new audited runner SHAc84ecfd9a491f181cfe920363dc87b697520e377b3e55a4c0ce73706a57d33ec.
+99 environment entries differ from accepted stage6 and ORIGINALbaseline only
+byRUN_DIR; command/input/reference identities match. ActualCUDA2 and all other
+gates pass. Controller1090276 and launcher1090300 are live; startup NUMA and
+three consecutive clean-resource probes pass. Serving sources are frozen until
+full300+1200/result/request/ownership/finalcleanup independent acceptance.
+This is startup, not stage7a performance acceptance or historical archival,
+actualTCP/TP2/hybrid coverage or full-goal completion.
+
+Benchmark-components-r1 FINAL independently accepted:300.721429-second warmup
+and1200.000559-second measurement, Decode11193.285688 token/s versus ORIGINAL
+11265.010273 (ratio0.993632976,−0.6367%), Prefill75079.405093,100% parent reuse,
+6650 protocol successes, zero failures/OOM. Result SHA
+7d4c1a7a95219f5972b8d738ade4501858916c01f418287fb2fc46fd61e3ea1f.
+All567984160 request-file bytes form8253 unique complete JSONL records, SHA
+93deb71e8ff368d4cdd952b9c9f602499497463912cf6a3d30bea9b659269aec;
+window2339completed+4311truncated=6650, error0. Exact mtime_ns is saved as a
+decimal string1794248644731010481 after correcting a JavaScript integer-rounding
+artifact in auxiliary metadata; independent full scans confirm no log mutation.
+Protocol successes/truncations do not establish task accuracy.
+
+Ownership event sets match12215 P2DHost snapshots across all five stages,
+21586 D2PDirect sent/received/mapped D releases, and133 D2PHost durable/D releases.
+All12 measured Host snapshots restore/release;121 become durable only in drain
+and lack individual restore events. Preserve event-set/latency and P2DDirect
+release reconstruction limitations. Final resource cleanup is not per-snapshot
+restoration. Summary tail120 Decode tokens1312091; the separately sampled
+boundary recent counter is1337099, not the same telemetry aggregation.
+
+Both owned controller1090276 and launcher1090300 are gone. Independent fresh
+SSH confirms GPU/helpers/configured ports empty and all job memory events0;
+post-cleanup agrees. Source/plan/env/command/input/reference identities match.
+No intervention or restart was needed. See request-integrity.json,
+ownership-summary.json and acceptance-audit.json. This releases stage7b source
+work only; it does not complete historical archival, actualTCP/TP2/hybrid,
+package validation or the overall cleanup goal. Dedicated allocation retained.
+
+At about18:24 UTC benchmark-components-r1 completes the full business window:
+warmup300.7214290937409 seconds, measurement1200.0005589853972 seconds,
+wall boundaries1794247438.824041–1794248638.8246002. Protocol successes increase
+1603→8253 (6650), failures remain0 and active agents256 at both boundaries.
+Tail120 Decode tokens1337099. The controller/launcher remain in ordered drain;
+result/post-cleanup and final request/ownership acceptance are still pending.
+These boundary observations do not themselves accept throughput or cleanup.

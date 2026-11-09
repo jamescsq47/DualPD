@@ -1,6 +1,10 @@
 # Findings and subsequent verification
 
-Current status: stage5 is accepted. Stage6 formally fixes trusted-profile-loader
+Current status: stages1–6 and stage7a are independently accepted on the local
+TP1 BrowseComp comparison; stage7a Decode11193.29 token/s,−0.64% versus ORIGINAL,
+100% reuse and clean final gates. Stage7b historical archival, actualTCP/TP2/
+hybrid model paths and final package/source integration remain open.
+Stage6 formally fixes trusted-profile-loader
 partial application and three same-IP listener checks, and extracts16 common
 case arguments. CPU928/native1018/CUDA2, whole-source proofs and independent
 CODE GO pass; the new full300+1200 comparison is accepted at11212.44 Decode

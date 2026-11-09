@@ -62,7 +62,7 @@ token/s (−0.47% versus ORIGINAL),100% parent reuse,6658 protocol successes,
 0 execution failures/OOM and clean final GPU/ports/helpers/owned-process gates.
 Complete request and ownership records are saved with the new pool case.
 
-Stage7a is now implemented but not performance accepted: current quickcheck
+Stage7a is now independently performance accepted: current quickcheck
 uses explicit-root scripts/benchmarks recipe/measurement modules instead of
 importing historical controllers. Complete immutable three-module proof,
 18 source mutations and54 focused tests+33subtests pass. Three accepted real
@@ -73,13 +73,105 @@ Full CPU990 records, real-kernel native1018, actual H100 registered/bounce2,
 testcase inventory exactly matches the accepted stage6 run. An initial native
 preflight was mistakenly invoked on the login host and stopped at missing
 libcuda before tests; no environment or engine was changed, and the corrected
-SSH H100 invocation passes. A committed exact-plan GO and new full300+1200
-comparison remain required before further source cleanup.
+SSH H100 invocation passes. Committed frontend6bc1523 and the new exact plan
+receive independent GO. Benchmark-components-r1 completes300.721429+1200.000559
+seconds on retained node2700: Decode11193.29 token/s (−0.64% versus ORIGINAL),
+Prefill75079.41,100% parent reuse,6650 protocol successes and0 failures/OOM.
+Independent full request/ownership/source audit and fresh final resource checks
+pass. Controller1090276/launcher1090300 are gone, GPU/ports/helpers empty;
+allocation keeper remains. Saved acceptance-audit.json releases this serving
+freeze for stage7b source work, not its next unaudited GPU launch.
+
+During that serving-source freeze, an external immutable6bc1523 fixture-only
+draft prepares the first historical replay closure: five BrowseComp shells
+under scripts/replay/new_method, plus the paired V1 smoke/helper-test files
+under scripts/replay/cluster. The five-shell candidate changes only root depth
+and the base recipe's call back to the maintained4P4D case. All28 complete
+environment/argv comparisons pass (four entries and ten ablations, each with
+defaults and explicit overrides); invalid ablation still exits2. The real Bash
+and YAML loader run, but fingerprint checks are stubbed and the terminal serving
+pipeline is absent/captured. Initial strict Python-stub path assumptions were
+corrected to the actual literal new_method/../tools paths; no runtime source
+or setting was changed. Four immutable V1 exact-output-ID helper tests also
+pass without invoking its run() or native/RPC/model code. These are external
+preparation evidence only, not applied migration, V2 TCP coverage or throughput
+acceptance. The remaining cross-family controllers still need full dependency
+review; this small closure is not a substitute for stage7 as a whole.
+Independent preparation rerun reproduces the entire saved28-comparison result
+and verifies unchanged cluster/new_method checkout hashes around execution.
+Preparation GO is limited to the temporary five-shell closure; actual relocation,
+external callers/old-path compatibility, native readiness, resource cleanup and
+model acceptance remain unproven.
+
+A supplemental external immutable6bc1523 AST inventory now records201 files,
+176 import/literal-path candidate edges and109 dynamic loader/path call sites
+in stage7-import-dependencies.json. Unlike the earlier filename-only search,
+it includes bare-import edges, e.g. DRAM watchdog→scale watchdog and MiniMax
+controllers→Qwen controller/public Slurm entries. These are review candidates,
+not a resolved dependency graph: shell callers, computed paths, sys.path/global
+rebinding and external pinned snapshots still require manual interpretation.
+No entry is classified obsolete or authorized for deletion by these counts.
+
+Further static review finds operational replay hazards, not safe CPU test
+entries: qwen35_35b_a3b_single_node_2p2d_controller_reload_guard.sh contains a
+historical fixed controller PID and TERM action. Never execute it to test a
+relocation. Several PPD wrappers still select the old workspace's Slime tools
+and examples/pd directories; those pre-existing experiment/source selections
+cannot be rewritten as if they were ordinary references to the current
+standalone project. Retain their historical identity, label reauthorization and
+address review requirements, and test only intercepted trusted fixtures.
 
 Stages7–8 remain open: maintained versus replay entry classification/archival, installed
 package/source/reference audit, actual
 TCP/TP2 and hybrid model-path coverage, and final representative performance and
 cleanup acceptance. None is replaced by local TP1 results or launch dry plans.
+
+Stage7b's independent complete destination proposal now covers201/201 original
+launcher files with verified immutable hashes and no destination collisions:
+142 historical replay files (122 cluster+20 new_method) move as one coherent
+closure;59 maintained/core/shared/test/compatibility files stay at canonical
+addresses. The earlier seven-file fixture is only a tested subset, not the
+planned end state. External stage7b-complete-mapping-audit.json and
+stage7b-semantic-migration-audit.md cover cross-model mutable module identity,
+DRAM retained-tool copies, fused/checkpoint helpers, outside callers and PPD
+source-selection hazards. No actual migration or runtime replay GO is claimed.
+
+Independent import-boundary design review recommends a seven-name core/shared
+fileloader rather than globally adding core to sys.path: process_supervisor,
+qwen35_slurm, multinode, qwen35_native_pd_slurm, qwen35_colocated_slurm,
+dram_resource_sampler and dram_complete_frame_analysis. Reuse an existing
+correct-origin bare/public object without renaming its metadata; reject already
+split identities or wrong origins. New loads must respect the small real
+dependency graph, bind real parent-package attributes, and roll back only newly
+created aliases on failure while propagating the original import error.
+Historical sibling imports stay siblings; only core references move to this
+boundary. Direct/package/mixed-name support is a new tested compatibility
+guarantee, not an assertion that the old scripts always supported every form.
+No loader is applied or accepted yet. The44 root-depth uses also include two
+separately reviewed special cases: ratio-test source lookup and sequence
+LAUNCHER.parents[2], both requiring depth3 after archival while preserving input
+and launcher identities.
+
+An external replay-loader-draft now implements that seven-name boundary without
+touching the checkout: seven fixture test groups and14 fresh-process imports of
+the real canonical tools pass. The strengthened r2 bare-first cases perform an
+ordinary bare import before calling the loader (the test harness alone
+temporarily recreates the original core search path, then restores it); they
+are not merely loader-first self-comparisons. Public-first, source/conflict
+rejection, dependency function identity and unchanged loader sys.path are also
+checked. Independent preparation review accepts the limited design, not actual
+replay callers or model readiness. Concurrent unrelated ordinary imports are
+explicitly unsupported; complete helper-copy/concurrency, serialization and
+caller/source-snapshot acceptance remain required before formal adoption.
+
+External TCP-observer preparation also has independent r2 PREP-only GO and10
+stdlib test groups. Initial9-test review exposed an unvalidated event label
+that could mask the original exception; r2 validates a nonempty exact str and
+precomputes labels before installing its generic synchronous wrapper. This
+limited mechanism is not installed in an engine process and does not establish
+physical ownership, concurrent causality, collector persistence, flush/shutdown,
+real hook/attempt/rank mappings or TCP model readiness. Original results and r2
+results are retained separately under tcp-observer-draft in the pool run root.
 
 ## Historical stage notes (superseded where a later acceptance is recorded)
 

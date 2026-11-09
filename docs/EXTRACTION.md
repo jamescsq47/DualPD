@@ -141,10 +141,16 @@ use an available allocation, and record:
 - SWE T450 and preceding tokens/rounds/accuracy with unchanged task order.
 - Post-run GPU, port, container and FUSE cleanup.
 
-No end-to-end GPU model-serving or performance acceptance is claimed by the extraction itself.
-Focused TP/Mamba/Host/fault unit regressions additionally passed on node2700
-with an allocated H100 and CUDA libraries; this is not end-to-end model serving.
-The exact results and execution boundary are recorded in ../tests/reports/README.md.
+Initial extraction checks alone did not establish end-to-end model performance.
+Subsequent staged cleanup has accepted real local Qwen3-8B TP1 BrowseComp
+comparisons on node2700; exact revisions, full windows, original-baseline
+comparisons, ownership evidence and final gates are recorded in
+`SEQUENTIAL_ENGINE_CLEANUP.md` and
+`../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md`. That local result does not
+establish actual TCP, TP2, hybrid model forwards or SWE accuracy preservation.
+Focused TP/Mamba/Host/fault regressions and real CUDA roundtrips are additional
+evidence, not substitutes for those missing model-path checks. Their execution
+boundary is recorded in ../tests/reports/README.md.
 All eight lifecycle acceptance criteria in
 `AGENTIC_PD_DESIGN_INVARIANTS.md` remain binding. Deleting an
 apparently obsolete transport branch is a separate change requiring reachability
@@ -155,7 +161,12 @@ from `legacy`/`v2` naming or from a default-off experiment switch.
 
 The shared BrowseComp matrix implementation is tracked in
 `scripts/cluster/matrix_controller.py`. Existing model-specific wrappers can use it
-without loading code from a scratch run directory. Frozen DRAM rerun controllers
+without loading code from a scratch run directory. The maintained staged
+quickcheck no longer imports that historical controller: its fixed recipe and
+measurement helpers live in `scripts/benchmarks/`. Classification and relocation
+of the historical controller families remain in progress; this separation does
+not imply that their scripts or retained feature switches can be deleted.
+Frozen DRAM rerun controllers
 still intentionally require their immutable launch_config/code_identity and
 engine snapshot. Those are experiment data dependencies, not project libraries.
 Keep them immutable when comparing with published results.
