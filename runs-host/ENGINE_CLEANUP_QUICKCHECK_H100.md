@@ -311,3 +311,15 @@ bounce roundtrips also pass. Source proof retains143 environment identifiers,
 1 reconstructed serving AST comparison. Nine launch plans preserve commands/
 environments except documented paths. Actual local-Router throughput is pending;
 TCP/Scheduler/control-plane/configuration/launcher/final stages remain open.
+
+Local Router comparison launched at about11:09 UTC on job28285059/node2700,
+engine72518d3db7ece7e79fedd759d2bcf0f53d48521e, frontendefe0103adaf4728f7899d97053c58781e6561493.
+Plan SHA2560003916349599874260b4a4041b3b868db3aac39e93dbc4dd4f6466b70476927
+received independent exact-plan GO. Source/config/input/reference checks match
+both ORIGINAL baseline-r3 and host-writer-r1 (only run directory/config source
+identity differs as documented). Detached SSH controller999909 has PPID1 in the
+owned extern cgroup; launcher999933 is live and runtime reports running. Job RAM
+limit is1800 GiB; scoped events0 and all three preflight resource probes clean.
+Models are starting serially. Engine and serving sources remain frozen until
+the complete300+1200 result and final resource gates; this is not performance
+acceptance or completion of remaining stages.
