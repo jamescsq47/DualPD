@@ -352,3 +352,14 @@ pickle fixture error is recorded in router-tcp-test-evidence.json and corrected
 without runtime changes. The pending same-config BrowseComp case is explicitly
 an unchanged-local-path nonregression check, not actual TCP model-path coverage.
 All later Scheduler/control-plane/configuration/launcher/final work remains open.
+
+TCP-stage unchanged-local-path comparison launched at about12:05 UTC on
+job28285059/node2700, engine3d1e52419255892bc5bde0c8c25c4ca74adae38e and
+frontendd1ca50aa4db741ea4d688537a80783ddb50f7319. Exact plan SHA256
+8fcd5350e02e3acda80aac021ee1052fafc051fe06c3d6e6a4c15300ac24a4d9 has independent
+GO. Detached controller1012110 and launcher1012134 are live; controller PPID1 in
+the owned extern cgroup,1800 GiB limit and scoped memory events0. Three preflight
+resource probes are clean. Config/input/command match ORIGINAL baseline-r3 and
+router-local-r1 except run directory and documented source identity. Sources
+are frozen for complete300+1200 and final cleanup/result gates. This is startup,
+not local throughput acceptance, TCP model-path coverage or full-goal completion.
