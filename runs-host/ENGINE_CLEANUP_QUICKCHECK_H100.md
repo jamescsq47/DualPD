@@ -57,6 +57,7 @@ allocation was submitted.
 | Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | 11254.37 | 75462.39 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-buffers-r1`; Decode−0.09% |
 | D Host writer/Relay extraction | `f720985e4efe6f37cafcdd39a7cd9f7d5d2532e7` | 11214.24 | 74889.97 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-writer-r1`; Decode−0.45% |
 | Local Router capacity/admission/HTTP extraction | `72518d3db7ece7e79fedd759d2bcf0f53d48521e` | 11206.66 | 75201.48 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `router-local-r1`; Decode−0.52% |
+| TCP Router extraction: unchanged local-path regression | `3d1e52419255892bc5bde0c8c25c4ca74adae38e` | 11203.87 | 75023.20 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted local regression `router-tcp-r1`; Decode−0.54%; not TCP model coverage |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -373,3 +374,23 @@ in the unchanged local Router logs. This is business warmup, not full-window
 acceptance. Read-only Scheduler planning additionally identified the precise
 broker globals, eager-annotation constraint and a readiness-sync private test
 hook; that expanded future fault inventory is in docs/NEXT_ENGINE_BOUNDARIES.md.
+
+TCP-stage local regression final at about12:45 UTC:300.855 s warmup and1200.000 s
+measurement,6660 completions,0 failures, Decode11203.87 (0.994572 of ORIGINAL
+baseline;−0.54%), Prefill75023.20,100% parent reuse. P/D per-GPU Forward69.80%/
+98.33%. Scoped memory-event deltas0; final GPU/ports/helpers empty and independent
+SSH confirms controller1012110/launcher1012134 gone, GPU0 and job OOM0. Whole-run
+sets match12054 P→D Host snapshots across five stages and21362 D→P Direct send/
+receive/source releases. All148 D→P Host durables match D source release;
+10 measured-window durables restore/release,138 only-drain durables have no
+individual restoration and are accounted separately from final process cleanup.
+See ownership-summary.json. This accepts unchanged-local-path nonregression,
+not statistical equivalence, actual TCP model coverage or remaining goal stages.
+
+Tail metric clarification: original validator reports1294413 tokens between the
+first/last samples inside the final120-second interval, spanning116.169 sampled
+seconds. The harness boundary rolling-cache counter is1319512. These are distinct
+sampling definitions, not contradictory full-window throughput. No algorithm or
+accepted result is changed; see tail-sampling-audit.json. Retain the canonical
+sampled-progress metric for comparable liveness gates, not an exact120-second
+token-total claim.

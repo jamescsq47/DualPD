@@ -61,6 +61,13 @@ records, actualCUDA2 and9 launch plans pass. The next frozen local BrowseComp
 case is a nonregression check only, not TCP model-path throughput validation.
 Representative actual TCP coverage and all later stages remain required.
 
+The TCP-stage unchanged-local regression subsequently passes300.855+1200.000
+seconds at11203.87 Decode token/s (−0.54% versus ORIGINAL baseline),100% reuse,
+6660 completions,0 failures/scoped memory events and empty final resource gates.
+Whole-run sets match12054 P2D Host/21362 D2P Direct snapshots;10 measured D2P
+Host durables restore/release,138 only-drain durables are documented separately.
+This does not close actual TCP model-path coverage or any Scheduler/later stage.
+
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
 independent audit GO, and a real before/after BrowseComp throughput comparison.
 A regression requires investigation or a repeated comparison before advancing.
