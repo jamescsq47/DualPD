@@ -3,7 +3,9 @@
 Current status: stage5 is accepted. Stage6 formally fixes trusted-profile-loader
 partial application and three same-IP listener checks, and extracts16 common
 case arguments. CPU928/native1018/CUDA2, whole-source proofs and independent
-CODE GO pass; a new300+1200 comparison remains pending. Historical observations
+CODE GO pass; the new full300+1200 comparison is accepted at11212.44 Decode
+token/s (−0.47% versus ORIGINAL),100% parent reuse and clean final gates.
+Historical observations
 below are retained as chronology, not a claim that those fixes are unapplied.
 Maintained/replay classification and actualTCP/TP2/hybrid acceptance remain open.
 

@@ -12,7 +12,8 @@ Accepted local TP1 BrowseComp runs cover fixed Qwen3-8B4P:4D/c256 and the comple
 The control-plane dependency run is accepted at11223.49 Decode token/s,−0.37%
 versus ORIGINALbaseline,100% parent reuse and clean final gates. Stage6
 configuration code has CPU928/native1018/CUDA2 and independent CODE GO; its new
-model comparison is not accepted yet. Calling a local
+model comparison is also accepted at11212.44 Decode token/s,−0.47% versus
+ORIGINALbaseline,100% parent reuse and clean final gates. Calling a local
 Router comparison a TCP model test would be incorrect. Nine model/TP dry plans
 and real-kernel TP/Mamba fault fixtures are source/functionality evidence, not
 actual distributed model forwards or accuracy verification.

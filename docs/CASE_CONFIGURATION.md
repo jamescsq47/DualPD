@@ -56,8 +56,10 @@ Full CPU928 records and real-kernel native1018 records pass with zero failures,
 errors or skips. Independent final CODE GO confirms the unchanged eight-file
 runtime bundle7568843bfc6fd495e3199ae1cda72db6e9f9f914fd38c3100e850a13ba109970
 and all eight ownership/fault invariants. Actual H100 registered/bounce CUDA2
-also pass. The new frozen300+1200 BrowseComp comparison still requires its own
-committed-source exact-plan GO and performance acceptance.
+also pass. The new frozen BrowseComp comparison receives independent exact-plan
+and final GO:300.973000+1200.001009 seconds, Decode11212.44 token/s,−0.47%
+versus ORIGINALbaseline,100% parent reuse,0failures/OOM and clean final gates.
+Its complete request and ownership audits are recorded with case-configuration-r1.
 The latter exercises the extracted common argv settings with explicit1/1 values;
 EXPERIMENT_CONFIG is unset, so it must not be reported as profile-driven GPU
 coverage. Actual TCP/TP2/hybrid coverage and the full cleanup goal remain open.

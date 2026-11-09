@@ -61,6 +61,7 @@ allocation was submitted.
 | Scheduler complete-workset lease/broker extraction | `2dbb67ccc5c4c2a61a00440efe58831b08d1c08c` | 11207.29 | 74549.10 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `scheduler-workset-r1`; Decode−0.51%; remaining Scheduler roles still open |
 | Scheduler Direct/TP/ready/ownership component extraction | `a550ccaecad5d2b27ebb15a2788c1e1dc0daff8f` | 11238.17 | 74979.20 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `scheduler-components-r2`; Decode−0.24%; actual TCP/hybrid coverage remains open |
 | Router control-plane dependency cleanup | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11223.49 | 75081.77 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `control-dependencies-r1`; Decode−0.37%; actual TCP/hybrid coverage remains open |
+| Case configuration/parser consolidation (frontend `152a620`) | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11212.44 | 75041.43 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `case-configuration-r1`; Decode−0.47%; profile/TCP input validation covered by CPU gates, not this model path |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -508,3 +509,47 @@ restore or treat event sets as instantaneous ownership/release latency proof;
 P2D Direct releases are not reconstructed here. See request-integrity.json,
 ownership-summary.json and acceptance-audit.json. This unlocks stage6, not its
 new GPU run or final TCP/TP2/hybrid/package/launcher acceptance.
+
+Case-configuration-r1 launched about16:43 UTC on the retained
+job28285059/node2700 after independent CODE and exact-plan GO. Frontend
+152a620edbefef4b53a65fb9150c0d6b3fb10aa4 and engine
+d265f7946aa3d1369ecdadf9d2d39a77c84e300b are committed; serving files are frozen.
+Plan SHAc44cce9e4f98aeef93914220f1c6cb7f468688485f9856a4a787370562f3bb12.
+CPU928/native1018/actualH100CUDA2 and88 shell syntax checks pass. The99 explicit
+environment entries differ from accepted stage5 and ORIGINALbaseline only by
+RUN_DIR; command/input/reference identities are retained. Controller1077217 and
+launcher1077241 are confirmed live in the owned extern cgroup, runtime heartbeat
+fresh and memory events0. The three startup cleanup probes and NUMA check pass.
+This is model startup, not yet throughput acceptance; full300+1200, complete
+request/ownership evidence and final cleanup remain required. The common argv
+helper is exercised, but EXPERIMENT_CONFIG is unset and actualTCP is not covered.
+
+At about16:55 UTC all eight model services and Host registration contexts pass,
+followed by search/Router health. The680-row business workload starts its own
+300-second warmup. Two live runtime samples show Decode tokens rising from
+241581 to1065885 over about70 seconds, with controller/launcher still live,
+fresh heartbeat and all scoped memory-event counters0. This establishes startup
+and liveness only, not the accepted1200-second throughput.
+
+Case-configuration-r1 FINAL accepted by independent audit:300.973000-second
+warmup and1200.001009-second measurement, Decode11212.440337 token/s versus
+ORIGINAL11265.010273 (ratio0.995333343,−0.4667%), Prefill75041.431267,
+100% parent reuse and0 execution failures/OOM. Result SHA
+b5107cd1c6d1460f683ef40a5149f7e0247d342e23114d5a4b0382d5edbdae3a.
+All568621392 request-file bytes parse into8261 unique complete records,
+SHA cdd3299921ef9146adf3274f0505300c13fb8a6c6c6d70641b553e95fa1dcc95;
+window2350completed+4308truncated=6658 protocol successes, error0. This is a
+gross-regression pass, not statistical equivalence or task accuracy.
+
+Ownership sets match11927 P2DHost queued/durable/P release/H2D/Host release,
+21495 D2PDirect sent/received/mapped D release and136 D2PHost durable/D release.
+All7 measured Host snapshots restore/release;129 become durable only in drain
+and lack individual restore events. Preserve event-set limitations: not proof
+of instantaneous ownership/release latency, no reconstruction of P2DDirect
+release, and final process cleanup is not individual snapshot restoration.
+Controller1077217/launcher1077241 are gone; independent fresh SSH and main
+probe find GPU/helper/configured listeners empty and all job memory events0.
+See acceptance-audit.json, request-integrity.json and ownership-summary.json.
+The allocation/keeper remain retained. This unlocks stage7 implementation,
+not a new unaudited GPU run or overall completion; actualTCP/TP2/hybrid,
+maintained/replay classification and final integration remain open.

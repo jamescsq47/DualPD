@@ -35,7 +35,7 @@ and do not cancel another user's jobs.
 8. Re-run final functionality and representative BrowseComp validation, inspect
    all stage results, source maps, package entries and cleanup gates.
 
-## Current state after Scheduler acceptance
+## Current accepted state
 
 Stages1–4 have accepted full300+1200 local BrowseComp comparisons. The latest
 Scheduler-components-r2 gives11238.17 Decode token/s, −0.24% versus ORIGINAL
@@ -56,8 +56,11 @@ Existing defaults, overrides,
 case-layer profile scope and local/TCP policy differences are preserved. Formal
 old/new tests now use immutable references, automatic roots and honest argv-only
 scope. Full CPU928 and native1018 records, actual H100 DMA2 and independent
-CODE GO pass. A committed-source exact-plan GO and a fresh BrowseComp comparison
-remain required before stage6 performance acceptance.
+CODE GO pass. Stage6 case-configuration-r1 also passes independent exact-plan
+and final model acceptance:300.973000+1200.001009 seconds, Decode11212.44
+token/s (−0.47% versus ORIGINAL),100% parent reuse,6658 protocol successes,
+0 execution failures/OOM and clean final GPU/ports/helpers/owned-process gates.
+Complete request and ownership records are saved with the new pool case.
 
 Stages7–8 remain open: maintained versus replay entry classification, installed
 package/source/reference audit, actual
@@ -65,6 +68,60 @@ TCP/TP2 and hybrid model-path coverage, and final representative performance and
 cleanup acceptance. None is replaced by local TP1 results or launch dry plans.
 
 ## Historical stage notes (superseded where a later acceptance is recorded)
+
+### Stage7 preparation (stage6 accepted; implementation still pending)
+
+Independent read-only review confirms that the current quickcheck imports the
+historical low-concurrency matrix, which dynamically imports matrix_controller.
+It also calls that base module for GPU/port cleanup, cgroup memory events,
+analysis and summary, not just environment construction. The analysis Python
+selection is part of the preserved contract. Do not archive these files before
+removing this maintained-path dependency.
+
+First extract the current fixed BrowseComp recipe and measurement/resource
+helpers into scripts/benchmarks, keeping historical modules untouched. Prove
+complete environment/argv and resource/summary outputs against immutable
+frontend152a620 before a new full300+1200 comparison. The current benchmark
+explicitly uses1/1 seconds and512+256GiB total Host arenas; the older named
+BrowseComp shell recipe uses2/2 and1200-second warmup and is a historical replay,
+not the current default. Preserve all actual ablation switches and Python/PATH
+ordering. No source change is authorized during the active stage6 comparison.
+
+Then classify historical matrix/autopilot/watchdog and pinned fused/checkpoint
+families by complete dependency closure, retaining original path/hash/external
+snapshot identity in manifests. Shared maintained CLI, multinode, Slurm and
+process-supervisor paths remain stable initially. V1 multinode_smoke uses file
+control and cannot count as V2 TCP acceptance. Any eventual relocation needs
+explicit __file__/sibling-import/subprocess/self-component and monkeypatch
+identity tests, not generic forwarding wrappers. This review is preparation,
+not implemented or performance-accepted stage7 work.
+
+Read-only preparation now freezes stage7-measurement-reference.json beside the
+pool run directories. Immutable frontend152a620 matrix source SHA
+74b915c5be96f3c6fe2dd12a6135eb1a35cd460b5f660b1c3c4128eca2b0c47d
+reproduces all25 summary fields for both accepted Scheduler R2 and control-plane
+runs exactly. The fixture records hashes of every input and expected outputs;
+its cgroup before/after counters are explicitly fixed zero, not live resource
+measurements. This is a future extraction reference, not stage7 implementation.
+
+Independent preparation audit verifies the full201-file launcher inventory and
+all hashes, with23 maintained entries, two V1 replay files, one historical2s/
+w1200 recipe and175 entries still requiring review. Both25-field measurement
+fixtures were independently reproduced from immutable ASTs. The filename graph
+is deliberately lexical and misses bare-import edges; an empty reference list
+is not proof of no dependencies or obsolescence. Semantic closure and formal
+source/fault/GPU migration gates remain required after stage6 acceptance.
+
+The external stage7-measurement-characterization.py now executes16 stdlib
+unittest groups against immutable152a620 matrix/quickcheck sources. Independent
+rerun passes: summary status/window/TP/tail/failure/OOM behavior, analyzer
+short-circuit/input validation/exact Python-argv-cwd/failure propagation, GPU
+probe command/errors, port union/bind/close, cgroup path/absence, consecutive
+three-clean probes and unknown-helper no-signal failure. All hardware/network/
+subprocess resource operations are mocked. The initial test expected pid rather
+than the actual retained pid,process_name query; only that fixture was corrected.
+No production source changed. These are old-behavior references, not migrated
+code A/B, TERM/drain ordering or real resource-gate acceptance.
 
 Local Router stage in progress: capacity (33 methods), admission (38) and HTTP
 orchestration (27) now share the original concrete instance, with its constructor
