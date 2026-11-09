@@ -22,6 +22,32 @@ PINNED = {
     'scripts/replay/layout_rules.py': '6c297a69e064be10eb91919ab399cd3ccb9a0084cc017075e81d547e33cf4e4a',
     'scripts/replay/cluster/_core.py': '4ae8b4ad23a3cf472088117aa7e0a4384605b3e2fce55c97b508fa13f9d2439d',
 }
+# Stage8's explicitly reviewed installed-package entry fix, separate from
+# unchanged stage7b archival. These are not blanket retained-file waivers.
+ROUTER_ENTRY_UPDATES = {
+    'scripts/new_method/internal/launch_late_binding_router.py':
+        ('current', 'launch_late_binding_router.py'),
+    'scripts/new_method/internal/launch_mamba_late_binding_router.py':
+        ('legacy_mamba', 'legacy_mamba_router.py'),
+}
+POST_ARCHIVE_HELPERS = {
+    'runtime/engine_entry.py': '976877dd18509a8e2c55cbd448a5503f1fd085f3052195fa2c474e51b4f99402',
+}
+
+
+def router_entry_update(relative, source):
+    kind, filename = ROUTER_ENTRY_UPDATES[relative]
+    assert source.count('import os\n') == 1
+    before = (
+        '    engine = Path(os.environ.get("DUALPD_ENGINE_ROOT", Path(__file__).resolve().parents[4] / "sglang_pd"))\n'
+        f'    runpy.run_path(str(engine / "python/sglang/srt/disaggregation/dualpd/router/{filename}"), run_name="__main__")\n'
+    )
+    after = (
+        '    helper = Path(__file__).resolve().parents[3] / "runtime/engine_entry.py"\n'
+        f'    runpy.run_path(str(helper))["launch_router"]("{kind}")\n'
+    )
+    assert source.count(before) == 1
+    return source.replace('import os\n', '', 1).replace(before, after, 1)
 
 
 def sha(value):
@@ -72,6 +98,10 @@ def verify(root=ROOT):
     root = Path(root)
     for relative, digest in PINNED.items():
         assert sha((root / relative).read_bytes()) == digest, (relative, 'reviewed source/data changed')
+    for relative, digest in POST_ARCHIVE_HELPERS.items():
+        path = root / relative
+        assert path.is_file() and not path.is_symlink(), (relative, 'regular helper required')
+        assert sha(path.read_bytes()) == digest, (relative, 'reviewed package helper changed')
     manifest = json.loads((root / 'scripts/replay/manifest.json').read_text())
     edits = json.loads((root / 'scripts/replay/address-edits.json').read_text())
     assert manifest['immutable_revision'] == edits['immutable_revision'] == BASE
@@ -103,7 +133,7 @@ def verify(root=ROOT):
     special = {row['original']: row for row in edits['files']}
     assert len(special) == len(edits['files']) == 24
     assert set(special) <= set(mapping)
-    moved = retained = docs = 0
+    moved = retained = updated_entries = docs = 0
     for row in rows:
         old, new = row['original'], row['path']
         assert (root / new).is_file() and not (root / new).is_symlink(), (new, 'source must be a regular file')
@@ -117,6 +147,11 @@ def verify(root=ROOT):
                 # source hashes remain recorded, not falsely called unchanged.
                 docs += 1
                 assert (root / old).is_file()
+                continue
+            if old in ROUTER_ENTRY_UPDATES:
+                expected = router_entry_update(old, source_bytes.decode())
+                assert (root / old).read_bytes() == expected.encode(), (old, 'whole package entry differs')
+                updated_entries += 1
                 continue
             assert (root / old).read_bytes() == source_bytes, (old, 'maintained code changed')
             retained += 1
@@ -147,11 +182,13 @@ def verify(root=ROOT):
         source = original(relative)
         assert source.count(before) == 1
         assert (root / relative).read_text() == source.replace(before, after, 1), (relative, 'caller differs')
-    assert (moved, retained, docs) == (142, 56, 3)
+    assert (moved, retained, updated_entries, docs) == (142, 54, 2, 3)
     return {
         'immutable_revision': BASE, 'inventory_entries_verified': 201,
         'executable_modes_verified': 201,
         'whole_replay_files_reconstructed': moved, 'byte_identical_retained_code': retained,
+        'post_archive_whole_router_entries_reconstructed': updated_entries,
+        'post_archive_helper_hashes_verified': len(POST_ARCHIVE_HELPERS),
         'navigation_documents_not_called_byte_identical': docs,
         'finite_special_edit_files': len(special), 'complete_outside_callers_verified': len(callers),
         'new_core_bootstrap_hash_verified': True,

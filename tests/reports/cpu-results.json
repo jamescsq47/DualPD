@@ -9,6 +9,7 @@
       "--tb=short",
       "--junitxml=/home/shangy/dualpd/DualPD/tests/reports/frontend.xml",
       "tests/test_standalone.py",
+      "tests/test_engine_entry.py",
       "tests/test_layout_references.py",
       "tests/test_agentic_kv_request.py",
       "tests/test_workload_plugins.py",
@@ -35,7 +36,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 159.5818088054657
+    "elapsed_seconds": 199.34009170532227
   },
   {
     "group": "engine",
@@ -77,6 +78,6 @@
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 132.12862610816956
+    "elapsed_seconds": 160.01646733283997
   }
 ]

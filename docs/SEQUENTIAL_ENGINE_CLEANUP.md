@@ -35,6 +35,18 @@ and do not cancel another user's jobs.
 8. Re-run final functionality and representative BrowseComp validation, inspect
    all stage results, source maps, package entries and cleanup gates.
 
+Stage8 packaging work now fixes one independently reproduced installed-Router
+entry defect. Existing source/pinned-overlay file execution remains unchanged;
+only absent-sibling wheel installations resolve the selected installed engine.
+Two thin entries share a stdlib-only helper; explicit bad pins still fail.
+Independent real double-wheel imports and CLI help,11 focused entry tests and
+complete source proof pass scoped CODE/packaging review. Full CPU regression
+passes303 frontend tests+303 subtests and568 engine tests+37 subtests, zero
+failures/errors/skips and7 non-fatal warnings (both groups exit0). Independently
+reviewed unchanged-engine native1018/CUDA2 evidence is reused for this locator-
+only frontend step. The new representative model comparison remains pending.
+Actual TCP/TP2/hybrid and remaining final integration remain open.
+
 ## Current accepted state
 
 Stages1–4 have accepted full300+1200 local BrowseComp comparisons. The latest

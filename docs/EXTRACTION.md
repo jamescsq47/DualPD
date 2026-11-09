@@ -55,12 +55,35 @@ and is not substituted for the current implementation. Router source hashes
 are recorded in `sglang_pd/router-source-map.json`.
 
 Thin local launch entries resolve the sibling engine directory (overridable
-with `DUALPD_ENGINE_ROOT`) without prepending it to `sys.path`. Historical
+with `DUALPD_ENGINE_ROOT`) without prepending it to `sys.path`. If no override
+or sibling checkout exists, the shared stdlib-only `runtime/engine_entry.py`
+resolves the selected installed SGLang disaggregation package and executes its
+engine-owned Router file. The helper itself directly imports only the standard
+library; dotted package discovery may initialize the selected SGLang parents,
+so the installed fallback is not claimed to be Torch/CUDA-free.
+Explicit empty/invalid overrides and incomplete
+existing sibling checkouts fail rather than silently selecting another engine.
+The two thin scripts load this helper by neighboring file, so direct execution
+does not newly require an installed DualPD package. Historical
 Mamba/Fused overlays therefore remain selected for SGLang protocol imports;
 an old overlay need not contain the new Router namespace. A regression test
 blocks that namespace and verifies both launchers still process `--help`
 without changing the selected overlay or adding/reordering source search paths
 (Torch's generated temporary compilation directory is permitted).
+
+Stage8 installed-entry audit reproduces the original non-editable wheel Router
+failure, then successfully runs the candidate CLI with frontend and engine
+wheels separately installed into isolated targets. Both actual import origins
+are checked; invalid/empty engine overrides still fail. Eleven focused tests
+cover source/installed address selection, exact exception propagation and
+stdlib-only direct-script execution. Complete source proof still reconstructs
+all142 archived files,54 unchanged retained code files and the two exact
+post-archive Router entry transforms; the new helper is whole-file hash pinned.
+This is not a source-tree-free Slurm deployment claim: cluster defaults still
+expect an engine source root. Wheels do not include all root reconstruction
+source maps/locks or original Git history, and source-verification tools remain
+source-checkout tools. Packaging checks do not establish actual TCP/TP2/hybrid
+model forwards or throughput acceptance.
 
 Lifecycle mapping for this move: no state transitions, fence/CAS changes,
 reservation changes or TP decisions. Success, failure, timeout, cancellation

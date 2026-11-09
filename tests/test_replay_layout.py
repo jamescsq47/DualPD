@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def copy_fixture(root):
     manifest = json.loads((ROOT / 'scripts/replay/manifest.json').read_text())
-    files = {row['path'] for row in manifest['files']} | set(proof.PINNED) | {
+    files = {row['path'] for row in manifest['files']} | set(proof.PINNED) | set(proof.POST_ARCHIVE_HELPERS) | {
         'scripts/tools/run_swe_aiohttp_matrix.py', 'tests/test_qwen35_fused_swe_topology.py',
         'scripts/replay/README.md',
     }
@@ -28,12 +28,20 @@ class ReplayLayoutTests(unittest.TestCase):
         result = proof.verify()
         self.assertEqual(result['inventory_entries_verified'], 201)
         self.assertEqual(result['whole_replay_files_reconstructed'], 142)
-        self.assertEqual(result['byte_identical_retained_code'], 56)
+        self.assertEqual(result['byte_identical_retained_code'], 54)
+        self.assertEqual(result['post_archive_whole_router_entries_reconstructed'], 2)
+        self.assertEqual(result['post_archive_helper_hashes_verified'], 1)
         self.assertEqual(result['finite_special_edit_files'], 24)
         self.assertEqual(result['complete_outside_callers_verified'], 2)
 
     def test_destructive_source_and_proof_data_mutations_fail(self):
         cases = [
+            ('scripts/new_method/internal/launch_late_binding_router.py',
+             '["launch_router"]("current")', '["launch_router"]("legacy_mamba")'),
+            ('scripts/new_method/internal/launch_mamba_late_binding_router.py',
+             'parents[3]', 'parents[4]'),
+            ('runtime/engine_entry.py',
+             'if "DUALPD_ENGINE_ROOT" in os.environ or engine.exists():', 'if engine.exists():'),
             ('scripts/replay/cluster/matrix_controller.py',
              'FAST_TOOL_THRESHOLD_SECONDS="1"', 'FAST_TOOL_THRESHOLD_SECONDS="7"'),
             ('scripts/replay/cluster/matrix_controller.py',
