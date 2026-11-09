@@ -1,0 +1,274 @@
+{
+  "scope": "Finite literal review hunks beyond mechanical source-address/import rules. Requires explicit independent review, not generated acceptance.",
+  "immutable_revision": "6bc15235174dee9eb5f4b331d558b777ee031d9b",
+  "files": [
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_d64p128_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_d64p128_h100.py",
+      "edits": [
+        {
+          "before": "    files = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()\n             for p in sorted((FROZEN / \"sglang\").rglob(\"*.py\"))}\n    for p in (Path(__file__), Path(dram.__file__), PRIOR,\n              Path(__file__).with_name(\"dram_resource_sampler.py\"),\n              Path(__file__).with_name(\"dram_complete_frame_analysis.py\"), dram.OBSERVER / \"sitecustomize.py\",\n              *dram.base.PD.joinpath(\"scripts/new_method\").rglob(\"*.sh\")):\n        files[str(p)] = hashlib.sha256(p.read_bytes()).hexdigest()\n    dram.lowc.original_atomic_json(CONTROL / \"code_identity.json\",\n",
+          "after": "    files = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()\n             for p in sorted((FROZEN / \"sglang\").rglob(\"*.py\"))}\n    for p in (Path(__file__), Path(dram.__file__), PRIOR, Path(__file__).with_name(\"_core.py\"),\n              dram.ROOT / \"scripts/cluster/dram_resource_sampler.py\",\n              dram.ROOT / \"scripts/cluster/dram_complete_frame_analysis.py\", dram.OBSERVER / \"sitecustomize.py\",\n              *dram.base.PD.joinpath(\"scripts/new_method\").rglob(\"*.sh\"),\n              *dram.base.PD.joinpath(\"scripts/replay/new_method\").rglob(\"*.sh\")):\n        files[str(p)] = hashlib.sha256(p.read_bytes()).hexdigest()\n    dram.lowc.original_atomic_json(CONTROL / \"code_identity.json\",\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_h100_matrix.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_h100_matrix.py",
+      "edits": [
+        {
+          "before": "CONTROL = Path(\"/orcd/scratch/orcd/003/shangy/dualpd/runs/h100-browsecomp-qwen3-8b-dram-c512-20261022\")\nREPORT = ROOT / \"runs-host/BROWSECOMP_QWEN3_8B_H100_DRAM_ABLATION.md\"\nOBSERVER = Path(__file__).with_name(\"dram_observer\")\nVARIANTS = {\n    \"agentic-full\": dict(method=\"new_method\", d2p=128, p2d=64, label=\"新方法512+256 GiB\"),\n",
+          "after": "CONTROL = Path(\"/orcd/scratch/orcd/003/shangy/dualpd/runs/h100-browsecomp-qwen3-8b-dram-c512-20261022\")\nREPORT = ROOT / \"runs-host/BROWSECOMP_QWEN3_8B_H100_DRAM_ABLATION.md\"\nOBSERVER = ROOT / \"scripts/cluster/dram_observer\"\nVARIANTS = {\n    \"agentic-full\": dict(method=\"new_method\", d2p=128, p2d=64, label=\"新方法512+256 GiB\"),\n"
+        },
+        {
+          "before": "            for path in sorted(directory.rglob(\"*.py\")):\n                files[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()\n        lowc.original_atomic_json(manifest, dict(created_at=time.time(), node=\"node2700\", files=files))\n    base.main()\n",
+          "after": "            for path in sorted(directory.rglob(\"*.py\")):\n                files[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()\n        # Include the newly explicit local loader/shared-tool dependency, while\n        # leaving every external frozen engine snapshot and prior manifest alone.\n        for path in (Path(__file__), Path(lowc.__file__), Path(base.__file__),\n                     Path(__file__).with_name(\"_core.py\"),\n                     ROOT / \"scripts/cluster/dram_resource_sampler.py\"):\n            files[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()\n        lowc.original_atomic_json(manifest, dict(created_at=time.time(), node=\"node2700\", files=files))\n    base.main()\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_p64d64_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_p64d64_h100.py",
+      "edits": [
+        {
+          "before": "    files = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()\n             for p in sorted((BASELINE / \"sglang\").rglob(\"*.py\"))}\n    for p in (Path(__file__), Path(dram.__file__),\n              Path(__file__).with_name(\"dram_resource_sampler.py\"),\n              Path(__file__).with_name(\"dram_complete_frame_analysis.py\"), dram.OBSERVER / \"sitecustomize.py\"):\n        files[str(p)] = hashlib.sha256(p.read_bytes()).hexdigest()\n    dram.lowc.original_atomic_json(CONTROL / \"code_identity.json\",\n",
+          "after": "    files = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()\n             for p in sorted((BASELINE / \"sglang\").rglob(\"*.py\"))}\n    for p in (Path(__file__), Path(dram.__file__), Path(__file__).with_name(\"_core.py\"),\n              dram.ROOT / \"scripts/cluster/dram_resource_sampler.py\",\n              dram.ROOT / \"scripts/cluster/dram_complete_frame_analysis.py\", dram.OBSERVER / \"sitecustomize.py\"):\n        files[str(p)] = hashlib.sha256(p.read_bytes()).hexdigest()\n    dram.lowc.original_atomic_json(CONTROL / \"code_identity.json\",\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_2p2d_c256_extender.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_2p2d_c256_extender.py",
+      "edits": [
+        {
+          "before": "        return 1\n\n    sys.path.insert(0, str(ROOT / \"scripts/cluster\"))\n    if __package__:\n        from . import qwen35_35b_a3b_single_node_2p2d_matrix_autopilot as matrix\n",
+          "after": "        return 1\n\n    sys.path.insert(0, str(ROOT / \"scripts/replay/cluster\"))\n    if __package__:\n        from . import qwen35_35b_a3b_single_node_2p2d_matrix_autopilot as matrix\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_2p2d_handoff.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_2p2d_handoff.py",
+      "edits": [
+        {
+          "before": "\nROOT = Path(__file__).resolve().parents[3]\nTOOLS = ROOT / \"scripts/cluster\"\nRUNS = Path(\"/orcd/scratch/orcd/003/shangy/dualpd/runs\")\nSOURCE = (\n",
+          "after": "\nROOT = Path(__file__).resolve().parents[3]\nTOOLS = ROOT / \"scripts/replay/cluster\"\nRUNS = Path(\"/orcd/scratch/orcd/003/shangy/dualpd/runs\")\nSOURCE = (\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_matrix_watchdog.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_matrix_watchdog.py",
+      "edits": [
+        {
+          "before": "\ndef matrix_snapshot() -> dict[str, Any]:\n    sys.path.insert(0, str(ROOT / \"scripts/cluster\"))\n    if __package__:\n        from . import qwen35_35b_a3b_single_node_1p3d_matrix_autopilot as matrix\n",
+          "after": "\ndef matrix_snapshot() -> dict[str, Any]:\n    sys.path.insert(0, str(ROOT / \"scripts/replay/cluster\"))\n    if __package__:\n        from . import qwen35_35b_a3b_single_node_1p3d_matrix_autopilot as matrix\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100_supervisor.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100_supervisor.py",
+      "edits": [
+        {
+          "before": "STATE = CONTROL / \"state.json\"\nCONTROLLER = Path(\n    \"/home/shangy/dualpd/DualPD/scripts/cluster/\"\n    \"qwen3_30b_a3b_browsecomp_h100_matrix.py\"\n)\n",
+          "after": "STATE = CONTROL / \"state.json\"\nCONTROLLER = Path(\n    \"/home/shangy/dualpd/DualPD/scripts/replay/cluster/\"\n    \"qwen3_30b_a3b_browsecomp_h100_matrix.py\"\n)\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/test_dram_observer.py",
+      "path": "scripts/replay/cluster/test_dram_observer.py",
+      "edits": [
+        {
+          "before": "\nspec = importlib.util.spec_from_file_location(\n    \"dram_observer_test_module\", Path(__file__).with_name(\"dram_observer\") / \"sitecustomize.py\"\n)\nobserver = importlib.util.module_from_spec(spec)\n",
+          "after": "\nspec = importlib.util.spec_from_file_location(\n    \"dram_observer_test_module\", Path(__file__).resolve().parents[3] / \"scripts/cluster/dram_observer/sitecustomize.py\"\n)\nobserver = importlib.util.module_from_spec(spec)\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/new_method/run_qwen3_32b_tp2_terminal_bench_2p6d.sh",
+      "path": "scripts/replay/new_method/run_qwen3_32b_tp2_terminal_bench_2p6d.sh",
+      "edits": [
+        {
+          "before": "export SGLANG_PD_LATE_BIND_GLOBAL_DECODE=1\n\nexport RUN_DIR=\"${RUN_DIR:-${SCRIPT_DIR}/../../runs-host/new-method/qwen3-32b-tp2-terminal-bench-2p6d-c${MAX_INFLIGHT}}\"\n\nexec bash \"${PD_DIR}/scripts/new_method/run_2p6d_numa_case.sh\"\n",
+          "after": "export SGLANG_PD_LATE_BIND_GLOBAL_DECODE=1\n\nexport RUN_DIR=\"${RUN_DIR:-${SCRIPT_DIR}/../../../runs-host/new-method/qwen3-32b-tp2-terminal-bench-2p6d-c${MAX_INFLIGHT}}\"\n\nexec bash \"${PD_DIR}/scripts/new_method/run_2p6d_numa_case.sh\"\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/new_method/test_qwen35_27b_sequence.py",
+      "path": "scripts/replay/new_method/test_qwen35_27b_sequence.py",
+      "edits": [
+        {
+          "before": "    for text in [\"PREFILL_GPU_GROUPS='0,4;1,5'\", \"DECODE_GPU_GROUPS='2,6;3,7'\",\n                 'PREFILL_TP_SIZE=2 DECODE_TP_SIZE=2', 'MODEL_REASONING_PARSER=glm45',\n                 'MAMBA_FULL_MEMORY_RATIO=0.9', 'PD_PAGE_SIZE=64 MAMBA_TRACK_INTERVAL=64',\n                 'SGLANG_AGENTIC_KV_P_H2D_DECOUPLED=false',\n                 'SGLANG_AGENTIC_KV_TOKEN_CONTENT_HASH=false',\n",
+          "after": "    for text in [\"PREFILL_GPU_GROUPS='0,4;1,5'\", \"DECODE_GPU_GROUPS='2,6;3,7'\",\n                 'PREFILL_TP_SIZE=2 DECODE_TP_SIZE=2', 'MODEL_REASONING_PARSER=glm45',\n                 # Immutable6bc launcher already uses0.5; do not change the\n                 # runtime setting to satisfy this previously stale assertion.\n                 'MAMBA_FULL_MEMORY_RATIO=0.5', 'PD_PAGE_SIZE=64 MAMBA_TRACK_INTERVAL=64',\n                 'SGLANG_AGENTIC_KV_P_H2D_DECOUPLED=false',\n                 'SGLANG_AGENTIC_KV_TOKEN_CONTENT_HASH=false',\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_c512_nsys.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_c512_nsys.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_c512_nsys.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_c512_nsys.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.sbatch",
+      "edits": [
+        {
+          "before": "slime/scripts/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.py",
+          "after": "DualPD/scripts/replay/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.py"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_1p7d_c384_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_1p7d_c384_controller.sh",
+      "edits": [
+        {
+          "before": "TOOLS=${ROOT}/slime/scripts/cluster",
+          "after": "TOOLS=${ROOT}/DualPD/scripts/replay/cluster"
+        },
+        {
+          "before": "\"${PYTHON}\" \"${ROOT}/slime/scripts/tools/summarize_agentic_steady.py\" \\\n",
+          "after": "\"${PYTHON}\" \"${ROOT}/DualPD/scripts/tools/summarize_agentic_steady.py\" \\\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_1p7d_c512_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_1p7d_c512_controller.sh",
+      "edits": [
+        {
+          "before": "TOOLS=${ROOT}/slime/scripts/cluster",
+          "after": "TOOLS=${ROOT}/DualPD/scripts/replay/cluster"
+        },
+        {
+          "before": "\"${PYTHON}\" \"${ROOT}/slime/scripts/tools/summarize_agentic_steady.py\" \\\n",
+          "after": "\"${PYTHON}\" \"${ROOT}/DualPD/scripts/tools/summarize_agentic_steady.py\" \\\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_1p7d_c576_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_1p7d_c576_controller.sh",
+      "edits": [
+        {
+          "before": "TOOLS=${ROOT}/slime/scripts/cluster",
+          "after": "TOOLS=${ROOT}/DualPD/scripts/replay/cluster"
+        },
+        {
+          "before": "\"${PYTHON}\" \"${ROOT}/slime/scripts/tools/summarize_agentic_steady.py\" \\\n",
+          "after": "\"${PYTHON}\" \"${ROOT}/DualPD/scripts/tools/summarize_agentic_steady.py\" \\\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_2p6d_c576_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_2p6d_c576_controller.sh",
+      "edits": [
+        {
+          "before": "TOOLS=${ROOT}/slime/scripts/cluster",
+          "after": "TOOLS=${ROOT}/DualPD/scripts/replay/cluster"
+        },
+        {
+          "before": "    \"${PYTHON}\" \"${ROOT}/slime/scripts/tools/summarize_agentic_steady.py\" \\\n",
+          "after": "    \"${PYTHON}\" \"${ROOT}/DualPD/scripts/tools/summarize_agentic_steady.py\" \\\n"
+        },
+        {
+          "before": "\"${PYTHON}\" \"${ROOT}/slime/scripts/tools/summarize_agentic_steady.py\" \\\n  \"${RUN_DIR}\" >\"${RUN_DIR}/summarize.log\"\n",
+          "after": "\"${PYTHON}\" \"${ROOT}/DualPD/scripts/tools/summarize_agentic_steady.py\" \\\n  \"${RUN_DIR}\" >\"${RUN_DIR}/summarize.log\"\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_aligned_matrix.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_aligned_matrix.sh",
+      "edits": [
+        {
+          "before": "TOOLS=${ROOT}/slime/scripts/cluster",
+          "after": "TOOLS=${ROOT}/DualPD/scripts/replay/cluster"
+        },
+        {
+          "before": "  \"${PYTHON}\" \"${ROOT}/slime/scripts/tools/summarize_agentic_steady.py\" \\\n",
+          "after": "  \"${PYTHON}\" \"${ROOT}/DualPD/scripts/tools/summarize_agentic_steady.py\" \\\n"
+        }
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_smoke.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_smoke.sh",
+      "edits": [
+        {
+          "before": "TOOLS=${ROOT}/slime/scripts/cluster",
+          "after": "TOOLS=${ROOT}/DualPD/scripts/replay/cluster"
+        }
+      ]
+    }
+  ]
+}

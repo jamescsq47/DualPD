@@ -23,11 +23,13 @@ outside the checkout without relying on an installed `dualpd` package. No
 engine namespace or Python search path is prepended by this loader.
 
 `scripts/verify_benchmark_components.py` proves the complete three runtime
-modules against immutable frontend152a620, plus unchanged historical matrix
-sources. Complete environment/argv A/B, synthetic failure/cleanup fixtures,
+modules against immutable frontend152a620, plus complete historical matrix
+sources with only enumerated archival addresses changed. Complete
+environment/argv A/B, synthetic failure/cleanup fixtures,
 negative source mutations and actual accepted-log parity are separate checks.
 They do not substitute for native/actual GPU or full300+1200 acceptance.
 
-Historical launchers have not been archived by this extraction. Their replay
-closure, pinned inputs, path identities and ablation switches must be preserved
-in the next part of stage7; actualTCP/TP2/hybrid and final packaging remain open.
+Historical launchers are moving under `scripts/replay/` in stage7b. Their replay
+closure, pinned inputs, path identities and ablation switches still need complete
+acceptance; this benchmark component is not that proof. ActualTCP/TP2/hybrid and
+final packaging remain open.

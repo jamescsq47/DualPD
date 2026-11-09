@@ -134,7 +134,96 @@ addresses. The earlier seven-file fixture is only a tested subset, not the
 planned end state. External stage7b-complete-mapping-audit.json and
 stage7b-semantic-migration-audit.md cover cross-model mutable module identity,
 DRAM retained-tool copies, fused/checkpoint helpers, outside callers and PPD
-source-selection hazards. No actual migration or runtime replay GO is claimed.
+source-selection hazards. The142 address moves are now applied in the worktree;
+complete migration/runtime replay GO is not yet claimed.
+
+Stage7b work-in-progress has142 old paths absent and142 new paths present,
+91 Python AST parses and50 Shell/Slurm syntax checks passing. Shared/core files
+stay canonical. Imports now separate core alias identity from historical sibling
+package/direct selection;39 files receive the latter repair, including removal
+of import-only broad ImportError fallbacks that could mask real core failures.
+Six guarded real imports cover MiniMax, ratio12 and DRAM callers in direct and
+package modes, with no engine import, environment mutation or operational action.
+The maintained benchmark's whole immutable proof remains intact: one historical
+module is byte-identical and the other has exactly two address edits. Two added
+negative mutations reject regression of those addresses.
+
+An immutable6bc temporary fixture independently reproduces the existing sequence
+test failure: its assertion expected Mamba0.9 while its launcher already set0.5.
+Only that stale test expectation is corrected; runtime parameters are unchanged.
+The sequence/V1 helper/fused-topology focus passes29 tests. Complete201-entry
+source inventory now reconstructs all142 moved files and byte-checks56 retained
+code files, both outside callers, owner executable bits and finite pinned edits.
+Extra non-cache files, symlinks and unsupported file types are rejected. The
+owner-mode and extensionless/native-file bypasses found by independent audit
+are fixed and independently rechecked, with negative cases.
+
+The new core loader test suite passes14 tests plus33 subtests, including12
+guarded real-caller direct/package and normal/failure combinations, original
+exception identity, missing/invalid/dependency failure rollback, parent-only
+reuse, pickle/logger identity and20 concurrent calls through two helper copies.
+Concurrency does not cover unrelated ordinary imports. Five actual archived
+shells pass28 full environment/argv A/B comparisons against immutable6bc1523,
+with defaults and explicit overrides, all10 BrowseComp ablations and invalid
+variant rejection. Real Bash/YAML execute in isolated temporary fixtures; the
+terminal pipeline is absent, fingerprint validation is explicitly stubbed and
+support scripts are immutable originals. Independent audit scoped GO covers
+these two tests, not overall source/runtime or GPU acceptance.
+
+The shell tests additionally assert current maintained SUPPORT bytes equal the
+immutable copies. A second test now covers7 more wrappers (mixed5 ablations,
+Qwen3.5-27B BrowseComp/SWE and Qwen3-32B BrowseComp/recheck/SWE/Terminal),22 pairs
+at the common-case boundary. It never copies or runs the common case/pipeline.
+Only WORKLOAD_CONFIG and RUN_DIR spellings are resolved for comparison; all
+other environment values and final argv remain exact. Both shell tests pass
+2 tests+50 subtests; independent review and an independent2-test/50-comparison
+rerun accept this expanded scope. This is not blanket historical replay GO.
+
+The remaining6 complex entrypoints now have15 byte-exact configuration-prefix
+A/B comparisons, stopping before first mkdir. The first100 wrapper delegates
+to the truncated full entry. Topology conflict, invalid lane count and missing
+plugin fail-closed checks pass. Runtime support is byte-identical; Colocated
+installs and executes real empty-registry EXIT cleanup, explicitly asserted
+empty with a forbidden-kill sentinel. No registered-service stop path or
+launcher-specific cleanup suffix is exercised. The27B NIXL path is relocated
+only in temporary copies with an empty existence sentinel; real guard text is
+checked, but native plugin validity is not established. Docker/preflight/CUDA,
+source snapshots, control-dir creation and model launch remain unexecuted.
+Independent scoped audit and independent1-test/15-comparison rerun accept this
+test and corrected cleanup description. All18 archived Shell entrypoints now
+have explicitly different contract depths (5 pipeline,7 case-boundary,6 config
+prefix), not18 complete operational replays.
+
+Fourteen further finite address-edit sets now repair8 sbatch controller helpers
+and6 PPD TOOLS directories;5 PPD controllers also get the maintained summary
+helper address. These exact edits leave Slime harness, PR source/SIF, recorded
+engine/model/data/run identities and runtime flags unchanged. Independent review
+accepted these14 exact changes and independently reran the complete source
+proof; fresh combined source/negative/contract tests and full CPU gates pass.
+Frontend CPU regression passes290 tests+263 subtests in153.19s; the engine group
+passes568 tests+37 subtests in127.11s (7 non-fatal CPU/deprecation warnings).
+The full CPU command exits0. This frontend collection predates the added
+second shell test, which has a separate successful focused/independent run.
+The focused source/core/shell group before the second shell-test
+expansion passed22 tests+144 subtests; the source snapshot verifier passes with
+no unexpected differences. Missing old
+pytest/dependency paths remain historical replay limitations, not silently
+validated entrypoints. Complete historical native/operational suffix execution
+is not claimed. Independent overall archival CODE GO now accepts142-file
+archival and unchanged maintained-entry runtime, with a separate independent
+23-test/166-subtest core/layout/shell run. This is not GPU launch authorization.
+The latest combined CPU gate completes with292 frontend tests+300 subtests
+(157.37s) and568 engine tests+37 subtests (129.08s), overall exit0 and7 non-fatal
+warnings. The unchanged engine/native fixtures retain their accepted native1018
+and actual H100 CUDA2 evidence; independent exact-plan preaudit confirms that
+reuse is sufficient for this pure archival step, not new model-family coverage.
+The new replay-archive-r1 plan is prepared with SHA256
+2786d1d9af3333e400c7f6f92859d6fde0272ca8f03d5bd882ff00cd706ac291;
+source/99env/input/ORIGINAL reference and clean owned-node preflight match.
+Final post-commit exact-plan launch GO and the new full BrowseComp comparison
+remain open. ActualTCP/TP2/hybrid and final
+package/source/reference integration remain later required stages.
+No stage7b GPU run has started.
 
 Independent import-boundary design review recommends a seven-name core/shared
 fileloader rather than globally adding core to sys.path: process_supervisor,
@@ -147,7 +236,8 @@ created aliases on failure while propagating the original import error.
 Historical sibling imports stay siblings; only core references move to this
 boundary. Direct/package/mixed-name support is a new tested compatibility
 guarantee, not an assertion that the old scripts always supported every form.
-No loader is applied or accepted yet. The44 root-depth uses also include two
+The loader is now applied, with scoped identity/fault test audit GO but not yet
+overall stage7b CODE GO. The44 root-depth uses also include two
 separately reviewed special cases: ratio-test source lookup and sequence
 LAUNCHER.parents[2], both requiring depth3 after archival while preserving input
 and launcher identities.

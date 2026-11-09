@@ -1,7 +1,8 @@
 # Local request-generation KV launchers
 
-This directory contains reusable topology entries and retained historical
-recipes. Router, allocator, transport and lifecycle implementations belong to
+This directory contains reusable topology entries and retained compatibility
+helpers. Model-specific historical recipes are under `../replay/new_method/`.
+Router, allocator, transport and lifecycle implementations belong to
 the sibling `sglang_pd` engine.
 
 ## Maintained execution chain
@@ -45,12 +46,15 @@ Actual ablations and Direct/Host/fence/workset/TP semantics remain governed by
 
 ## Retained historical recipes
 
-Model/workload-named, fused/checkpoint and pinned-Mamba launchers/support remain
-for replay. In particular, `run_qwen3_8b_tp1_browsecomp_4p4d.sh` defaults to
+Model/workload-named and fused launch recipes now live under
+`scripts/replay/new_method/`. Their checkpoint and pinned-Mamba compatibility
+helpers stay at canonical `internal/` addresses because baseline snapshot tools
+also reference them. In particular, the archived
+`run_qwen3_8b_tp1_browsecomp_4p4d.sh` defaults to
 c384,1200s warmup,2s/2s and different Host/cache values. It is not the current
 regression entry. The existing profile YAML likewise records an earlier trial,
 not a substitute for the maintained recipe.
 
 Preserve recorded parameters and pinned inputs. Historical dependency closure
-and archival remain pending stage7 work; these retained recipes do not imply new
+validation remain pending stage7 work; these retained recipes do not imply new
 acceptance of every historical model/TP/default configuration.

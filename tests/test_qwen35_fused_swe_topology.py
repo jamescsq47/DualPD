@@ -6,7 +6,7 @@ import subprocess
 import pytest
 
 
-LAUNCHER = Path(__file__).resolve().parents[1] / "scripts/new_method/run_qwen35_fused_swe500_2p6d.sh"
+LAUNCHER = Path(__file__).resolve().parents[1] / "scripts/replay/new_method/run_qwen35_fused_swe500_2p6d.sh"
 
 
 def config(**overrides):

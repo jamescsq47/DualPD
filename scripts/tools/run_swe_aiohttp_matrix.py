@@ -40,7 +40,7 @@ def cases():
         else:
             filename=('run_qwen35_fused_swe500_2p6d.sh' if tp==1 else
                       'run_qwen35_fused_27b_tp2_swe500_4p4d.sh')
-            launcher=PD/'scripts/new_method'/filename
+            launcher=PD/'scripts/replay/new_method'/filename
             column=f'新方法{topology.replace("p", "P:").replace("d", "D")} c{concurrency}'
         env=dict(MAX_INFLIGHT=str(concurrency),REQUESTS='500',PD_MODEL_HTTP_TRANSPORT='aiohttp',
                  PD_COLOCATED_GPU_IDS='0,1,2,3,4,5,6,7',PD_COLOCATED_MAMBA_RATIO='0.9',

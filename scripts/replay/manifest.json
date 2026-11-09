@@ -1,0 +1,1523 @@
+{
+  "immutable_revision": "6bc15235174dee9eb5f4b331d558b777ee031d9b",
+  "scope": "Maintained and historical replay source addresses. Movement does not authorize operational execution; fixed PID/job/credentials and external snapshots remain inert historical identities.",
+  "files": [
+    {
+      "original": "scripts/cluster/MULTINODE.md",
+      "path": "scripts/cluster/MULTINODE.md",
+      "classification": "maintained-documentation",
+      "original_sha256": "0c50f99832f63112684abe120f96c6712d13fccde3596667359c0a8328f63fde",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/README.md",
+      "path": "scripts/cluster/README.md",
+      "classification": "maintained-documentation",
+      "original_sha256": "058d85321ee0f4683d03c57b370e2072a359e7c98044f660f1fb9b300e7775c0",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_c512_nsys.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_c512_nsys.py",
+      "classification": "historical-replay",
+      "original_sha256": "149c20da99cab302e75e27b9c059b1edec4fb1d4bca2ef97854dd9bd9facf80f",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_c512_nsys.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_c512_nsys.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "38d6406b472f3c563837aff8b78c6364cd34543a145c21efba962a249a41c8c7",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_c512_nsys_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_c512_nsys_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "b055644e6c6331d32e15a5b07605e42e4e51e46acbb0938176403497dda9c9a3",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_d64p128_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_d64p128_h100.py",
+      "classification": "historical-replay",
+      "original_sha256": "cabf0de2132c8df61838b7b78dfd614228202ba9dd76d423e1cb6ab03355987c",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_d64p128_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_d64p128_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "b3c81ee455890caf95f2b5c2b0b9c4b2c25437583bc426331ffd2c1687d1f26e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_d64p128_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_d64p128_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "028f32e3a8e23ce4d02d9ccd9801f8f268ed5273e012c4c975bd83ec986afb89",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_global64_128_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_global64_128_h100.py",
+      "classification": "historical-replay",
+      "original_sha256": "558941a5da320d67aa7d4b8da45cfd071a05641003503177ad0f031a5f7cfd09",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_global64_128_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_global64_128_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "fec12f0d43f30cffaef7b6c57980216f17b7fda2d51839c01cb7837d4776ca8d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_global64_128_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_global64_128_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "a7196595ac959ac7f1e4b654659aa535a3f241abd43fdfb3629fb7593b2b4a61",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "33890a508529c3f7930cfda4385d3b3284a35f439996fa95d9b001d6ad57038c",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_h100_matrix.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_h100_matrix.py",
+      "classification": "historical-replay",
+      "original_sha256": "fa69901b731fce408e6e65a87c126bda36a58fe994f6cb0af2b731a777563514",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_h100_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_h100_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "c5ff08b136b78ae929554c5794606ccffe59ef645d30cc689319e2bc0a6ad8c3",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_p64d64_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_p64d64_h100.py",
+      "classification": "historical-replay",
+      "original_sha256": "ed5f5b40b05eb859bd95ecab32243e024d6cc7e348ed713c84f3640ff88a15a0",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_p64d64_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_p64d64_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "af9c5cb260581c006f7d19067286a3a3aad92f246c0989905a25c3be645271a7",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_dram_p64d64_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_dram_p64d64_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "355e01ac79cd3723874bc22b583cb7f7674a04f39e05d728dd1155b2f35e5036",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_lowc_h100_matrix.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_lowc_h100_matrix.py",
+      "classification": "historical-replay",
+      "original_sha256": "35581d9662c110bca4c5e5b9085a68beeb9d5dcd75b9f72de3955d4011bbac43",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_lowc_h100_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_lowc_h100_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "49aeb50ffed3b219bad02ba4e6456b5d3b19276831cd3ee403abbc6e83c49a42",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.py",
+      "classification": "historical-replay",
+      "original_sha256": "fa902c9bc3703ecbeca5b72c1976f144896180aff569a38c523a8b49d185fba6",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_host_off_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "0504b739f2d23fa0596bd6bff22b4a1df3d3e1384a57686f8398e1faf4c8416e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_host_off_h100_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_host_off_h100_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "0f52b4ca3b2f65d256de2459a9e66c62cef3651994cf4b88277cfc0226dd3109",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.py",
+      "classification": "historical-replay",
+      "original_sha256": "d9c2f69d2ff6d5314457c5ef502651a3c5318f14355aa0d925249cbbf3e27690",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_ablation.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "fbd2ff8575803b6ddd8d682ea9df09250419fa469938cfcf5a16984a2ee58795",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_native_prealloc_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "f17f3633c484683dd738ef7d454da2f77e2c35f1027cb134d6d2b5391c416e96",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100.py",
+      "classification": "historical-replay",
+      "original_sha256": "e4e6a0f5f9cf0c1e0e5ae859eacc4e5f1d27257c68f10275e4d7ecf8e0320e75",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "62774a2db61482936b6f30bdf79beab8250bcac75cf2a42b06a218192e76536c",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.py",
+      "classification": "historical-replay",
+      "original_sha256": "309a65c2dd9b9c59bf81b748e101a9160e8984d7a30146b2b2a83c121ccce98e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "4322cb404c67769fbb0b6c2aa3005099bd45b187dcb62181f4d2885d8c40b4dd",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r2_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "9225595f3a0488350d03ea497373b7393263c09aa730396c5ac60354522ce7fb",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.py",
+      "classification": "historical-replay",
+      "original_sha256": "cc360857b11e8f48dd91f4fc347721a459030c347b2ae371fe029ade1a2aac62",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "37ecf9f8688844a1398869379991e7f4dc02b1547fd1c027abd8672208c99976",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_r3_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "5e0733961856a6e631ae2f4db2cc40b5400cb41329fb45d04a0f8c71192120f2",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_only_h100_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_only_h100_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "57f4af0a47fcb4d4a7e12692513b62398e7aa00a2cfed2a699db5ae7934b1cde",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.py",
+      "classification": "historical-replay",
+      "original_sha256": "5e5ab2f30d070de385169c8220e7e59ce226072bb574138185bfb2ed2f0e9e58",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_paired_credit_ablation.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "c6de8d528913ec004f3d220ffd455f6a784c4e2bb2d6b2808b9834b273c5c2ae",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_paired_credit_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_paired_credit_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "7bd7bd911af473826ae2706e1a77cc11e5fae47cf4ee6a5d09330e5b5cad2dca",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.py",
+      "classification": "historical-replay",
+      "original_sha256": "0d8fbaf93451b7e2867eee8f06dabb25cbf7aa70782b6b037277acf2f9487910",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_prealloc_ablation.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "60c568bd5a0a38ce92bb1a0f1c41299a0dd32d06388e5888ffe131d7ac825098",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_p2d_prealloc_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_p2d_prealloc_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "09403a4687a5bfdac1055daf129bff02fcf5faffd7da597e9b5e8b70d7dd47e1",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_pd_scale_h100.sbatch",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_pd_scale_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "1af06a03ca016495b18e6e2a6f871d3d0e1699cb0db40d5de76d2dd5cb9b21c7",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_pd_scale_h100_matrix.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_pd_scale_h100_matrix.py",
+      "classification": "historical-replay",
+      "original_sha256": "dfc6651c1183b5b530ff76d6673a316951a70de2c412fa9f775962f9d1e07c96",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/browsecomp_qwen3_8b_pd_scale_h100_watchdog.py",
+      "path": "scripts/replay/cluster/browsecomp_qwen3_8b_pd_scale_h100_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "fd115ad934cd3d9007753a20f1c2ccb8bd7335c3554486c25a4e72666cd0fd00",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/build_swe_subset_from_sifs.py",
+      "path": "scripts/cluster/build_swe_subset_from_sifs.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "2a65001b436ca66b26c15ba9607b519d310b563acd6f7680ca8e0d6b1c8d0edd",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/collect_hardware_topology.sh",
+      "path": "scripts/cluster/collect_hardware_topology.sh",
+      "classification": "shared-tool-kept",
+      "original_sha256": "cf9b257c2cfd08c9bf59e3d73fc2f8ca81538d2bb2140766a283e7d56dc9cd44",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/convert_swe_oci_to_sif.py",
+      "path": "scripts/cluster/convert_swe_oci_to_sif.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "913735645b01ad36d45fe7a3f950d8307fc63724b3d5ed2550ca142354a805a6",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/dram_complete_frame_analysis.py",
+      "path": "scripts/cluster/dram_complete_frame_analysis.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "32729a366835709db9d7794a19e90db1b023fae7f334ed0158cb8a5ecb36928e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/dram_observer/sitecustomize.py",
+      "path": "scripts/cluster/dram_observer/sitecustomize.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "34046c7b7296b9c0c8633f5badc83536e3ae20f9411cc759418daec9d155e474",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/dram_resource_sampler.py",
+      "path": "scripts/cluster/dram_resource_sampler.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "cafbed771a37b3cc7bbd0153e43cd1a137aa5c6fecd12df1f12951385e38858b",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/engine_cleanup_7day.sbatch",
+      "path": "scripts/cluster/engine_cleanup_7day.sbatch",
+      "classification": "maintained-core",
+      "original_sha256": "a7b2cb3253274163cfa87c31ae53a00f16da2a040212c2986e1689f071208893",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/engine_cleanup_allocation.py",
+      "path": "scripts/cluster/engine_cleanup_allocation.py",
+      "classification": "maintained-core",
+      "original_sha256": "303893b55b71851b0eed16251bd9ba2cd3489b7176f8d5e3ba9a33ae2cd7d556",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/engine_cleanup_quickcheck.py",
+      "path": "scripts/cluster/engine_cleanup_quickcheck.py",
+      "classification": "maintained-core",
+      "original_sha256": "c84ecfd9a491f181cfe920363dc87b697520e377b3e55a4c0ce73706a57d33ec",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/hold_node2800_after_qwen3_30b.sbatch",
+      "path": "scripts/replay/cluster/hold_node2800_after_qwen3_30b.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "086c3b517150aed07f551c0d87d0b6cd319bd1d388b8333f6e416d3f504ef68b",
+      "operational_warnings": [
+        "DANGER fixed-node exclusive seven-day allocation request; do not submit during audit"
+      ]
+    },
+    {
+      "original": "scripts/cluster/load_swe_oci_into_docker.py",
+      "path": "scripts/cluster/load_swe_oci_into_docker.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "1fda0678f967fa3c208de04a23d8f7a8282c08698b72b8df7f95b15c6e4dda78",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/matrix_controller.py",
+      "path": "scripts/replay/cluster/matrix_controller.py",
+      "classification": "historical-replay",
+      "original_sha256": "74b915c5be96f3c6fe2dd12a6135eb1a35cd460b5f660b1c3c4128eca2b0c47d",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/minimax_m27_baseline_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/minimax_m27_baseline_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "f16706b3163049f65d47b05ad04c49ee1153a59de327804cbb5321d97e0566df",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/minimax_m27_c384_c448_autopilot.py",
+      "path": "scripts/replay/cluster/minimax_m27_c384_c448_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "bcb278c4dede0480e343170858bd5d771e60ddbd2351100660dde2dd5c3e3877",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/minimax_m27_high_concurrency_autopilot.py",
+      "path": "scripts/replay/cluster/minimax_m27_high_concurrency_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "ea49e37d1d1e8c5202ea826f69ac8277e14bbf5c0ea7fd9b8d51049ae83cbd71",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/minimax_m27_three_node_autopilot.py",
+      "path": "scripts/replay/cluster/minimax_m27_three_node_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "204cdd382834a940adcf6e18ec8b40bd42979dfd44a17b8254d0d04999679240",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/minimax_m27_three_node_watchdog.py",
+      "path": "scripts/replay/cluster/minimax_m27_three_node_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "31bb0b383169aca6f95a0e9c28abf80f820375d30f612777226335ad05629217",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/minimax_m27_two_node_autopilot.py",
+      "path": "scripts/replay/cluster/minimax_m27_two_node_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "35f020ae73236a98388a6368e59c1eca4948610bcde6bf6959a92367a0bfa902",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/multinode.example.json",
+      "path": "scripts/cluster/multinode.example.json",
+      "classification": "maintained-core",
+      "original_sha256": "188c8c25dd87900aee90f3ccde1dc6934e1dc1f54291c6e17e2c3d52e5124a8d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/multinode.py",
+      "path": "scripts/cluster/multinode.py",
+      "classification": "maintained-core",
+      "original_sha256": "59ee13674e60bef040347bbbc11072bdc30b1dbe39bc7cbc77b8673bb3f81da5",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/multinode.sh",
+      "path": "scripts/cluster/multinode.sh",
+      "classification": "maintained-core",
+      "original_sha256": "6262b8aba0df920a8dd814197d79c020c17bc636b0b8f3282d538b7a13fd364a",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/multinode_smoke.py",
+      "path": "scripts/replay/cluster/multinode_smoke.py",
+      "classification": "historical-replay",
+      "original_sha256": "7561b7876349d9aab617e39ae65ce871a83fd84629e27754850282438b3c241b",
+      "operational_warnings": [
+        "V1 file-control replay, not V2 TCP validation"
+      ]
+    },
+    {
+      "original": "scripts/cluster/nsys_python_wrapper.sh",
+      "path": "scripts/cluster/nsys_python_wrapper.sh",
+      "classification": "shared-tool-kept",
+      "original_sha256": "fcb833125057e3e497f63c72895d58ae1b4ae1151b7db059f0a26f64c661c009",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/nsys_sqlite_to_chrome.py",
+      "path": "scripts/cluster/nsys_sqlite_to_chrome.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "127c28a6b6ab671a692291a558beae8b1b7c2275ca9d6e350939262f389d16b4",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/ppd45423_1p7d_c384_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_1p7d_c384_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "fc6c59089b7f2b301cb3c71cfa41bf60f74718ed589811e45d635bf003f556c6",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_1p7d_c512_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_1p7d_c512_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "5ed0c238fe892faa8f69a5f3071e5adf3efe6eb9fae3efaba43dd0be642a4fce",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_1p7d_c576_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_1p7d_c576_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "01dad7ed9b33ca4065b64bac1ab0a83563042d447de1860fe05e4644a7b04bd6",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_2p6d_c576_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_2p6d_c576_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "dfbd464e158b7b2ad2b99ceba655e310a020aad55e1ccae288d0c388db356ddc",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_affinity_proxy.py",
+      "path": "scripts/replay/cluster/ppd45423_affinity_proxy.py",
+      "classification": "historical-replay",
+      "original_sha256": "3da92573c72a5bb968166bea3ad5d91b4c4271fc6ae92702a4559a1c057cf274",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_aligned_matrix_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_aligned_matrix_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "537579ebe0c1ee17cbb820b9db5abe347a1f367f4c377a2e6e3d05b3ef65b97f",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_allocation_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_allocation_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "245af2db396b2b48d309144adb9577f9df6f1705067ccb4aa606caec0b8c66a6",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_1p7d_c384_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_1p7d_c384_controller.sh",
+      "classification": "historical-replay",
+      "original_sha256": "a185195ce3eb64ad5bc93298e7f3c1991065d71ea30b58dee13ab568d8f08e59",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_1p7d_c512_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_1p7d_c512_controller.sh",
+      "classification": "historical-replay",
+      "original_sha256": "f5b6026d0e93d2d32b04dc94b8df794c8ae9347b96bf8688f28181bd8b9907e1",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_1p7d_c576_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_1p7d_c576_controller.sh",
+      "classification": "historical-replay",
+      "original_sha256": "c2ed726cad48c050b55c0e0c4d19f960fe3c277b87a2d6fb729a54e7ea58b9b7",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_2p6d_c576_controller.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_2p6d_c576_controller.sh",
+      "classification": "historical-replay",
+      "original_sha256": "aa417468c7440743625fd778c94e735da3b251a8267cb63566ddb10db40d65dd",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_aligned_matrix.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_aligned_matrix.sh",
+      "classification": "historical-replay",
+      "original_sha256": "6d51432f6c402e35967d362c8c9ea78ff7c86f2015ccb064488c5771cc1d582e",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_browsecomp_smoke.sh",
+      "path": "scripts/replay/cluster/ppd45423_browsecomp_smoke.sh",
+      "classification": "historical-replay",
+      "original_sha256": "88aafaf0cd9fd28fc76e038183a5df8291dcb69524770734bda360f6e2415877",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly",
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_build_rust_tree.sh",
+      "path": "scripts/replay/cluster/ppd45423_build_rust_tree.sh",
+      "classification": "historical-replay",
+      "original_sha256": "b5404f014028d52f81e9f48ef963ae0edb0a80e2556b64f3b49a39b80e62f38b",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_build_sandbox.sh",
+      "path": "scripts/replay/cluster/ppd45423_build_sandbox.sh",
+      "classification": "historical-replay",
+      "original_sha256": "763799a4fa01776ee4fdf7008f54198cbd45835175572b1c03f41710e3acc8eb",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_pull_image.sh",
+      "path": "scripts/replay/cluster/ppd45423_pull_image.sh",
+      "classification": "historical-replay",
+      "original_sha256": "45943939c8e51488648156450a7f4de3a1c0472b3445b8d34410712dd5b9330a",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_run_qwen3_8b_e2e.sh",
+      "path": "scripts/replay/cluster/ppd45423_run_qwen3_8b_e2e.sh",
+      "classification": "historical-replay",
+      "original_sha256": "307a79cf7d79404df7ce70ea0a9f642f1101a8f0a946f9eda0da9b3eac0dbbae",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_run_unit.sh",
+      "path": "scripts/replay/cluster/ppd45423_run_unit.sh",
+      "classification": "historical-replay",
+      "original_sha256": "21616130b08e485a046b18acf1c7cbb32b8f929f70c227e348c7496471f63fd7",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/ppd45423_run_watchdog.py",
+      "path": "scripts/replay/cluster/ppd45423_run_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "942444ac694fc1e29cc7ec7d38fb744a2a634c7f7ba8e8a14e821996e8ce5ba7",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/prefetch_swe_oci.py",
+      "path": "scripts/cluster/prefetch_swe_oci.py",
+      "classification": "shared-tool-kept",
+      "original_sha256": "1e72471d861faea9c56cfb06759e6333a8f1d14f48a70c29fbeca9c1634dbcd3",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/process_supervisor.py",
+      "path": "scripts/cluster/process_supervisor.py",
+      "classification": "maintained-core",
+      "original_sha256": "766880a012ef8769784d4e7a34fd309fe2ac22d585fc3396961ba654d1f33342",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_122b_a10_a11_c128_v3.json",
+      "path": "scripts/replay/cluster/qwen35_122b_a10_a11_c128_v3.json",
+      "classification": "historical-replay",
+      "original_sha256": "e335d2ae94de7379c67043d5de9f102009b55b998c6f23e926d992c2e108e089",
+      "operational_warnings": [
+        "External historical V3 config identity, addresses and credentials; do not print credential values"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_122b_c64_autopilot.py",
+      "path": "scripts/replay/cluster/qwen35_122b_c64_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "c96c3f7ad56a31cb518876af2455e826e6cd5456c42e39013a4ac5c59ac52bed",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_122b_completion_autopilot.py",
+      "path": "scripts/replay/cluster/qwen35_122b_completion_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "30f0e564a4f99886f66cab258cf8ea09ceb1d9b32334684993df5aaed2503172",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_2p2d_c256_extender.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_2p2d_c256_extender.py",
+      "classification": "historical-replay",
+      "original_sha256": "b62490cba5726c96b36b6a79a78f0e41c34ac2d46936cb148a4416ebd2cdd1bf",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_2p2d_handoff.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_2p2d_handoff.py",
+      "classification": "historical-replay",
+      "original_sha256": "cd33086f8f008a8936e121cb24c0b1f92f490a35bb229c2ca3f1b1620b6d2154",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_d2p_restore_tuning.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_d2p_restore_tuning.py",
+      "classification": "historical-replay",
+      "original_sha256": "31c21aef6dec2ba698752370a81e567bb23528c23fc3566a0b7d0d1505bbc0fb",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_d2p_restore_watchdog.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_d2p_restore_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "cabe64011f5e102e44545f57c6e740f99948e4feb2eea0340bb550ef74aa04d6",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_matrix_watchdog.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_matrix_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "bfc7f2fdc9766bb48c060b1a9c2b5e2455ded5b44ab39ac37f7d7585b5e2eccc",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_single_node_1p3d_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_single_node_1p3d_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "da93b322c69cbfc6c00e11e8b3276eecfe93922e10944faca192bca80960d68e",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_single_node_2p2d_controller_reload_guard.sh",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_single_node_2p2d_controller_reload_guard.sh",
+      "classification": "historical-replay",
+      "original_sha256": "045b156409682da1628456a938b15d4cf4ddb852aa1c0280de0f9a2da224cc20",
+      "operational_warnings": [
+        "DANGER fixed historical PID kill; preserve inert; execution requires explicit new authorization",
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_single_node_2p2d_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_single_node_2p2d_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "539b4c64b45e3c420a41574680a455e9f6518149c8f9da4f3619e51755304782",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_35b_a3b_single_node_2p2d_watchdog.py",
+      "path": "scripts/replay/cluster/qwen35_35b_a3b_single_node_2p2d_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "32f0d4a46860b4f42494ceee8b598a177ffd238a36c9a89d1afe547308fcdec7",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_9b_h100_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/qwen35_9b_h100_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "681e95e7c5c63490b8c66ce7146b25e7bd6d5eb2049aceb1c1578f82974e0f56",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen35_colocated_slurm.py",
+      "path": "scripts/cluster/qwen35_colocated_slurm.py",
+      "classification": "maintained-core",
+      "original_sha256": "a159e359145d26d294d7c3eaea2f70db349a580b3eb30004adfdb572768c441d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_h100.sbatch",
+      "path": "scripts/cluster/qwen35_h100.sbatch",
+      "classification": "maintained-core",
+      "original_sha256": "bb2b152313c3ecc584e6fb7120f6cdeed5ae0dd641d2fb8f9351dd23cf91647f",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_native_pd_slurm.py",
+      "path": "scripts/cluster/qwen35_native_pd_slurm.py",
+      "classification": "maintained-core",
+      "original_sha256": "e491fb5a05f406907854297240278da65dfa5668413917c665b7567036027ed0",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_slurm.py",
+      "path": "scripts/cluster/qwen35_slurm.py",
+      "classification": "maintained-core",
+      "original_sha256": "ab520cb0c4ab4449c4ace52a029f10c8908c58afdf9b868f92f2bb896bf3536d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen35_slurm.sh",
+      "path": "scripts/cluster/qwen35_slurm.sh",
+      "classification": "maintained-core",
+      "original_sha256": "8c3df295e13693201e3b047b32b0f30db2d7f69f5a6603a16b2e5e519281f73b",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_ratio12_c128_node1800.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_ratio12_c128_node1800.py",
+      "classification": "historical-replay",
+      "original_sha256": "c8fcbe87bcd07543d034baf55a7f08d93aff0f2e17aa75e458812aabc19dd2ae",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_ratio12_c128_node1800_watchdog.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_ratio12_c128_node1800_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "b577f3da30bedd18ffe1e062960757df6346ba228bff8e46c2d871658f0c5684",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_ratio12_single_run.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_ratio12_single_run.py",
+      "classification": "historical-replay",
+      "original_sha256": "0e12611504ccb1e8a5b33b488622e5a376daf0dc18777d4cefa80b00f049db40",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_ratio12_single_watchdog.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_ratio12_single_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "072b2d1b5dffefbd2e6aaebb04e869aca13340a4986edf6259613ee109a60f78",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_ratio15_c128_node1800.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_ratio15_c128_node1800.py",
+      "classification": "historical-replay",
+      "original_sha256": "c64088582147c23313d3a609eb637859486c8e6339a4d8243e7c230683d55c7b",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_ratio15_c128_node1800_watchdog.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_ratio15_c128_node1800_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "a4561c82af9aab2491e8f622b1c29de5c62c5bb0a5f77279e0d9fbc6c501003e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_upstream617c_single_run.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_upstream617c_single_run.py",
+      "classification": "historical-replay",
+      "original_sha256": "4f7b4cff65ddba3eaf3987db7c1049bdf09acd6d6957e84723c749d4d2fdb61f",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_hicache_upstream617c_single_watchdog.py",
+      "path": "scripts/replay/cluster/qwen38_27b_hicache_upstream617c_single_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "f33c3536a266aae5c4955260d10a5eec611e2b450437b432c337c8ff4fbb95a1",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_single_node_1p3d_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/qwen38_27b_single_node_1p3d_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "1d2f8aca836b7c92c95e19b17827e247283b419823d37e2fc7fecee6d71b7740",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_single_node_1p3d_watchdog.py",
+      "path": "scripts/replay/cluster/qwen38_27b_single_node_1p3d_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "c58d9973eea8380471ede31494873ec22fab6596764ce77f419bf1210f65d8d0",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_single_node_2p2d_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/qwen38_27b_single_node_2p2d_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "dacd7344be2edc565fc7be54a074257bbd4013d610df28cef0e594bb68c19f92",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_27b_single_node_2p2d_watchdog.py",
+      "path": "scripts/replay/cluster/qwen38_27b_single_node_2p2d_watchdog.py",
+      "classification": "historical-replay",
+      "original_sha256": "0ef875f8db10a718d8885537ac622b85b2d9d7111e7be92259cefaced5fab407",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen38_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/qwen38_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "9cbb9e34d17f4f60e7bae9b464d4d753ce932b4a787ffba3b729ce30db3e1053",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen38_matrix_continuation.sbatch",
+      "path": "scripts/replay/cluster/qwen38_matrix_continuation.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "85a03057de1509f103176354f11a1ab97dccf0266c80d3abbf63f6b1112fa9a7",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_c320_ratio.sbatch",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_c320_ratio.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "0f79b3ebda6aee961c4cff462a87c9d3edfe49285d5f4c53625f5684fc9d9779",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_c320_ratio_matrix.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_c320_ratio_matrix.py",
+      "classification": "historical-replay",
+      "original_sha256": "05c3fe5063941de4edd320f699b5ca29b90b2abc009f08c808ac83c4cb5eb936",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_c320_ratio_supervisor.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_c320_ratio_supervisor.py",
+      "classification": "historical-replay",
+      "original_sha256": "8e3d7ffc25d0c22a74a2c6353eee2ff1ad1a2eda699edd106d0cef466c60eadd",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100.sbatch",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "07640addffddc7517a462d0465effd1afff2da1aa61c4be382a7eb3395995427",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100_continuation.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100_continuation.py",
+      "classification": "historical-replay",
+      "original_sha256": "24c8143bb953ebe9dd30b2b51735dd9865dd5eb60d876391c0b8f040b06183bd",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100_continuation.sbatch",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100_continuation.sbatch",
+      "classification": "historical-replay",
+      "original_sha256": "fc60f759c3e0d3a46fcc8d318a13e450bc0ef2020702ee4c496b874878ceadae",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100_continuation_supervisor.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100_continuation_supervisor.py",
+      "classification": "historical-replay",
+      "original_sha256": "5615036ba2c8c1ab1137bedd8c0ca567592c91daf8a291bc6199b537fe0ff663",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100_matrix.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100_matrix.py",
+      "classification": "historical-replay",
+      "original_sha256": "3d2f4c83a4b893bd0caf2eaadf899fd89dbab6c4c6f0c3a6c0363f2789eae19c",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/qwen3_30b_a3b_browsecomp_h100_supervisor.py",
+      "path": "scripts/replay/cluster/qwen3_30b_a3b_browsecomp_h100_supervisor.py",
+      "classification": "historical-replay",
+      "original_sha256": "68125aa85b316e26bc4c4437be6ddbb2f5407192661e8ee88ddd9493c9e5e750",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/recover_dram_p64d64_complete_window.py",
+      "path": "scripts/replay/cluster/recover_dram_p64d64_complete_window.py",
+      "classification": "historical-replay",
+      "original_sha256": "4785fe79d9c4434717e47f25082fb3d0618a104fa43e43269dc35f847a265b6e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/run_qwen38_27b_two_node_colocated_c128.sh",
+      "path": "scripts/replay/cluster/run_qwen38_27b_two_node_colocated_c128.sh",
+      "classification": "historical-replay",
+      "original_sha256": "4a92e19e508ce7837e4ff6f1e670c3070682f770711f632c4fbb285743d8142e",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/run_qwen38_27b_two_node_pd_c128.sh",
+      "path": "scripts/replay/cluster/run_qwen38_27b_two_node_pd_c128.sh",
+      "classification": "historical-replay",
+      "original_sha256": "df521a5883eddf1b920859042e9e582c20bff7857b3ecfbb87d73dae7ed91749",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/run_swe_sif_shards_in_step.sh",
+      "path": "scripts/cluster/run_swe_sif_shards_in_step.sh",
+      "classification": "shared-tool-kept",
+      "original_sha256": "90c2fa31874052a497fbaa501e4d96cb71a07aacb7280ca55552ba59cc63ca7a",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/sticky_pd_proxy.py",
+      "path": "scripts/cluster/sticky_pd_proxy.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "4e486731b7f80506c42c48d081d2ec6c65401e7ec9005a0833473f702faa8814",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/swe_prop_cycler_guard.py",
+      "path": "scripts/cluster/swe_prop_cycler_guard.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "55460444f9bac29914593e086a202f641b4a3dd64eafd99054a5998bfe181e0d",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/test_collect_hardware_topology.py",
+      "path": "scripts/cluster/test_collect_hardware_topology.py",
+      "classification": "maintained-regression",
+      "original_sha256": "a0b8102412c6485ae40df25986583874ea775e4117f32db7f6f70245e0435c8c",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_convert_swe_oci_to_sif.py",
+      "path": "scripts/cluster/test_convert_swe_oci_to_sif.py",
+      "classification": "maintained-regression",
+      "original_sha256": "13b59de23169ca3c73a2a05a926da31c66b0333b960cab5f5534c5325107a47d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_dram_complete_frame_analysis.py",
+      "path": "scripts/cluster/test_dram_complete_frame_analysis.py",
+      "classification": "maintained-regression",
+      "original_sha256": "c3c850f9f248f8bb157bea36363bd03e757ac9c39ead8e5eb81669c10b47e210",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_dram_d64p128.py",
+      "path": "scripts/replay/cluster/test_dram_d64p128.py",
+      "classification": "historical-replay",
+      "original_sha256": "04c16c3ae464582da92ec27ff02ad5406bd644e0ece4cd4b4d6beb975c7fd65d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_dram_global64_128.py",
+      "path": "scripts/replay/cluster/test_dram_global64_128.py",
+      "classification": "historical-replay",
+      "original_sha256": "bb53c4e53fe97439067ee34fa67e1b2228691f4c9cdcedf34adb8ad6cbfe48e9",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_dram_observer.py",
+      "path": "scripts/replay/cluster/test_dram_observer.py",
+      "classification": "historical-replay",
+      "original_sha256": "5d68fef36ed0c1ecf56d866c615417fe4bcdee9a2dec1f4ae70d7644eb2c57e6",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_dram_p64d64.py",
+      "path": "scripts/replay/cluster/test_dram_p64d64.py",
+      "classification": "historical-replay",
+      "original_sha256": "c106649934ed3fe8c9ee5682ff7c8faca2679dceec20cbb938e056b135b59340",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_minimax_m27_three_node_autopilot.py",
+      "path": "scripts/replay/cluster/test_minimax_m27_three_node_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "81b369dd2f2559a2acbe03705229d0ff8650dc7279535a13bacf622131b3755d",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_multinode.py",
+      "path": "scripts/cluster/test_multinode.py",
+      "classification": "maintained-regression",
+      "original_sha256": "90014dab9bda8ce7d3082603e460eccc2e263f05267133e5e6bae2935eef0ade",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_multinode_smoke.py",
+      "path": "scripts/replay/cluster/test_multinode_smoke.py",
+      "classification": "historical-replay",
+      "original_sha256": "04e614f2a1372400c6980312f862ccec7f7f99b215cbf0292604612bb69f2d88",
+      "operational_warnings": [
+        "V1 file-control replay, not V2 TCP validation"
+      ]
+    },
+    {
+      "original": "scripts/cluster/test_ppd45423_qwen3_8b.py",
+      "path": "scripts/replay/cluster/test_ppd45423_qwen3_8b.py",
+      "classification": "historical-replay",
+      "original_sha256": "448a152b53db3e8914152ac9e17f302993e8968a16bd5d2c0e349f2eab7acabe",
+      "operational_warnings": [
+        "PPD external engine/SIF identity and old-slime-address review; do not repair or execute implicitly"
+      ]
+    },
+    {
+      "original": "scripts/cluster/test_prefetch_swe_oci.py",
+      "path": "scripts/cluster/test_prefetch_swe_oci.py",
+      "classification": "maintained-regression",
+      "original_sha256": "59382f7a2af8ee0a31e77ae8a46314b2c4c912e184730aa1373145d16907bb73",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_process_supervisor.py",
+      "path": "scripts/cluster/test_process_supervisor.py",
+      "classification": "maintained-regression",
+      "original_sha256": "81d99b0d87b2805423f5fc18236df15b36e6c23ab64d6d129457b25b065f5db9",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_122b_c64_autopilot.py",
+      "path": "scripts/replay/cluster/test_qwen35_122b_c64_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "33d4840d65f09108465f9072cb991d0f5c4c572c70997e200b3917a2b837e3f2",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_35b_a3b_single_node_1p3d_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/test_qwen35_35b_a3b_single_node_1p3d_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "c70fc3759969b70e5d85d43950cade4ade8d87e42ec06d2d969b730ce60e66ac",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_9b_h100_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/test_qwen35_9b_h100_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "1f715cacd1e7a46befde74363d3c8329783bcb5ab6604a48f3bb81fad63e9572",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_colocated_slurm.py",
+      "path": "scripts/cluster/test_qwen35_colocated_slurm.py",
+      "classification": "maintained-regression",
+      "original_sha256": "9b0d5059e6150b450d6d7d058601c72306efca332753de757c6cf897458cd85c",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_mooncake_io_serialization.py",
+      "path": "scripts/cluster/test_qwen35_mooncake_io_serialization.py",
+      "classification": "maintained-regression",
+      "original_sha256": "452f81dc6982c845998b4654ee4549f8c64a5c544aeba9888ec6113caddcce38",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_mooncake_offload_admission.py",
+      "path": "scripts/cluster/test_qwen35_mooncake_offload_admission.py",
+      "classification": "maintained-regression",
+      "original_sha256": "de380a0c33d68cbe985474c5f7257624297c20dafbd94441ecea752748b1cd65",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_mooncake_spawn_retry.py",
+      "path": "scripts/cluster/test_qwen35_mooncake_spawn_retry.py",
+      "classification": "maintained-regression",
+      "original_sha256": "c572e6a4eb734fda1f15647fda11576c36d41873269f0e0fd70eaf787c5702f5",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_native_pd_slurm.py",
+      "path": "scripts/cluster/test_qwen35_native_pd_slurm.py",
+      "classification": "maintained-regression",
+      "original_sha256": "f58dc6cd0110d22b26031abf2b6a4503598496e1e8d8bb0c20165db8e8cd0522",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen35_slurm.py",
+      "path": "scripts/cluster/test_qwen35_slurm.py",
+      "classification": "maintained-regression",
+      "original_sha256": "d7191b988b65d8f2b665f19d7c0623e4c6eeb997c354e328340e2e54683ea2bf",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen38_matrix_autopilot.py",
+      "path": "scripts/replay/cluster/test_qwen38_matrix_autopilot.py",
+      "classification": "historical-replay",
+      "original_sha256": "d429559447db7aab0c0435469654c0c3ea9b8d9f53744fe8854ef2599ff51005",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen3_30b_a3b_browsecomp_c320_ratio.py",
+      "path": "scripts/replay/cluster/test_qwen3_30b_a3b_browsecomp_c320_ratio.py",
+      "classification": "historical-replay",
+      "original_sha256": "b17546946b0417fe29cd1f01c5d66e1b35171a595df73f69f7924247b8d4c731",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/cluster/test_qwen3_30b_a3b_browsecomp_h100_continuation.py",
+      "path": "scripts/replay/cluster/test_qwen3_30b_a3b_browsecomp_h100_continuation.py",
+      "classification": "historical-replay",
+      "original_sha256": "2d3007a75dee819c5e8037b589113afce6d7716eeefcc09c65e3e6b5d7a1f163",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/cluster/test_qwen3_30b_a3b_browsecomp_h100_matrix.py",
+      "path": "scripts/replay/cluster/test_qwen3_30b_a3b_browsecomp_h100_matrix.py",
+      "classification": "historical-replay",
+      "original_sha256": "0108971e23a0ecbe1d983a7e3a3057300be8cec80a4bcd3a7f62f90bf813f722",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/README.md",
+      "path": "scripts/new_method/README.md",
+      "classification": "maintained-documentation",
+      "original_sha256": "874d0b6eced5eb6b2b20e4a8146aed12c8c7b4653089e91da5dc8e17a91368e0",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/agentic_case_environment.sh",
+      "path": "scripts/new_method/internal/agentic_case_environment.sh",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "950044849e2e8c8ac7790f954f9020b268085780371459feafb39efa41cce356",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/analyze_mamba_swe_run.py",
+      "path": "scripts/new_method/internal/analyze_mamba_swe_run.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "f2958f4f5ee82c9e02a1b7201e161192f33d308efc66c86de9fcd730d9cdfdc9",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/apply_experiment_profile.sh",
+      "path": "scripts/new_method/internal/apply_experiment_profile.sh",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "bb0433a6c87b9543af5558b4259eb5e9150710e7c96a8fe7644d2cc7fcaf7a92",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/check_fused_swe_checkpoint.py",
+      "path": "scripts/new_method/internal/check_fused_swe_checkpoint.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "49959874634045fe206fe135dc5f4f6ab19c1ad5d3d6268e22d7bc10b690ec9f",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/inference_checkpointed.py",
+      "path": "scripts/new_method/internal/inference_checkpointed.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "6c07f775ff54791219156ebffe6c64bd3906f6ab707b15d46c04807077589325",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/launch_late_binding_router.py",
+      "path": "scripts/new_method/internal/launch_late_binding_router.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "d53caf2aac3245d511662158f98cb16c746e0d1aecb4252e0bef88e6ad2fc613",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/launch_mamba_late_binding_router.py",
+      "path": "scripts/new_method/internal/launch_mamba_late_binding_router.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "90873adaba19d4c037967204975e838f8803e0dadecca7c857e4c8a8a133f219",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/run_agentic_pipeline.sh",
+      "path": "scripts/new_method/internal/run_agentic_pipeline.sh",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "b735b18717a8f18142c0b64f8e576279293b8058adad7e911636a1fff8d60e35",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/internal/run_hicache_services.sh",
+      "path": "scripts/new_method/internal/run_hicache_services.sh",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "4af0865c2e83572685dcc1a5cc8d17db48f38329585d6808635701920fb553f9",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/internal/run_pd_servers.sh",
+      "path": "scripts/new_method/internal/run_pd_servers.sh",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "a0f384256d4db71c08dc144619bc67857ef0887bcef8c3bab8b5e87c430921c4",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/internal/run_pd_servers_snapshot.sh",
+      "path": "scripts/new_method/internal/run_pd_servers_snapshot.sh",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "76189b06259b01cde1838990a13723c42232a555762e585ca862037e8da23a8e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/internal/verify_swe_checkpoint_references.py",
+      "path": "scripts/new_method/internal/verify_swe_checkpoint_references.py",
+      "classification": "kept-compatibility-support",
+      "original_sha256": "151afd0bbaf43660aa9e0f68bec84b39b885c49121f0d63f1816a35c049a1f6b",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_1p3d_case.sh",
+      "path": "scripts/new_method/run_1p3d_case.sh",
+      "classification": "maintained-core",
+      "original_sha256": "606a518250a2b43f2569acd690c835925eb236e7f196cf297b96dc43e3af4a36",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_1p5d_case.sh",
+      "path": "scripts/new_method/run_1p5d_case.sh",
+      "classification": "maintained-core",
+      "original_sha256": "680e09ef438486438344b45c96e028aced23cc9a1bf9ef811faffbe4fe8b2c64",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_2p6d_numa_case.sh",
+      "path": "scripts/new_method/run_2p6d_numa_case.sh",
+      "classification": "maintained-core",
+      "original_sha256": "ad90befc7bb34e9ac503699ca0b7e465f0a9d04b95aad52b4532d0e684949107",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_2p6d_tp2_qwen3_32b.sh",
+      "path": "scripts/new_method/run_2p6d_tp2_qwen3_32b.sh",
+      "classification": "maintained-core",
+      "original_sha256": "f0b419febbc285a483cf38c8cbcc5d2a7d7a59592ac34aaa43baf08e30403eae",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_4p4d_numa_case.sh",
+      "path": "scripts/new_method/run_4p4d_numa_case.sh",
+      "classification": "maintained-core",
+      "original_sha256": "8585c85a17dcee8818e1c5251ae520acbc329dfa73bc70f243780259b62551ce",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_4p4d_tp2_qwen3_32b.sh",
+      "path": "scripts/new_method/run_4p4d_tp2_qwen3_32b.sh",
+      "classification": "maintained-core",
+      "original_sha256": "f0c1882448a685b9b025daece9a4c375b65dcd1b8615a6d89d2060bf8f4e4e31",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_browsecomp_c512_p2d_direct_only.sh",
+      "path": "scripts/replay/new_method/run_browsecomp_c512_p2d_direct_only.sh",
+      "classification": "historical-replay",
+      "original_sha256": "52a33f951af3f1bdd0ba2146810d054b5042aefffeed377cfeda29960f28b4bc",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_browsecomp_c576_p2d_direct_only.sh",
+      "path": "scripts/replay/new_method/run_browsecomp_c576_p2d_direct_only.sh",
+      "classification": "historical-replay",
+      "original_sha256": "7fe6c931453c2889a7cae7bea3bc47bfc4d1729335c531e5a7c2bde214e93884",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_browsecomp_qwen3_8b_4p4d_ablation.sh",
+      "path": "scripts/replay/new_method/run_browsecomp_qwen3_8b_4p4d_ablation.sh",
+      "classification": "historical-replay",
+      "original_sha256": "d5dcf8f5577265b18c38625e10c0d47c50f965550763ad9909398b6228bee41e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_h100_integration_a100.sh",
+      "path": "scripts/replay/new_method/run_h100_integration_a100.sh",
+      "classification": "historical-replay",
+      "original_sha256": "cc3df70b096036eb7d7734fa0736f7c8586e8fd763b09c6cf97085c3434a144b",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_mixed_qwen3_8b_2p6d_ablation.sh",
+      "path": "scripts/replay/new_method/run_mixed_qwen3_8b_2p6d_ablation.sh",
+      "classification": "historical-replay",
+      "original_sha256": "6bd7c737469916af57acb45bd0367d7a4f8f5a8af37abf43067f1fef6223d36b",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_27b_tp2_browsecomp_4p4d.sh",
+      "path": "scripts/replay/new_method/run_qwen35_27b_tp2_browsecomp_4p4d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "c7098dbacfd4791686c5dab78f0ec9d56b218870fdb8ac0e8ac062ad6c342491",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_27b_tp2_swe500_sequence.py",
+      "path": "scripts/replay/new_method/run_qwen35_27b_tp2_swe500_sequence.py",
+      "classification": "historical-replay",
+      "original_sha256": "26ae75531551f19f6441d094d2877d4365c1a9629e8388cbc604d407f3dd3e57",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_27b_tp2_swe_openenv_4p4d_full.sh",
+      "path": "scripts/replay/new_method/run_qwen35_27b_tp2_swe_openenv_4p4d_full.sh",
+      "classification": "historical-replay",
+      "original_sha256": "c17daa91cf76011427a72a515dd8932bdaf5473898cd7b5160091562fa2536b4",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_9b_tp1_browsecomp_4p4d.sh",
+      "path": "scripts/replay/new_method/run_qwen35_9b_tp1_browsecomp_4p4d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "d65a374c37aa75a48deb95a13dc296f69b3917ecfbfbafddd4036be793d99c0b",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_9b_tp1_swe_colocated_100.sh",
+      "path": "scripts/replay/new_method/run_qwen35_9b_tp1_swe_colocated_100.sh",
+      "classification": "historical-replay",
+      "original_sha256": "d6e666fd981513dde08ae8f1b80dde7a3cf8687a0291769719956b22f789868e",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_9b_tp1_swe_openenv_4p4d_100.sh",
+      "path": "scripts/replay/new_method/run_qwen35_9b_tp1_swe_openenv_4p4d_100.sh",
+      "classification": "historical-replay",
+      "original_sha256": "789f835d154fe3e14a8d880110dd0be6b0aa80dfa3fa10a53bcbb2d4f370809a",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_9b_tp1_swe_openenv_4p4d_full.sh",
+      "path": "scripts/replay/new_method/run_qwen35_9b_tp1_swe_openenv_4p4d_full.sh",
+      "classification": "historical-replay",
+      "original_sha256": "67a46015d6235a635e60da16718fd18f9ce77e2378710418694588b5af195dfa",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_fused_27b_tp2_swe500_4p4d.sh",
+      "path": "scripts/replay/new_method/run_qwen35_fused_27b_tp2_swe500_4p4d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "0aed48ae49abda580fdf0257de4f029773776d64b7fa6f29a45663222724f403",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/run_qwen35_fused_swe500_2p6d.sh",
+      "path": "scripts/replay/new_method/run_qwen35_fused_swe500_2p6d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "270d25121208205ce57c16b36a9dd5afa2dbd93cb40300b66656651bdebfb44e",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/run_qwen3_32b_tp2_browsecomp_2p6d.sh",
+      "path": "scripts/replay/new_method/run_qwen3_32b_tp2_browsecomp_2p6d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "05a0ca5e5370b30bda7555668a66564d478b072c11542063bd032163eb26dd92",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen3_32b_tp2_browsecomp_recheck.sh",
+      "path": "scripts/replay/new_method/run_qwen3_32b_tp2_browsecomp_recheck.sh",
+      "classification": "historical-replay",
+      "original_sha256": "204aa32c08206262c46dd940ec582bf0b97f428cdec3531cf031425a19255845",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen3_32b_tp2_swe_bench_verified_2p6d.sh",
+      "path": "scripts/replay/new_method/run_qwen3_32b_tp2_swe_bench_verified_2p6d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "9de88a3be6b63c52bfeb7e0e3443baf5e905b0196e5864dd83c5a84b559fb783",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen3_32b_tp2_terminal_bench_2p6d.sh",
+      "path": "scripts/replay/new_method/run_qwen3_32b_tp2_terminal_bench_2p6d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "5611d00e7e78d3f3f3a258aff6e84a4b1a1e5cf5b586770fb56c30a4bfb1b567",
+      "operational_warnings": []
+    },
+    {
+      "original": "scripts/new_method/run_qwen3_8b_tp1_browsecomp_4p4d.sh",
+      "path": "scripts/replay/new_method/run_qwen3_8b_tp1_browsecomp_4p4d.sh",
+      "classification": "historical-replay",
+      "original_sha256": "9d6e273d66ef338173b98f82c9195f8737e66a9b6281b55103da18fc642bdf26",
+      "operational_warnings": [
+        "Historical Ttool/Tadmit2s warmup1200, not current complete method"
+      ]
+    },
+    {
+      "original": "scripts/new_method/test_process_signal_trace.py",
+      "path": "scripts/new_method/test_process_signal_trace.py",
+      "classification": "maintained-core",
+      "original_sha256": "6a7b361214f7bdf78e1d32343ed47c60acaa96e998ffc1dd0ce98fd48d1cb689",
+      "operational_warnings": [
+        "May signal/submit/cancel resources; static or fully mocked fixture only"
+      ]
+    },
+    {
+      "original": "scripts/new_method/test_qwen35_27b_sequence.py",
+      "path": "scripts/replay/new_method/test_qwen35_27b_sequence.py",
+      "classification": "historical-replay",
+      "original_sha256": "d684a0641305ece766a4c785d826d56f69a46c48cd1e465a47856f03a8cc7b79",
+      "operational_warnings": []
+    }
+  ]
+}

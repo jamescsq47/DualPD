@@ -6,15 +6,17 @@ import unittest
 from dualpd.scripts import verify_benchmark_components as proof
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = (proof.RECIPE, proof.MEASUREMENT, proof.RUNNER, proof.MATRIX, proof.LOWC)
+FILES = (proof.RECIPE, proof.MEASUREMENT, proof.RUNNER, *proof.REPLAY_PATHS.values())
 
 
 class BenchmarkStructure(unittest.TestCase):
-    def test_complete_modules_and_unchanged_historical_sources(self):
+    def test_complete_modules_and_relocated_historical_sources(self):
         result = proof.verify()
         self.assertEqual(result["complete_runtime_modules_verified"], 3)
         self.assertEqual(result["measurement_functions_verified"], 7)
-        self.assertEqual(result["unchanged_historical_modules_verified"], 2)
+        self.assertEqual(result["historical_modules_verified"], 2)
+        self.assertEqual(result["unchanged_historical_modules_verified"], 1)
+        self.assertEqual(result["historical_address_only_relocations_verified"], 1)
         self.assertTrue(result["controller_monitor_stop_cleanup_bodies_unchanged"])
 
     def test_destructive_mutations_are_rejected(self):
@@ -37,6 +39,10 @@ class BenchmarkStructure(unittest.TestCase):
             (proof.RUNNER, "signal.SIGTERM", "signal.SIGKILL"),
             (proof.MATRIX, '"Decode made no token progress in final 120 seconds"', '"removed guard"'),
             (proof.LOWC, 'FAST_TOOL_THRESHOLD_SECONDS="1"', 'FAST_TOOL_THRESHOLD_SECONDS="2"'),
+            (proof.MATRIX, 'SLIME = Path(__file__).resolve().parents[3]',
+             'SLIME = Path(__file__).resolve().parents[2]'),
+            (proof.MATRIX, 'scripts/replay/new_method/run_qwen3_32b_tp2_browsecomp_2p6d.sh',
+             'scripts/new_method/run_qwen3_32b_tp2_browsecomp_2p6d.sh'),
         ]
         with tempfile.TemporaryDirectory(prefix="dualpd-benchmark-proof-") as temp:
             root = Path(temp)
@@ -47,7 +53,7 @@ class BenchmarkStructure(unittest.TestCase):
             proof.verify(root)
             for relative, before, after in cases:
                 with self.subTest(file=relative, mutation=before):
-                    path = root / relative
+                    path = root / proof.REPLAY_PATHS.get(relative, relative)
                     original = path.read_text()
                     self.assertIn(before, original)
                     path.write_text(original.replace(before, after, 1))

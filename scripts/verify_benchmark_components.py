@@ -17,6 +17,10 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = "152a620edbefef4b53a65fb9150c0d6b3fb10aa4"
 MATRIX = "scripts/cluster/matrix_controller.py"
 LOWC = "scripts/cluster/browsecomp_qwen3_8b_lowc_h100_matrix.py"
+REPLAY_PATHS = {
+    MATRIX: "scripts/replay/cluster/matrix_controller.py",
+    LOWC: "scripts/replay/cluster/browsecomp_qwen3_8b_lowc_h100_matrix.py",
+}
 RUNNER = "scripts/cluster/engine_cleanup_quickcheck.py"
 RECIPE = "scripts/benchmarks/browsecomp_qwen3_8b_h100.py"
 MEASUREMENT = "scripts/benchmarks/measurement.py"
@@ -213,9 +217,21 @@ def verify(root=ROOT):
         assert module_dump(ast.parse((root / relative).read_text())) == module_dump(tree), \
             (relative, "whole module differs beyond immutable extraction")
     for relative, source in ((MATRIX, matrix), (LOWC, lowc)):
-        assert (root / relative).read_text() == source, (relative, "historical replay changed")
+        expected_source = source
+        if relative == MATRIX:
+            old_root = 'SLIME = Path(__file__).resolve().parents[2]'
+            assert source.count(old_root) == 1
+            expected_source = source.replace(old_root, old_root.replace('[2]', '[3]'))
+            old_case = '"scripts/new_method/run_qwen3_32b_tp2_browsecomp_2p6d.sh"'
+            assert expected_source.count(old_case) == 1
+            expected_source = expected_source.replace(
+                old_case, '"scripts/replay/new_method/run_qwen3_32b_tp2_browsecomp_2p6d.sh"')
+        assert (root / REPLAY_PATHS[relative]).read_text() == expected_source, \
+            (relative, "historical replay changed beyond reviewed address relocation")
     return {"base_commit": BASE, "complete_runtime_modules_verified": 3,
-            "unchanged_historical_modules_verified": 2,
+            "historical_modules_verified": 2,
+            "unchanged_historical_modules_verified": 1,
+            "historical_address_only_relocations_verified": 1,
             "final_keyword_bindings_from_four_layers": bindings,
             "measurement_functions_verified": len(FUNCTIONS),
             "controller_monitor_stop_cleanup_bodies_unchanged": True,
