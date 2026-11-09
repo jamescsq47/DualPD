@@ -152,4 +152,3 @@ esac
             self.assertIn(b'refusing unsafe fallback', failed.stderr)
             self.assertFalse((fixture / 'explicit-run').exists())
             self.assertFalse((tree / 'scripts/new_method/internal').exists())
-

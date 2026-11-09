@@ -18,7 +18,10 @@ Router comparison a TCP model test would be incorrect. Stage7a's maintained
 benchmark extraction comparison is independently accepted at11193.29 Decode
 token/s (−0.64% versus ORIGINAL),100% reuse and clean final gates; this removes
 historical-controller dependencies from the maintained quickcheck, not from all
-replay families. Historical archival remains in progress.
+replay families. Stage7b archival is independently accepted at11279.34 Decode
+token/s (+0.13% versus ORIGINAL),100% reuse, full300+1200 and clean final gates.
+This is local TP1 evidence, not actual TCP/TP2/hybrid model coverage or complete
+operational execution of archived historical recipes.
 Nine model/TP dry plans
 and real-kernel TP/Mamba fault fixtures are source/functionality evidence, not
 actual distributed model forwards or accuracy verification.

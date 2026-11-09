@@ -121,8 +121,8 @@ cannot be rewritten as if they were ordinary references to the current
 standalone project. Retain their historical identity, label reauthorization and
 address review requirements, and test only intercepted trusted fixtures.
 
-Stages7–8 remain open: maintained versus replay entry classification/archival, installed
-package/source/reference audit, actual
+Stage7b is now independently accepted as described below. Stage8 remains open:
+installed package/source/reference audit, actual
 TCP/TP2 and hybrid model-path coverage, and final representative performance and
 cleanup acceptance. None is replaced by local TP1 results or launch dry plans.
 
@@ -220,10 +220,27 @@ reuse is sufficient for this pure archival step, not new model-family coverage.
 The new replay-archive-r1 plan is prepared with SHA256
 2786d1d9af3333e400c7f6f92859d6fde0272ca8f03d5bd882ff00cd706ac291;
 source/99env/input/ORIGINAL reference and clean owned-node preflight match.
-Final post-commit exact-plan launch GO and the new full BrowseComp comparison
-remain open. ActualTCP/TP2/hybrid and final
-package/source/reference integration remain later required stages.
-No stage7b GPU run has started.
+Post-commit exact-plan launch GO was granted for frontend d1672a6 and unchanged
+engine d265f794. The new replay-archive-r1 run is now independently accepted:
+300.702498 seconds warmup plus1200.003011 seconds measurement, Decode11279.34
+token/s (+0.13% versus ORIGINAL11265.01), Prefill75472.07 and100% parent reuse.
+The measured6701 protocol successes comprise2390 completed and4311 truncated
+records, not6701 natural task completions or an accuracy result. All8308 request
+rows are unique, complete and stable under full SHA scan. Failures and all six
+memory-event deltas are0. Independent eight-log reconstruction finds all five
+P2D Host sets equal at10915 and D2P Direct sent/received/mapped D release equal
+at21553. D2P Host has122 durable=D releases: all12 measured snapshots restore
+and release;110 become durable only after measurement during drain and lack
+individual restore evidence. Event sets do not establish instantaneous ownership
+or release latency; P2D Direct release sets are not reconstructed.
+Runtime is complete; independent fresh SSH confirms controller1101260 and
+launcher1101284 gone, GPU/ports/Apptainer/FUSE helpers empty and memory.events0.
+Keeper939831 and allocation28285059/node2700 remain. No intervention/restart
+occurred. Evidence is in the pool replay-archive-r1 result, request-integrity,
+ownership-summary and acceptance-audit JSON files. The serving freeze is released
+for the next code stage, not an unaudited new model launch. ActualTCP/TP2/hybrid
+and final package/source/reference integration remain required; historical
+operational replay limitations above are unchanged.
 
 Independent import-boundary design review recommends a seven-name core/shared
 fileloader rather than globally adding core to sys.path: process_supervisor,

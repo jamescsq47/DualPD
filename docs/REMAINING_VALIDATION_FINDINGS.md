@@ -2,8 +2,11 @@
 
 Current status: stages1–6 and stage7a are independently accepted on the local
 TP1 BrowseComp comparison; stage7a Decode11193.29 token/s,−0.64% versus ORIGINAL,
-100% reuse and clean final gates. Stage7b historical archival, actualTCP/TP2/
-hybrid model paths and final package/source integration remain open.
+100% reuse and clean final gates. Stage7b historical archival is independently
+accepted at11279.34 Decode token/s (+0.13% versus ORIGINAL),100% reuse and clean
+final gates under full300+1200. ActualTCP/TP2/hybrid model paths and final
+package/source integration remain open; historical operational suffix execution
+is not established by the archival source/contract tests.
 Stage6 formally fixes trusted-profile-loader
 partial application and three same-IP listener checks, and extracts16 common
 case arguments. CPU928/native1018/CUDA2, whole-source proofs and independent
