@@ -35,6 +35,18 @@ and do not cancel another user's jobs.
 8. Re-run final functionality and representative BrowseComp validation, inspect
    all stage results, source maps, package entries and cleanup gates.
 
+Local Router stage in progress: capacity (33 methods), admission (38) and HTTP
+orchestration (27) now share the original concrete instance, with its constructor
+and select_pair retained. All100 original method ASTs and14 relocated top-level
+nodes reconstruct the complete original module. Runtime global-binding and
+wrong-import mutation checks supplement—not replace—that proof. Focused original
+Router114 tests plus2 subtests and26 new structural/mutation cases have passed.
+Independent code audit GO and an independent26/26 rerun are complete. Full CPU
+gate passes208 frontend+481 engine+2 subtests (691 records); node2700 native/
+Router regression passes716+2 subtests and2 actual CUDA roundtrips. A new actual
+BrowseComp comparison remains required before acceptance. TCP Router is unchanged and still part of stage3;
+stages4–8 are not completed by this local extraction.
+
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
 independent audit GO, and a real before/after BrowseComp throughput comparison.
 A regression requires investigation or a repeated comparison before advancing.

@@ -48,8 +48,17 @@ def main():
         if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != expected_hash:
             differences.append([item["path"], "relocated content changed"])
     router_map = json.loads((ENGINE / "router-source-map.json").read_text())
+    router_validation = None
+    reconstructed_router_ast = None
+    if any("current_sha256" in item for item in router_map["files"]):
+        validation = subprocess.run(
+            [sys.executable, str(ENGINE / router_map["refactor_validation"]),
+             "--normalized-local-ast"], capture_output=True, text=True, check=True,
+        )
+        router_validation = json.loads(validation.stdout)
+        reconstructed_router_ast = router_validation.pop("normalized_local_ast")
     for item in router_map["files"]:
-        if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != item["sha256"]:
+        if hashlib.sha256((ENGINE / item["path"]).read_bytes()).hexdigest() != item.get("current_sha256", item["sha256"]):
             differences.append([item["path"], "router content changed"])
     # All these serving paths must retain their complete implementation; only
     # their import namespaces are remapped during extraction.
@@ -82,7 +91,8 @@ def main():
         else:
             new = ROOT / name
         old_ast = without_imports(old)
-        new_ast = without_imports(new)
+        new_ast = (reconstructed_router_ast if name == "late_binding_router.py"
+                   and reconstructed_router_ast is not None else without_imports(new))
         # Flattening also updates one docstring and one installation hint.
         # Normalize only these two literal references, not executable logic.
         text_paths = {
@@ -96,9 +106,12 @@ def main():
             differences.append([name, "serving AST differs beyond imports"])
     result = {"engine_byte_identical_files": equal,
               "relocated_modules_and_tests": len(relocations),
-              "router_implementations_hash_identical": len(router_map["files"]),
+              "router_implementations_hash_identical": sum("current_sha256" not in item for item in router_map["files"]),
+              "reviewed_router_reconstruction": router_validation,
               "reviewed_refactor_equivalence": refactor_validation,
-              "frontend_core_ast_identical_except_imports": len(core),
+              "frontend_core_algorithms_verified": len(core),
+              "frontend_core_direct_ast_comparisons": len(core) - int(reconstructed_router_ast is not None),
+              "frontend_core_reconstructed_ast_comparisons": int(reconstructed_router_ast is not None),
               "intentional_engine_changes": sorted(allowed), "differences": differences}
     print(json.dumps(result, indent=2))
     if differences:

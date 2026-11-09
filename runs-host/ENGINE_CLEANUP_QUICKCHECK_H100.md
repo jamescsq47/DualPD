@@ -297,3 +297,17 @@ durables occur only in controlled drain with no individual restore completion.
 See `ownership-summary.json`; process reclamation is verified separately.
 The original-baseline gross-regression gate passes; this is not statistical
 equivalence, optional Relay fault correctness or full TP/model acceptance.
+
+Local Router preparation: the concrete entry is430 lines, retaining its exact
+constructor and select_pair. Three method-only components hold33 capacity,
+38 admission and27 HTTP methods on that same instance. Complete100-method/
+14-top-node AST reconstruction passes, including runtime-global bindings;
+12 destructive mutations are rejected. Original114+2 subtests and26 new focused
+tests pass; independent audit also reruns26/26 and returns scoped code GO.
+Full CPU gate passes208 frontend+481 engine+2 subtests (691 JUnit records).
+Node2700 native/Router regression passes716+2 subtests;2 actual H100 registered/
+bounce roundtrips also pass. Source proof retains143 environment identifiers,
+4407 native byte-identical files,2 unchanged TCP/pinned Routers and11 direct+
+1 reconstructed serving AST comparison. Nine launch plans preserve commands/
+environments except documented paths. Actual local-Router throughput is pending;
+TCP/Scheduler/control-plane/configuration/launcher/final stages remain open.

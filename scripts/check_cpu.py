@@ -47,6 +47,7 @@ ENGINE_TESTS = [
     "router/tests/test_slow_congestion_router.py",
     "router/tests/test_single_p_congestion_monitor.py",
     "router/tests/test_package_boundary.py",
+    "router/tests/test_local_structure.py",
 ]
 
 
