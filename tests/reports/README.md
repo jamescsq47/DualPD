@@ -3,7 +3,7 @@
 Validated in the new isolated `DualPD/.venv`; source worktrees and their Python
 environments were retained. Runtime SGLang version is 0.5.10.post1.
 
-Current CPU gate: **651 passing JUnit records** (208 frontend, 441 engine and
+Current CPU gate: **665 passing JUnit records** (208 frontend, 455 engine and
 two engine subtests). The 25 new frontend tests cover the reusable allocation
 regression runner: exact audited source/config, untracked source detection,
 single per-job lock, real nested-shell TERM cleanup and already-exited leader
@@ -18,15 +18,15 @@ passed at11246.55 Decode token/s (−0.16%), zero failures and clean resources.
 Registration passed at11220.31 Decode token/s (−0.40%), zero failures and clean
 resources. Physical buffer/Arena extraction passed its full BrowseComp comparison
 at11254.37 Decode token/s (−0.09%), zero failures and clean resources. The next
-D writer/Relay extraction is under CPU/code audit, not performance accepted.
+D writer/Relay extraction has passed CPU/code audit, not performance accepted.
 See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
 
 | Check | Result | Evidence |
 |---|---|---|
 | Standalone frontend + launch regression | 208 passed | frontend.xml, frontend.log |
-| Engine CPU lifecycle/control/lease/Router regression | 441 passed + 2 passed subtests (443 JUnit records) | engine.xml, engine.log |
-| H100-host TP/Mamba/Host/fault regression | 543 passed on current physical buffer extraction | host-buffers-h100-regression.xml; prior stage reports retained |
-| Actual tiny H100 registered/bounce roundtrips | 2 passed; rerun after final fixture-hash GO | host-buffers-cuda.xml |
+| Engine CPU lifecycle/control/lease/Router regression | 455 passed + 2 passed subtests (457 JUnit records) | engine.xml, engine.log |
+| H100-host TP/Mamba/Host/fault regression | 557 passed on current D writer extraction | host-writer-h100-regression.xml; prior stage reports retained |
+| Actual tiny H100 registered/bounce roundtrips | 2 passed on current D writer extraction after audit GO | host-writer-cuda.xml |
 | Engine original/relocated source verification | 4407 files byte-identical, 60 mapped files hash-identical, 13 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
 | Frontend serving algorithms | 12 core files AST-identical apart from imports and two flattened documentation/diagnostic paths | ../../scripts/verify_snapshot.py |
 | Launch-plan comparison | 9 configurations identical except root paths, Router module entry, path-dependent config hash and removal of one no-op helper flag | ../../scripts/verify_launch_plans.py |
@@ -38,6 +38,18 @@ pytest execution. It tested TP coordination and hybrid lifecycle via focused
 fixtures; this is not a TP>1 model-serving or throughput measurement. No model
 servers, search services, task containers or persistent watchdogs were launched.
 The job exited and its allocation was released.
+
+Current D-writer gates include14 new CPU cases, native import parity versus
+unchanged dependencies, sentinel/default identity and cleanup ordering. The
+initial native run had556 passes and1 failure because the new fixture wrongly
+required CUDA to remain uninitialized on H100. Actual accepted-a41 Host import
+and the installed sgl_kernel trace prove that native dependencies already
+initialize CUDA. The audited two-process parity test now captures writer state
+before staging and retains cycle/alias assertions. After CPU gate665 green,
+native557 and real CUDA2 were rerun and passed. A separate intermediate frontend
+SciPy import crash passed isolated recheck2/2 and full gate rerun without edits.
+See host-writer-import-evidence.json. No production workaround, skips or weaker
+existing assertions were introduced.
 
 The fresh DMA stage rechecked the same415 test-name inventory in two reports:
 `host-dma-h100-regression.xml` (373) and `host-dma-h100-integration.xml` (42).

@@ -1,0 +1,16 @@
+{
+  "node": "node2700",
+  "job_id": 28285059,
+  "visible_gpu": "0",
+  "accepted_pre_writer_engine": "a41aab25415bcb2abe943845bfd00ac06e9274bb",
+  "accepted_pre_writer_full_host_cold_import": {"torch_only_initialized":false,"after_host_import_initialized":true},
+  "current_writer_cold_import": {"torch_only_initialized":false,"after_writer_import_initialized":true,"staging_already_imported":false},
+  "first_lazy_initialization_trace": ["sglang/srt/utils/common.py:272 import sgl_kernel", "sgl_kernel/load_utils.py:_load_architecture_specific_ops", "_get_compute_capability", "torch.cuda.current_device", "torch.cuda._lazy_init"],
+  "initial_native_test_result": {"passed":556,"failed":1,"cause":"New fixture incorrectly required absolute CUDA non-initialization even on visible H100; inherited dependency initializes CUDA in accepted engine too."},
+  "correction": "Compare two fresh processes: unchanged native base/utils baseline versus writer CUDA state before staging and again after aliases; retain no-cycle and class/sentinel identity checks.",
+  "revised_test_sha256": "d6104a11920beb0729d33de9d34fe080a18ed4be54ea81445eb5492c1dd11dec",
+  "independent_revised_test_audit": "GO /root/audit_quickcheck;14 CPU tests independently pass",
+  "production_code_changed_for_fixture_failure": false,
+  "subsequent_frontend_gate_failure": {"passed":207,"failed":1,"cause":"Historical overlay help child exited -11 while importing scipy.linalg._fblas; production and test unchanged.","isolated_both_overlay_variants_recheck":"2 passed in27.71s without changing environment or assertions; full gate repeated separately."},
+  "final_full_cpu_gate": {"frontend_passed":208,"engine_passed":455,"engine_subtests_passed":2,"failures":0,"frontend_seconds":71.47,"engine_seconds":62.70}
+}

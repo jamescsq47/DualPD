@@ -55,6 +55,7 @@ allocation was submitted.
 | Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | 11246.55 | 74816.50 | 99.992% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-dma-r1`; Decode−0.16% |
 | Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | 11220.31 | 75281.01 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-registration-r1`; Decode−0.40% |
 | Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | 11254.37 | 75462.39 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-buffers-r1`; Decode−0.09% |
+| D Host writer/Relay extraction | `f720985e4efe6f37cafcdd39a7cd9f7d5d2532e7` | — | — | — | CPU665 records; H100 fault557 and real roundtrip2 passed | Throughput pending `host-writer-r1` |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -253,3 +254,17 @@ durables occur only during controlled drain without individual restoration.
 See `ownership-summary.json`; final process cleanup is separate evidence.
 This passes the gross-regression gate, not statistical equivalence or final
 acceptance of all model/TP configurations and later cleanup stages.
+
+D writer/Relay preparation: four exact AST nodes moved, canonical sentinel and
+legacy aliases retained; main Host module4155 lines. Independent code GO and
+final revised cold-import fixture GO precede the final native557/CUDA2 passes.
+CPU665 records passed after an unchanged overlay subprocess SciPy-import crash
+was independently rechecked2/2 and the full gate repeated. The original native
+fixture failure was an overly strong no-CUDA-init claim: accepted-a41 cold Host
+import already initializes CUDA via native sgl_kernel. Two fresh subprocesses
+now verify parity, capturing writer state before staging plus cycle/alias guards.
+No production fix or old assertion weakening was used. Detailed history lives
+in `tests/reports/host-writer-import-evidence.json`. Relay's pre-existing
+finally-on-fence-error risk is documented unchanged; the frozen benchmark leaves
+that optional path disabled and cannot certify it. Full performance acceptance
+and all remaining cleanup stages are still outstanding.
