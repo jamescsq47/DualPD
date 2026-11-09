@@ -44,7 +44,22 @@ complete source proof pass scoped CODE/packaging review. Full CPU regression
 passes303 frontend tests+303 subtests and568 engine tests+37 subtests, zero
 failures/errors/skips and7 non-fatal warnings (both groups exit0). Independently
 reviewed unchanged-engine native1018/CUDA2 evidence is reused for this locator-
-only frontend step. The new representative model comparison remains pending.
+only frontend step. Installed-router-entry-r1 now passes independent final
+acceptance on retained node2700:300.777159 s warmup+1200.015474 s measurement,
+Decode11200.41 token/s (−0.57% versus ORIGINAL11265.01), Prefill74964.76,
+100% parent reuse,6659 protocol successes and zero failures/OOM. Full stable
+request scan finds8256 unique records;2375 completed+4284 truncated within the
+window equal6659 (protocol success is not task accuracy). Independent eight-log
+audit finds P2D Host five snapshot sets11773 equal, D2P Direct21406 sent=received
+with mapped D release, and D2P Host153 durable=D release. Seven measured Host
+snapshots restore/release;146 become durable only during post-window drain and
+have no individual restore evidence. These sets do not prove instantaneous
+ownership or latency; P2D Direct release sets are not reconstructed. Final
+controller1111761/launcher1111785 are absent, GPU/ports/helpers empty, all six
+job memory events zero; allocation keeper939831 remains. The independent GO
+releases the source freeze for subsequent code work, not a new GPU launch.
+Evidence is in the pool installed-router-entry-r1 case, result SHA256
+f742952cf91488b8bf60c04c67b9b5274ff30824e6a7f2e755716195407f579b.
 Actual TCP/TP2/hybrid and remaining final integration remain open.
 
 ## Current accepted state

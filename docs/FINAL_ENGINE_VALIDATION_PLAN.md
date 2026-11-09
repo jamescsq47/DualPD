@@ -181,9 +181,13 @@ observer is implemented or accepted by these design findings.
 Observe physical after-state on exceptional exits too: native cleanup or lease
 removal can succeed before a later capacity callback or transport cleanup raises.
 An exception alone must not be interpreted as "ownership was retained". The
-external generic recorder preparation currently preserves the original exception
-but records only its before-state on that path; a real-hook design must close
-this observation gap without suppressing or replacing the original exception.
+initial external generic recorder preparation preserved the original exception
+but recorded only its before-state on that path. The later external draft now
+records protected exceptional after-state and tests partial cleanup followed by
+an exception. This closes the generic fixture observation gap, not actual native
+integration: real per-rank hooks, producer identification and report delivery
+remain uninstalled and require separate acceptance. The original native result
+or exception must remain unchanged.
 
 The retained SGLANG_AGENTIC_KV_APP_OWNS_TERMINATION switch is a legitimate
 application-owned terminality scope: AgenticRequestMetadata.classify_output
