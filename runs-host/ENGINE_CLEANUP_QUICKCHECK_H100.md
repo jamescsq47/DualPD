@@ -363,3 +363,13 @@ resource probes are clean. Config/input/command match ORIGINAL baseline-r3 and
 router-local-r1 except run directory and documented source identity. Sources
 are frozen for complete300+1200 and final cleanup/result gates. This is startup,
 not local throughput acceptance, TCP model-path coverage or full-goal completion.
+
+TCP-stage local live follow-up: eight model services and all8 registration-
+prewarm contexts passed; search/router ready and680 BrowseComp sources loaded
+at about12:17 UTC. At12:18 UTC the actual owned controller1012110/launcher1012134
+remain live and Decode grows to607703 tokens (sample1794226689.3743975). Scoped
+memory events remain0, source checkout clean/frozen and P2D Host binding appears
+in the unchanged local Router logs. This is business warmup, not full-window
+acceptance. Read-only Scheduler planning additionally identified the precise
+broker globals, eager-annotation constraint and a readiness-sync private test
+hook; that expanded future fault inventory is in docs/NEXT_ENGINE_BOUNDARIES.md.
