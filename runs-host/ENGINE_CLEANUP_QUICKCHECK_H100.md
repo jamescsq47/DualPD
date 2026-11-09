@@ -56,6 +56,7 @@ allocation was submitted.
 | Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | 11220.31 | 75281.01 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-registration-r1`; Decode−0.40% |
 | Physical Host buffers/Arena extraction | `a41aab25415bcb2abe943845bfd00ac06e9274bb` | 11254.37 | 75462.39 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-buffers-r1`; Decode−0.09% |
 | D Host writer/Relay extraction | `f720985e4efe6f37cafcdd39a7cd9f7d5d2532e7` | 11214.24 | 74889.97 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-writer-r1`; Decode−0.45% |
+| Local Router capacity/admission/HTTP extraction | `72518d3db7ece7e79fedd759d2bcf0f53d48521e` | 11206.66 | 75201.48 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `router-local-r1`; Decode−0.52% |
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143
@@ -63,7 +64,8 @@ environment identifiers remain unchanged. Independent code audit GO covers the
 physical ownership/fault invariants. The first tiny CUDA run preceded confirmation
 of the final strengthened fixture hash; this ordering slip was identified and the
 same exact two tests were rerun after GO (2 passed in2.65s). Native fault fixtures
-are not full TP>1 model tests. Full performance acceptance remains pending.
+are not full TP>1 model tests. The subsequently accepted full-window comparison
+is recorded in the results table and final-stage notes below.
 
 The CPU results and AST equivalence are
 preconditions, not substitutes for the GPU throughput check requested here.
@@ -323,3 +325,19 @@ limit is1800 GiB; scoped events0 and all three preflight resource probes clean.
 Models are starting serially. Engine and serving sources remain frozen until
 the complete300+1200 result and final resource gates; this is not performance
 acceptance or completion of remaining stages.
+
+Local Router final result at about11:49 UTC:300.861 s warmup and1200.001 s
+measurement,6668 completions,0 failures, Decode11206.66 (0.994820 of ORIGINAL
+baseline;−0.52%), Prefill75201.48, parent reuse100%. P/D per-GPU Forward70.00%/
+98.36%; tail120 Decode1328240 tokens. Scoped memory-event deltas0 and three
+post-cleanup probes pass with GPU/ports/helpers empty; independent SSH confirms
+controller999909 and launcher999933 gone, GPU0 and job OOM0. Whole-run event sets
+match12418 P→D Host snapshots across all five stages and21503 D→P Direct send/
+receive IDs, all mapped to D source release. All141 D→P Host durables match D
+release;10 measured-window durables restore/release,131 additional durables
+occur only in controlled drain with no individual restoration. See the saved
+ownership-summary.json; final process reclamation is separate evidence. The
+read-only verification script reproduces the preceding writer summary exactly.
+This passes the gross-regression gate, not statistical equivalence or full
+TP/model-path acceptance. Next runtime stage is the separate TCP Router;
+Scheduler/control-plane/configuration/launcher/final stages remain required.

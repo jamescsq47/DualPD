@@ -10,7 +10,7 @@
   },
   "standalone_engine": {
     "directory": "../sglang_pd",
-    "commit": "72518d3db7ece7e79fedd759d2bcf0f53d48521e",
+    "commit": "6cc18e9d52ff93ba54d2fda7806a18b7a413a665",
     "router_source_map": "../sglang_pd/router-source-map.json"
   },
   "runtime": {

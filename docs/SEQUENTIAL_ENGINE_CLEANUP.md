@@ -44,7 +44,12 @@ Router114 tests plus2 subtests and26 new structural/mutation cases have passed.
 Independent code audit GO and an independent26/26 rerun are complete. Full CPU
 gate passes208 frontend+481 engine+2 subtests (691 records); node2700 native/
 Router regression passes716+2 subtests and2 actual CUDA roundtrips. A new actual
-BrowseComp comparison remains required before acceptance. TCP Router is unchanged and still part of stage3;
+BrowseComp comparison subsequently passes300.861+1200.001 seconds at11206.66
+Decode token/s (−0.52% versus ORIGINAL baseline),100% reuse,6668 completions,
+0 failures/scoped memory events and clean GPU/port/helper gates. Ownership sets
+match12418 P2D Host and21503 D2P Direct snapshots;all10 measured D2P Host durables
+restore/release,131 only-drain durables are documented separately. This is a
+gross-regression pass, not statistical equivalence. TCP Router is unchanged and still part of stage3;
 stages4–8 are not completed by this local extraction.
 
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
