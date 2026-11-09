@@ -68,6 +68,14 @@ Whole-run sets match12054 P2D Host/21362 D2P Direct snapshots;10 measured D2P
 Host durables restore/release,138 only-drain durables are documented separately.
 This does not close actual TCP model-path coverage or any Scheduler/later stage.
 
+Scheduler workset extraction is implemented as an intermediate stage4 gate:
+complete lease+broker move together (39 broker methods), native Scheduler
+reexports before eager annotations, and the whole original native module
+reconstructs. Full CPU730 records, expanded native919 records, independent
+focused18/18 and actualCUDA2 pass, with9 launch plans unchanged. The code audit
+is GO; exact-plan audit and the frozen BrowseComp comparison remain required.
+Direct/TP/ready/admission separation and all later stages remain open.
+
 Each stage needs relevant lifecycle/fault tests, source-equivalence checks,
 independent audit GO, and a real before/after BrowseComp throughput comparison.
 A regression requires investigation or a repeated comparison before advancing.

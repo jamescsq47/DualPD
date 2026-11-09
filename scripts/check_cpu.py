@@ -39,6 +39,7 @@ ENGINE_TESTS = [
     "test_agentic_host_registration.py",
     "test_agentic_host_buffers.py",
     "test_agentic_host_writer.py",
+    "test_agentic_workset_structure.py",
     "test_agentic_dma_descriptors.py",
     "test_agentic_startup_prewarm.py",
     "test_agentic_memory_scheduler_bridge.py",

@@ -105,7 +105,9 @@ def main():
         if old_ast != new_ast:
             differences.append([name, "serving AST differs beyond imports"])
     result = {"engine_byte_identical_files": equal,
-              "relocated_modules_and_tests": len(relocations),
+              "mapped_modules_and_tests": len(relocations),
+              "relocated_modules_and_tests": sum(old != new for old, new in relocations.items()),
+              "reviewed_same_path_modules": sum(old == new for old, new in relocations.items()),
               "router_implementations_hash_identical": sum("current_sha256" not in item for item in router_map["files"]),
               "reviewed_router_reconstruction": router_validation,
               "reviewed_refactor_equivalence": refactor_validation,
