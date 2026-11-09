@@ -3,35 +3,47 @@
 Validated in the new isolated `DualPD/.venv`; source worktrees and their Python
 environments were retained. Runtime SGLang version is 0.5.10.post1.
 
-Current CPU gate: **613 passing JUnit records** (208 frontend, 403 engine and
+Current CPU gate: **632 passing JUnit records** (208 frontend, 422 engine and
 two engine subtests). The 25 new frontend tests cover the reusable allocation
 regression runner: exact audited source/config, untracked source detection,
 single per-job lock, real nested-shell TERM cleanup and already-exited leader
 draining, complete JSONL polling, resource gates and throughput comparison.
 `engine-cleanup-runner.xml` is a separate overlapping rerun, not 25 extra records.
-Independent exact-plan audit GO applies to baseline-r3; the DMA extraction also
-has a code audit GO, pending its own exact GPU plan audit. Job28285059 is RUNNING
+Independent exact-plan audit GO applies to baseline-r3 and host-dma-r1; the
+registration extraction has code audit GO, pending its exact GPU plan audit.
+Job28285059 is RUNNING
 on node2700. Baseline-r3 completed300+1200 seconds with Decode11265.01 token/s,
 Prefill75367.90 token/s, zero failures and a clean resource gate. DMA performance
-has not yet been measured.
+passed at11246.55 Decode token/s (−0.16%), zero failures and clean resources.
+Registration performance has not yet been measured.
 See ../../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md for live-run artifact paths.
 
 | Check | Result | Evidence |
 |---|---|---|
 | Standalone frontend + launch regression | 208 passed | frontend.xml, frontend.log |
-| Engine CPU lifecycle/control/lease/Router regression | 403 passed + 2 passed subtests (405 JUnit records) | engine.xml, engine.log |
-| H100-host TP/Mamba/Host/fault regression | 415 passed | h100-regression.xml |
-| Engine original/relocated source verification | 4411 files byte-identical, 64 mapped files hash-identical, 9 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
+| Engine CPU lifecycle/control/lease/Router regression | 422 passed + 2 passed subtests (424 JUnit records) | engine.xml, engine.log |
+| H100-host TP/Mamba/Host/fault regression | 415 passed on current registration extraction | host-registration-h100-regression.xml; prior h100-regression.xml retained |
+| Engine original/relocated source verification | 4410 files byte-identical, 63 mapped files hash-identical, 10 reviewed AST transformations, 3 Router implementations hash-identical | ../../scripts/verify_snapshot.py, ../../../sglang_pd/tools/verify_dualpd_cleanup.py, ../../../sglang_pd/dualpd-source-map.json, ../../../sglang_pd/router-source-map.json |
 | Frontend serving algorithms | 12 core files AST-identical apart from imports and two flattened documentation/diagnostic paths | ../../scripts/verify_snapshot.py |
 | Launch-plan comparison | 9 configurations identical except root paths, Router module entry, path-dependent config hash and removal of one no-op helper flag | ../../scripts/verify_launch_plans.py |
 | Standalone package build | Wheel built; runtime configs, scripts and design document present | pip wheel and wheel member inspection |
 
-The H100-host regression used Slurm job **28109209 on node2700**, with **1 H100,
+The original `h100-regression.xml` used Slurm job **28109209 on node2700**, with **1 H100,
 8 CPUs and 64 GiB**. It completed successfully in approximately 11 seconds of
 pytest execution. It tested TP coordination and hybrid lifecycle via focused
 fixtures; this is not a TP>1 model-serving or throughput measurement. No model
 servers, search services, task containers or persistent watchdogs were launched.
 The job exited and its allocation was released.
+
+The fresh DMA stage rechecked the same415 test-name inventory in two reports:
+`host-dma-h100-regression.xml` (373) and `host-dma-h100-integration.xml` (42).
+The registration stage reran all415 together in
+`host-registration-h100-regression.xml` on the reusable job28285059/node2700,
+with GPU0 visible. These are focused fault fixtures with native driver imports,
+not TP>1 full-model or throughput measurements. The dedicated allocation is
+retained, not released after these tests. The19 registration/prewarm cases in
+`host-registration.xml` overlap the full632-record CPU gate and are not extra
+unique tests.
 
 The 9 launch-plan configurations cover Qwen3 TP1/2/4/8, Qwen3.5 hybrid TP1/2/4/8,
 and MiniMax TP8. They verify generated commands/environment values rather than
@@ -43,8 +55,9 @@ Independent static/state-machine audit returned **GO**. It independently checked
 source equivalence, module identity, standalone imports from /tmp, Sample
 serialization and the type-only HiCache import cleanup.
 
-There is **one accepted standalone BrowseComp baseline**, not acceptance of
-the subsequent DMA extraction or new SWE accuracy results. Previous
+There is **one accepted standalone BrowseComp baseline and a passed DMA-stage
+comparison**, not acceptance of the later registration extraction or new SWE
+accuracy results. Previous
 T450/throughput/accuracy tables are retained historical
 measurements, not new measurements of these directories. See ../../docs/EXTRACTION.md
 for inherited optional/archival test limitations discovered by broad test scans.

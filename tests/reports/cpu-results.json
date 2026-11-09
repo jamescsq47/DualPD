@@ -24,7 +24,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 77.30364966392517
+    "elapsed_seconds": 117.39520454406738
   },
   {
     "group": "engine",
@@ -46,6 +46,8 @@
       "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_memory_authority.py",
       "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_host_ledger.py",
       "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_host_dma.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_host_registration.py",
+      "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_startup_prewarm.py",
       "python/sglang/srt/disaggregation/dualpd/tests/test_agentic_memory_scheduler_bridge.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_late_binding_router.py",
       "python/sglang/srt/disaggregation/dualpd/router/tests/test_global_pd_router.py",
@@ -55,6 +57,6 @@
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 44.064828872680664
+    "elapsed_seconds": 70.11041808128357
   }
 ]

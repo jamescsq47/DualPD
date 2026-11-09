@@ -52,7 +52,8 @@ allocation was submitted.
 | Stage | Engine revision | Decode token/s | Prefill token/s | Parent reuse | Functional/cleanup gate | Status |
 |---|---|---:|---:|---:|---|---|
 | Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | 11265.01 | 75367.90 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `baseline-r3` |
-| Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | — | — | — | 613 CPU records passed; AST equivalent; code audit GO | GPU comparison pending |
+| Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | 11246.55 | 74816.50 | 99.992% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-dma-r1`; Decode−0.16% |
+| Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | — | — | — | 632 CPU records +415 native fault tests passed; code audit GO | GPU comparison pending |
 
 The CPU results and AST equivalence are
 preconditions, not substitutes for the GPU throughput check requested here.
@@ -168,3 +169,24 @@ Actual controller951316 has PPID1 and belongs to job28285059's extern/task0
 cgroup; enclosing job memory limit1800 GiB and all job OOM counters0 at startup.
 See `host-dma-r1/cgroup-before.json`. No throughput acceptance is implied by
 startup or the code audit.
+
+DMA result completed at approximately2026-11-09 02:49 EST /07:49 UTC:
+300.681 s warmup,1200.001 s measurement,6682 completions,0 failures,
+Decode11246.55 token/s (ratio0.998361 to baseline), Prefill74816.50 token/s.
+P/D per-GPU Forward fractions69.51%/98.44%; tail120 s Decode1341993 tokens.
+Scoped OOM deltas0; post-cleanup GPU/ports/helpers all empty and an independent
+SSH probe again confirmed GPU0, both controller/launcher exited and job OOM0.
+The 99.992% parent-prefix reuse has one harness terminal-parser repair: the
+extra17280 Prefill tokens exactly equal the repair's finalized-parent cost;
+this is not unexplained parent KV loss. Raw details are in
+`offload_analysis_summary.json` under `completion_weighted_reuse` and
+`terminal_repairs`. Passing one comparison excludes a gross regression; it is
+not a statistical-equivalence claim across all model/TP configurations.
+
+The DMA run's `ownership-summary.json` retains whole-run event-set checks:
+11508 P→D Host snapshots match at all five queued/durable/P-release/H2D/Host-release
+stages;21432 D→P Direct send/receive snapshots match and all have D source
+release;141 D→P Host durable snapshots exactly match explicit D release IDs.
+All8 measured-window Host durables completed restoration/release;133 remaining
+durables occurred during controlled drain and have no individual restoration
+completion in logs. Final whole-process cleanup is verified separately.
