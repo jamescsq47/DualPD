@@ -8,8 +8,11 @@ prepares the representative model-path checks; it authorizes no launch by itself
 ## Current accepted versus missing evidence
 
 Accepted local TP1 BrowseComp runs cover fixed Qwen3-8B4P:4D/c256 and the complete
-300+1200 protocol through Host, local/TCP Router extraction and Scheduler workset.
-The Scheduler component run is active and not accepted yet. Calling its local
+300+1200 protocol through Host, local/TCP Router extraction and Scheduler components.
+The control-plane dependency run is accepted at11223.49 Decode token/s,−0.37%
+versus ORIGINALbaseline,100% parent reuse and clean final gates. Stage6
+configuration code has CPU928/native1018/CUDA2 and independent CODE GO; its new
+model comparison is not accepted yet. Calling a local
 Router comparison a TCP model test would be incorrect. Nine model/TP dry plans
 and real-kernel TP/Mamba fault fixtures are source/functionality evidence, not
 actual distributed model forwards or accuracy verification.
@@ -123,3 +126,54 @@ actual table of all accepted before/after runs against ORIGINAL baseline, not
 only neighboring revisions, so small drops cannot accumulate unnoticed. Keep
 protocol functionality, throughput/variance, accuracy and final resource cleanup
 as distinct claims. Missing evidence keeps the full goal active.
+
+## Independent physical-completion audit of the frozen TCP path
+
+Read-only audit againstd265f7946aa3d1369ecdadf9d2d39a77c84e300b confirms that
+public progress_diagnostics exposes current counts/phases, not a per-generation
+per-rank history of source releases. No existing HTTP/aggregate diagnostic can
+replace the required scoped test-only historical observer. Nothing is installed
+in the current frozen model case.
+
+The real rank-level GPU source boundaries are the nested commit returned by
+AgenticDefaultPhysicalProvider._make_source_direct_handler and its
+_host_source_release method. Both invoke bridge.release_after_group_fence before
+removing source tracking and registry.retire_after_source_fence. Authority
+commit_release must be observed as a live lease becoming absent plus actual
+allocator/native release: itsTrue return alone is insufficient because an
+already-terminal retry also returnsTrue. NativeRequestMemoryAdapter.release_bound is
+the native cleanup boundary; shared Radix pages need not all disappear.
+
+Host restore source commit in make_host_restore_source_handler validates all
+target READ receipts, then releases both export and Host snapshot. Observe the
+actual SourceLocalHostArena.release live extent removal/free-list return, not
+export deletion alone. Terminal Host eviction requires that same per-rank extent
+release plus provider.on_committed retiring policy/accounting and terminal state.
+Likewise release_final can defer native release; its final sink/composite
+_on_final_release and registry retirement are distinct completion evidence.
+
+Group worker _handoff can sendRELEASED before allocator-visible GPU cleanup,
+which is deliberately deferred to activate_staged(action="release") in native
+TP broadcast order. Therefore neitherRELEASED norACTIVATED ACK alone proves
+physical pages are released. application_final HTTP/relay ACK also precedes
+eventual reclamation. For a non-no-op terminal probe, establish an actually live
+provisional generation first, then prove both ranks' source/Host cleanup and
+final coordinator accounting retirement before process shutdown.
+
+A future test-only wrapper must call its original exactly once, preserve return
+or exception, record key/attempt/path/group/rank/PID and lease/extent identity,
+and distinguish new releases from idempotent retries. Do not replace completion
+sinks, add CUDA copies/synchronization, invoke protocol/release actions, acquire
+new scheduling locks or block on file I/O in the hot callback. Deferred recording
+must treat dropped/overflowed records as evidence failure, not success. No such
+observer is implemented or accepted by these design findings.
+
+The retained SGLANG_AGENTIC_KV_APP_OWNS_TERMINATION switch is a legitimate
+application-owned terminality scope: AgenticRequestMetadata.classify_output
+intentionally returnsUNKNOWN before marker matching when it is enabled. An
+explicit separate case can exercise that real provisional/final-callback path,
+with an actually live retained generation before the callback. It cannot count
+as the genuineTOOL-classification case: keep this switch off for that case and
+check the real returned IDs against the declared text/token markers. Neither
+test may override classifier results or force output tokens to manufacture
+coverage. Record the switch, finish_reason and classification in each case.

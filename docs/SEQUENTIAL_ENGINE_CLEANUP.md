@@ -35,6 +35,37 @@ and do not cancel another user's jobs.
 8. Re-run final functionality and representative BrowseComp validation, inspect
    all stage results, source maps, package entries and cleanup gates.
 
+## Current state after Scheduler acceptance
+
+Stages1–4 have accepted full300+1200 local BrowseComp comparisons. The latest
+Scheduler-components-r2 gives11238.17 Decode token/s, −0.24% versus ORIGINAL
+baseline,100% parent reuse, no execution failure/OOM and clean final gates.
+
+Stage5 is implemented atclean engined265f7946aa3d1369ecdadf9d2d39a77c84e300b:
+CPU813, real-kernel native1018 and actual H100 DMA2 pass with independent code
+and exact-plan GO. Its control-dependencies-r1 model comparison is accepted:
+Decode11223.49 token/s (−0.37% versus ORIGINAL), Prefill75081.77,100% parent
+reuse,6665 protocol successes, zero failures/OOM and clean final resources.
+
+Stage6 is now formally applied after that acceptance: trusted-loader failure cannot
+partially select/apply a profile, and16 exactly common case argv settings share
+one array builder. Whole-file proof,14 destructive mutations and29 actual Bash
+argument comparisons pass independent review. Same-IP cross-group listener
+validation also closes three missing checks without changing valid plans.
+Existing defaults, overrides,
+case-layer profile scope and local/TCP policy differences are preserved. Formal
+old/new tests now use immutable references, automatic roots and honest argv-only
+scope. Full CPU928 and native1018 records, actual H100 DMA2 and independent
+CODE GO pass. A committed-source exact-plan GO and a fresh BrowseComp comparison
+remain required before stage6 performance acceptance.
+
+Stages7–8 remain open: maintained versus replay entry classification, installed
+package/source/reference audit, actual
+TCP/TP2 and hybrid model-path coverage, and final representative performance and
+cleanup acceptance. None is replaced by local TP1 results or launch dry plans.
+
+## Historical stage notes (superseded where a later acceptance is recorded)
+
 Local Router stage in progress: capacity (33 methods), admission (38) and HTTP
 orchestration (27) now share the original concrete instance, with its constructor
 and select_pair retained. All100 original method ASTs and14 relocated top-level

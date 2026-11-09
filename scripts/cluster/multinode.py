@@ -145,7 +145,8 @@ def load_config(path):
     if not NAME.fullmatch(router.get("engine_id", "")) or router["engine_id"] in {n["engine_id"] for n in nodes}:
         raise ValueError("router.engine_id must be unique")
     router_node = node_for(cfg, router["node_id"])
-    occupied = {router_node[k] for k in worker_ports}
+    occupied = {n[k] for n in nodes if n["host_ip"] == router_node["host_ip"]
+                for k in worker_ports}
     for key in ("port", "metrics_port"):
         value = _port(router.get(key), "router." + key)
         if value in occupied:
@@ -168,8 +169,9 @@ def load_config(path):
     if not isinstance(control.get("token"), str) or len(control["token"]) < 16:
         raise ValueError("group_control.token must contain at least 16 characters")
     relay_node = node_for(cfg, control["node_id"])
-    local_ports = {relay_node[k] for k in worker_ports}
-    if control["node_id"] == router["node_id"]:
+    local_ports = {n[k] for n in nodes if n["host_ip"] == relay_node["host_ip"]
+                   for k in worker_ports}
+    if relay_node["host_ip"] == router_node["host_ip"]:
         local_ports.update((router["port"], router["metrics_port"]))
     if control["port"] in local_ports:
         raise ValueError("group_control.port collides with another local listener")

@@ -1,5 +1,14 @@
 # Control-plane dependency cleanup: next-stage scope
 
+Current status: formally implemented atengined265f7946aa3d1369ecdadf9d2d39a77c84e300b.
+CPU813/native1018/actual CUDA2 and independent code/exact-plan gates pass;
+control-dependencies-r1 full BrowseComp comparison is now independently accepted:
+11223.49 Decode token/s (−0.37% versus ORIGINAL),100% parent reuse, zero failures/
+OOM and empty final GPU/ports/helpers. Source, complete requests and ownership
+event sets were verified; see the main accepted table for exact scope/limitations.
+The preparatory notes below are chronological evidence, not a claim that the
+serving code is still unapplied. See the final implementation section below.
+
 Read-only design during scheduler-components-r1. No serving code in this plan
 is applied before that case's throughput, ownership and final cleanup acceptance.
 

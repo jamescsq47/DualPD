@@ -16,6 +16,11 @@ ENGINE = WORKSPACE / "sglang_pd"
 
 
 def main():
+    configuration_validation = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/verify_case_configuration.py")],
+        capture_output=True, text=True, check=True,
+    )
+    configuration_validation = json.loads(configuration_validation.stdout)
     source_map = json.loads((ENGINE / "dualpd-source-map.json").read_text())
     relocations = {item["original"]: item["path"] for item in source_map["files"]}
     files = subprocess.check_output(
@@ -105,6 +110,7 @@ def main():
         if old_ast != new_ast:
             differences.append([name, "serving AST differs beyond imports"])
     result = {"engine_byte_identical_files": equal,
+              "reviewed_case_configuration": configuration_validation,
               "mapped_modules_and_tests": len(relocations),
               "relocated_modules_and_tests": sum(old != new for old, new in relocations.items()),
               "reviewed_same_path_modules": sum(old == new for old, new in relocations.items()),
