@@ -18,6 +18,8 @@ been measured yet.
 | Wall-time limit | 7 days, counted from actual allocation start |
 | Submission | 2026-11-08 02:17:29 cluster time |
 | Initial state | Pending; no node assigned at submission |
+| Actual allocation | `node2700`, started 2026-11-08 10:04:17 EST (15:04:17 UTC) |
+| Allocation expiry | 2026-11-15 10:04:17 EST (15:04:17 UTC) |
 | Allocation state/log root | `/orcd/scratch/orcd/003/shangy/dualpd/runs/engine-cleanup-validation-20261108` |
 
 The actual job/node/expiry must be rechecked through Slurm and the live
@@ -49,12 +51,12 @@ allocation was submitted.
 
 | Stage | Engine revision | Decode token/s | Prefill token/s | Parent reuse | Functional/cleanup gate | Status |
 |---|---|---:|---:|---:|---|---|
-| Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | — | — | — | Not run | Waiting for allocation |
+| Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | — | — | — | Pre-run clean; loading model | Running `baseline-r3` on node2700 |
 
 The existing CPU results (577 passing records) and AST equivalence are
 preconditions, not substitutes for the GPU throughput check requested here.
 
-## Baseline controller readiness
+## Initial controller readiness (historical, superseded)
 
 - Active attempt: `baseline-r2` under the allocation state/log root above.
   `baseline-r1` was superseded during pre-launch audit and never ran a workload.
@@ -82,3 +84,40 @@ The keeper does not replace per-run health checks. Inspect the live process,
 Slurm job and result artifacts when resuming; recorded PIDs are not permanent
 proof of liveness. GPU/port/FUSE cleanup remains **unmeasured** until the first
 actual node run completes.
+
+## Actual baseline restart, 2026-11-09
+
+The login-side waiting controller stopped at the interrupted agent session,
+before allocation. The allocation itself later started successfully, but no
+model run was launched automatically. The first detached SSH attempt for r2
+then failed before launching any service: compute-host `Path.resolve()` mapped
+`/home/shangy` to `/orcd/home/002/shangy`, differing from the prepared plan.
+Neither attempt is a GPU throughput result.
+
+The runner now preserves the explicitly selected checkout spelling and applies
+it consistently to the historical recipe's roots; source/input/config hash
+checks remain strict. No engine, model, sampling, topology, capacity or timing
+parameter changed. Frontend 208 + engine392 + two subtests passed (602 records);
+the 25 runner tests also passed independently. Source equivalence differences
+remain `[]`.
+
+Current run: **baseline-r3**, exact plan
+`46c3cfa724ed243b97efdcc8b39933ff326c49a7a34a22b5ba0f70cb6b97a6f6`, runner
+`1969660e26442f2acc3caed66b668af2db0147804af05aeb67a066f6c7cd78e7`.
+Independent `/root/audit_quickcheck` returned GO for this plan and SSH transport.
+It started at approximately 2026-11-09 01:15 EST / 06:15 UTC. Actual node
+controller PID940624 was confirmed alive with PPID1 after SSH returned; its
+runtime heartbeat and launcher are active. Pre-run gate: zero GPU processes,
+zero configured ports, zero Apptainer/FUSE helpers, three consecutive probes.
+NUMA preflight confirms CPUs0–223 and access to both GPU-local NUMA domains.
+
+SSH was adopted into
+`/system.slice/slurmstepd.scope/job_28285059/step_extern/user/task_0`.
+The job and extern/user memory limits are 1932735283200 bytes (1800 GiB), and
+initial OOM counters were zero in the task and all enclosing job scopes. Raw
+scope evidence is `baseline-r3/cgroup-before.json`; do not equate unavailable
+or unrelated OOM counters with node-global no-OOM proof.
+
+Progress lives under `baseline-r3/runtime.json`, `launcher.log`,
+`ssh-node-controller.log` and `logs/`. The result and post-cleanup gates are
+still pending. Do not advance to a new engine stage before actual acceptance.

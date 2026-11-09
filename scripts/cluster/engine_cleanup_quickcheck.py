@@ -24,10 +24,13 @@ import subprocess
 import sys
 import time
 
-ROOT = Path(__file__).resolve().parents[2]
+# Login and compute hosts can resolve the same /home mount to different NFS
+# aliases. Keep the selected checkout spelling stable across launch/preflight;
+# content hashes, not host-specific realpath spelling, identify its source.
+ROOT = Path(os.environ.get("DUALPD_ROOT", Path(__file__).absolute().parents[2]))
 ENGINE = ROOT.parent / "sglang_pd"
 PYTHON = ROOT / ".venv/bin/python"
-SCRIPT = Path(__file__).resolve()
+SCRIPT = ROOT / "scripts/cluster" / Path(__file__).name
 
 
 def write_json(path, value):
@@ -52,6 +55,12 @@ def load_recipe():
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
+    # The historical recipe resolves __file__ internally. Its deployment roots
+    # must follow the explicitly selected checkout, not a node's mount alias.
+    module.base.PD = ROOT
+    module.base.SLIME = ROOT
+    module.base.REPO = ROOT.parent
+    module.base.MODIFIED_SGLANG = ENGINE / "python"
     return module
 
 

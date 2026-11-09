@@ -224,6 +224,31 @@ def test_cpu_list_includes_both_numa_ranges():
     assert runner.parse_cpu_list("0-2,56-58,112,170") == {0, 1, 2, 56, 57, 58, 112, 170}
 
 
+def test_recipe_follows_selected_checkout_instead_of_host_realpath(monkeypatch):
+    selected = Path("/deployment-alias/DualPD")
+    monkeypatch.setattr(runner, "ROOT", selected)
+    recipe = runner.load_recipe()
+    assert recipe.base.PD == recipe.base.SLIME == selected
+    assert recipe.base.REPO == selected.parent
+    assert recipe.base.MODIFIED_SGLANG == runner.ENGINE / "python"
+
+
+def test_selected_root_spelling_survives_mount_alias(tmp_path):
+    import os
+    import subprocess
+    selected = tmp_path / "checkout-alias"
+    selected.symlink_to(ROOT, target_is_directory=True)
+    env = {**os.environ, "DUALPD_ROOT": str(selected)}
+    code = (
+        "import importlib.util; from pathlib import Path; "
+        f"s=importlib.util.spec_from_file_location('alias_check',{str(selected / 'scripts/cluster/engine_cleanup_quickcheck.py')!r}); "
+        "m=importlib.util.module_from_spec(s);s.loader.exec_module(m); "
+        "print(m.ROOT);print(m.load_recipe().base.PD)"
+    )
+    output = subprocess.check_output([str(runner.PYTHON), "-c", code], env=env, text=True)
+    assert output.splitlines() == [str(selected), str(selected)]
+
+
 def test_stopping_wrapper_reaches_nested_cleanup_trap(tmp_path):
     """No GPU: exercise the same wrapper->pipeline->owned-service pattern."""
     import os

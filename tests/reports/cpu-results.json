@@ -24,7 +24,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 84.92837405204773
+    "elapsed_seconds": 76.8944046497345
   },
   {
     "group": "engine",
@@ -54,6 +54,6 @@
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 49.671372413635254
+    "elapsed_seconds": 43.47461223602295
   }
 ]
