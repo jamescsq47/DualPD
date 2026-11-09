@@ -154,6 +154,13 @@ restored; their final reclamation is established at process teardown, not by
 individual Host-release log events. Final resource cleanup is independently
 verified above.
 
+Further set-based checking finds21436 unique D→P Direct send completions and
+the exact same21436 P receive completions, all with mapped D source-release
+events. The120 D→P Host durable snapshots exactly match the120 explicit
+`d_release_after_p_host` snapshot IDs. Raw log-derived accounting is retained
+in `baseline-r3/ownership-summary.json`. These event-set checks do not by
+themselves establish release latency or every instantaneous ownership state.
+
 The DMA comparison `host-dma-r1` is now running via detached SSH. Exact-plan
 audit GO covers plan SHA256
 `27d98c712ee81576fe32222a1b7b303f4073a97137b01a5156a1a1d59433579b`.
