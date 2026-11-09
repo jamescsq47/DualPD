@@ -146,6 +146,18 @@ window rates) contain11241 unique P→D Host snapshots at each queued, durable,
 Prefill-release, H2D-complete and Host-release stage. D→P contains120 D2H
 starts/completions, all120 with a mapped D source-release event;8 have an H2D
 completion and Host release. The remaining112 durable snapshots have no H2D
-completion in these logs; they must not be presented as restored or as a
-measured leak without terminal/cancellation accounting. Final process cleanup
-is verified independently above.
+completion in these logs. Their D2H completion timestamps are all after the
+measurement boundary:0 during warmup,8 during measurement,112 during controlled
+drain. All8 measured-window durable snapshots have H2D completion/release.
+The112 drain snapshots must not be presented as measured-window leaks or as
+restored; their final reclamation is established at process teardown, not by
+individual Host-release log events. Final resource cleanup is independently
+verified above.
+
+The DMA comparison `host-dma-r1` is now running via detached SSH. Exact-plan
+audit GO covers plan SHA256
+`27d98c712ee81576fe32222a1b7b303f4073a97137b01a5156a1a1d59433579b`.
+Actual controller951316 has PPID1 and belongs to job28285059's extern/task0
+cgroup; enclosing job memory limit1800 GiB and all job OOM counters0 at startup.
+See `host-dma-r1/cgroup-before.json`. No throughput acceptance is implied by
+startup or the code audit.
