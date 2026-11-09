@@ -78,6 +78,13 @@ the normal canonical Router must prove it imports without Torch/CUDA/Host
 workers, while an intentionally historical overlay may retain its old heavy
 imports and must be labeled separately. Test both in genuinely fresh processes
 with forbidden native imports and separately with the actual old overlay.
+The fresh-process canonical proof must cover the complete import closure,
+including sglang package initialization and native mini-lb tracing, not only
+the new leaf's own imports. If compatibility uses a fallback, match only a
+missing selected-overlay module itself; never hide arbitrary nested ImportError
+or load a duplicate ledger under a second module name. Scheduler reconstruction
+must cover the complete native module, including mixed initialization/event-loop
+call sites, decorators/defaults and annotation timing, not just54 named methods.
 
 Retain143 operational environment identifiers, local/TCP defaults and dynamic
 versus constructor-time parsing scopes. Separate maintained/archival launchers
