@@ -62,6 +62,23 @@ native TP/Mamba/Host faults, independent audit and a separate frozen comparison.
 
 Genuinely remove metadata-only control-plane imports of native Host/DMA/worker
 modules; moving a definition without redirecting consumers is insufficient.
+Current canonical local Router root, capacity, admission and records import
+HostStageState through heavy staging; root/admission import three P2D protocol
+names through the full P2D transport. Redirect every one of those imports, not
+just the root. The seven remaining storage/metadata definitions can move as one
+coherent layer; preserve lazy optional storage imports and historical aliases.
+The lifecycle and Host-ledger modules themselves have stdlib-only top-level
+dependencies, making them viable control-plane dependencies.
+
+Historical file-entry overlays need explicit treatment: an old selected engine
+can lack the newly extracted ledger/protocol modules. Do not fix this by
+replacing its native sglang package or duplicating enum/state-table identities.
+Design and audit an explicit compatibility path before changing these imports;
+the normal canonical Router must prove it imports without Torch/CUDA/Host
+workers, while an intentionally historical overlay may retain its old heavy
+imports and must be labeled separately. Test both in genuinely fresh processes
+with forbidden native imports and separately with the actual old overlay.
+
 Retain143 operational environment identifiers, local/TCP defaults and dynamic
 versus constructor-time parsing scopes. Separate maintained/archival launchers
 without invalidating replay identities, then perform final package/source-map/
