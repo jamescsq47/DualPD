@@ -53,7 +53,7 @@ allocation was submitted.
 |---|---|---:|---:|---:|---|---|
 | Baseline | `4cde672cc4540fa41c87273a6b3862166535a22c` | 11265.01 | 75367.90 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `baseline-r3` |
 | Host DMA ABI extraction | `90e99ace17f198ed9c33f8a63a6a59d697d1f446` | 11246.55 | 74816.50 | 99.992% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `host-dma-r1`; Decode−0.16% |
-| Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | — | — | — | 632 CPU records +415 native fault tests passed; code audit GO | GPU comparison pending |
+| Host registration/prewarm extraction | `0605c2241beaa079399ec31fa50c9b48e8a788e2` | — | — | — | 632 CPU records +415 native fault tests passed; exact-plan audit GO | Running `host-registration-r1` |
 
 The CPU results and AST equivalence are
 preconditions, not substitutes for the GPU throughput check requested here.
@@ -190,3 +190,12 @@ release;141 D→P Host durable snapshots exactly match explicit D release IDs.
 All8 measured-window Host durables completed restoration/release;133 remaining
 durables occurred during controlled drain and have no individual restoration
 completion in logs. Final whole-process cleanup is verified separately.
+
+Registration comparison started at approximately2026-11-09 03:03 EST /08:03 UTC,
+reusing job28285059/node2700. Exact plan SHA256
+`cb48f0aa926761d780f3b6b04f4e4b44aa7b4de652d8ff282a35b9a2006c6cf3`
+has independent audit GO. Before launch, the actual SSH cgroup was the allocated
+job's extern/task0, with1800 GiB limit and job OOM counters0. Pre-cleanup confirms
+GPU/ports/helpers0. Controller962919 owns launcher962943 and writes progress to
+`host-registration-r1/runtime.json`. The source/configuration is frozen; this is
+not performance acceptance of registration or completion of later cleanup work.
