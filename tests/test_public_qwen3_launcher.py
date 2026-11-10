@@ -43,7 +43,7 @@ def test_browsecomp(tmp_path):
     assert env['QA_DATA'] == '/data/browsecomp/bc_train.jsonl'
     assert env['WORKLOAD_CONFIG'] == ''
     assert env['REQUESTS'] == '680'
-    assert env['MAX_INFLIGHT'] == '256'
+    assert env['MAX_INFLIGHT'] == '512'
     assert env['CLOSED_LOOP'] == '1'
     assert env['PD_SKIP_SEARCH'] == '0'
     assert env['DECODE_MEM_FRACTION_STATICS'].endswith('0.60')

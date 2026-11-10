@@ -1,5 +1,11 @@
 # Unmodified SGLang baselines
 
+The portable Qwen3-8B BrowseComp entry is `run_qwen3_8b_browsecomp.sh`:
+select `no_reverse` or `hicache` and set `BASELINE_ENV_BIN`, `MODEL_PATH` and
+`PD_DATA_ROOT`. Its editable concurrency default is 512. See the root README
+for installation and complete commands. It delegates to `run_pd_case.sh` and
+does not modify the native baseline engine or older launcher defaults.
+
 All launchers in this directory default to
 `/homes/siqic/anaconda3/envs/pd_baseline`.  Before allocating a GPU they run
 `check_environments.py`; the run is rejected if any custom agentic KV module

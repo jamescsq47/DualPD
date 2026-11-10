@@ -4,6 +4,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
 workload="${1:-browsecomp}"
+# Edit these defaults here; no concurrency export is needed at launch time.
+BROWSECOMP_CONCURRENCY=512
+SWE_CONCURRENCY=64
 case "${workload}" in
   -h|--help)
     echo "Usage: bash scripts/new_method/run_qwen3_8b.sh [browsecomp|swe]"
@@ -53,7 +56,7 @@ if [[ "${workload}" == browsecomp ]]; then
     'WORKLOAD_CONFIG=' 'PD_SKIP_SEARCH=0' 'MODEL_REASONING_PARSER='
     'MODEL_TOOL_CALL_PARSER=' 'EXPERIMENT_CONFIG='
     'DECODE_MEM_FRACTION_STATICS=0.80 0.80 0.80 0.60'
-    'REQUESTS=680' 'MAX_INFLIGHT=256' 'CLOSED_LOOP=1'
+    'REQUESTS=680' "MAX_INFLIGHT=${BROWSECOMP_CONCURRENCY}" 'CLOSED_LOOP=1'
   )
 else
   defaults+=(
@@ -61,7 +64,7 @@ else
     'PD_SKIP_SEARCH=1' 'MODEL_REASONING_PARSER=qwen3'
     'MODEL_TOOL_CALL_PARSER=qwen25' 'EXPERIMENT_CONFIG='
     'DECODE_MEM_FRACTION_STATICS=0.80 0.80 0.80 0.80'
-    'REQUESTS=500' 'MAX_INFLIGHT=64' 'CLOSED_LOOP=0'
+    'REQUESTS=500' "MAX_INFLIGHT=${SWE_CONCURRENCY}" 'CLOSED_LOOP=0'
   )
 fi
 for setting in "${defaults[@]}"; do

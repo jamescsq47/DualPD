@@ -152,26 +152,73 @@ Run one case at a time with a new `RUN_DIR`.
 ### BrowseComp: single-node 4P:4D, TP=1
 
 This starts four Prefill workers, four Decode workers, the router, local search
-and the workload client. It uses c256, **300 seconds of business warmup +
+and the workload client. It uses c512, **300 seconds of business warmup +
 1200 seconds of measurement**, temperature 0 and total D→P/P→D Host capacities
 of **512/256 GiB**.
 
 ```bash
 MODEL_PATH=/path/to/models/Qwen3-8B \
 PD_DATA_ROOT=/path/to/datasets \
-RUN_DIR=/path/to/results/browsecomp-qwen3-8b-c256 \
+RUN_DIR=/path/to/results/browsecomp-qwen3-8b-c512 \
   bash scripts/new_method/run_qwen3_8b.sh browsecomp
 ```
 
 Startup, model loading and Host registration precede business warmup and are
 not included in the measurement window. Closed-loop mode keeps agents in
-flight and cycles through the question pool as needed. To change concurrency,
-pass `MAX_INFLIGHT=512` and a new `RUN_DIR` before the same command.
+flight and cycles through the question pool as needed. Concurrency is set in
+the launch script: edit `BROWSECOMP_CONCURRENCY=512` in
+`scripts/new_method/run_qwen3_8b.sh` to change it (SWE uses
+`SWE_CONCURRENCY=64`). No concurrency export is required.
 Topology, sampling, transfer and Host settings are already defaults in
 `scripts/new_method/run_qwen3_8b.sh`; set an environment variable only when
 overriding one. Host sizes are per Prefill rank (128/64 GiB × four ranks).
 GPU 7 shares retrieval and uses a lower Decode memory fraction. These examples
 do not export workload-specific settings into your shell.
+
+### BrowseComp baselines: No-reverse and HiCache + Mooncake
+
+Use a **separate clean baseline environment** with the
+[`pd_baseline` engine branch](https://github.com/jamescsq47/sglang/tree/pd_baseline).
+Do not install the modified `3rdparty/sglang` engine into this environment.
+If you do not already have a baseline environment, prepare one in a fresh shell:
+
+```bash
+git clone --single-branch --branch pd_baseline \
+  https://github.com/jamescsq47/sglang.git /path/to/sglang-baseline
+conda create -n dualpd-baseline python=3.12 -y
+conda activate dualpd-baseline
+python -m pip install --upgrade pip setuptools wheel setuptools-scm
+python -m pip install --no-build-isolation -e /path/to/sglang-baseline/python
+python -m pip install -e '.[analysis]' \
+  'mooncake-transfer-engine==0.3.12.post1' 'sglang-router==0.3.2'
+```
+
+From the DualPD root, run **one command at a time**:
+
+```bash
+# No-reverse PD: no D→P KV reuse.
+BASELINE_ENV_BIN=/path/to/envs/dualpd-baseline/bin \
+MODEL_PATH=/path/to/models/Qwen3-8B \
+PD_DATA_ROOT=/path/to/datasets \
+RUN_DIR=/path/to/results/browsecomp-no-reverse-c512 \
+  bash scripts/baseline/run_qwen3_8b_browsecomp.sh no_reverse
+
+# Native HiCache + Mooncake, including Decode KV offload.
+BASELINE_ENV_BIN=/path/to/envs/dualpd-baseline/bin \
+MODEL_PATH=/path/to/models/Qwen3-8B \
+PD_DATA_ROOT=/path/to/datasets \
+RUN_DIR=/path/to/results/browsecomp-hicache-c512 \
+  bash scripts/baseline/run_qwen3_8b_browsecomp.sh hicache
+```
+
+Both use TP=1, 4P:4D, c512 and the same 680-question source order,
+temperature and 300+1200-second measurement protocol. Their concurrency is
+set by `BROWSECOMP_CONCURRENCY=512` in the baseline launch script. The HiCache
+case defaults to 128 GiB per P worker, 56 GiB per D worker and a 256 GB Mooncake
+store; these are native baseline capacities, not the new method's arenas.
+The baseline launcher clears the modified engine overlay and agentic switches,
+and the existing environment gate rejects engines with custom modules.
+Mooncake master/client executables must be available in `BASELINE_ENV_BIN`.
 
 ### SWE-bench: 500 tasks with Docker
 
