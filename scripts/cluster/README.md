@@ -14,7 +14,8 @@ BrowseComp 整理回归使用 `engine_cleanup_quickcheck.py`，固定配方及�
 位于 `../benchmarks/`，不再导入历史 matrix controller。
 
 模型专用 matrix/autopilot/watchdog 和已记录实验启动脚本已搬到
-`../replay/cluster/`，仍在做完整迁移验证，没有删除历史功能。其硬编码路径、
+`../replay/cluster/`，已通过完整来源重建、分层调用合约及独立吞吐回归；
+这不等于实跑全部历史作业，也没有删除历史功能。其硬编码路径、
 容量、超时和消融开关可能定义历史回放身份，不能直接视为当前默认配置。
 归档的 `multinode_smoke.py` 是旧文件控制协议
 的探针，不是当前 V2 TCP 模型验收入口。迁移进度和性能门禁见

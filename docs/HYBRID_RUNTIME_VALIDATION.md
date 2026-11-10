@@ -80,4 +80,6 @@ stable-prefix mode have different scopes; their tension is now explicit rather
 than hidden by the dense-model success. A dual-checkpoint design or an explicit
 recompute accounting change would be a separate algorithm/lifecycle change,
 requiring its own capacity/retraction/TP/fault tests and audit. No such change
-is included in this cleanup result, and the overall final acceptance stays open.
+is included in this cleanup result. It remains a separate algorithm goal, not a
+full-parent reuse pass or permission to silently change compatibility semantics.
+See [CLEANUP_HANDOFF.md](CLEANUP_HANDOFF.md) for final cleanup evidence and limits.

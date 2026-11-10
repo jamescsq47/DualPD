@@ -1,9 +1,10 @@
-# Remaining final validation: evidence required, not completion
+# Final validation: evidence and reproduction scope
 
-The sequential cleanup goal remains open until all stages in
-SEQUENTIAL_ENGINE_CLEANUP.md have implementation, relevant source/fault gates,
-independent audit and appropriate real BrowseComp comparison evidence. This note
-prepares the representative model-path checks; it authorizes no launch by itself.
+The implemented stages, accepted comparisons and explicit limits are indexed in
+[CLEANUP_HANDOFF.md](CLEANUP_HANDOFF.md). This document retains model-probe
+specifications and subsequent scoped results. Earlier pending statements are
+chronology, not proof that all stronger accuracy/model goals have now passed.
+No text here authorizes a GPU launch by itself.
 
 ## Current accepted versus missing evidence
 
@@ -240,9 +241,9 @@ the stage6 fix is absent from the current tree.
 
 ## Other representative coverage and final handoff
 
-The actual Qwen3.5 hybrid/Mamba/MoE path also needs explicit representative
-verification after maintained entry/config cleanup; native fault tests alone
-cannot demonstrate its model runtime. Keep prior baseline source/harness
+The actual Qwen3.5 hybrid/Mamba/MoE path now has the bounded r9 runtime evidence
+above; native faults alone were not its model-runtime proof. The stable-prefix/
+full-parent distinction remains explicit. Keep prior baseline source/harness
 selection and settings intact. Use cached model/data if present, otherwise
 resolve inputs within the authorized allocation workflow without changing shared
 environments. A local dense TP1 run does not close hybrid/model-family evidence.
@@ -253,7 +254,10 @@ maintained versus archival launcher references and documentation. Review the
 actual table of all accepted before/after runs against ORIGINAL baseline, not
 only neighboring revisions, so small drops cannot accumulate unnoticed. Keep
 protocol functionality, throughput/variance, accuracy and final resource cleanup
-as distinct claims. Missing evidence keeps the full goal active.
+as distinct claims. Missing evidence leaves the corresponding unmeasured or
+stronger claim unverified; it is not converted into a pass by cleanup. The
+requested organization and representative-regression evidence are indexed in
+CLEANUP_HANDOFF.md separately from future accuracy/algorithm extensions.
 
 ## Independent physical-completion audit of the frozen TCP path
 

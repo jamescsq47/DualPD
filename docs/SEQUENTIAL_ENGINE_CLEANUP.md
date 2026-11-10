@@ -7,6 +7,9 @@ and local/TCP paths must remain supported.
 
 The consolidated [measured before/after table](ENGINE_CLEANUP_RESULTS.md) compares
 all accepted stages with the original baseline, rather than only adjacent stages.
+The [current handoff](CLEANUP_HANDOFF.md) indexes organization, final evidence
+and limits. Stage-time pending/preparation paragraphs below retain chronology;
+later acceptances supersede them without rewriting old failures or test counts.
 
 ## Allocation
 
@@ -159,7 +162,22 @@ original baseline with99 environment entries unchanged exceptRUN_DIR; it retains
 c256, seed2026, temperature0 and300+1200. Its preparation does not itself
 authorize launch or constitute throughput acceptance.
 
-## Current accepted state
+The subsequent `shared-tool-paths-r1` passes independent final acceptance:
+300.725907s warmup+1200.001417s measurement, Decode11239.01 token/s (−0.2308%
+versus original), Prefill75288.22,100% reuse,6687 measured protocol successes,
+0 failures/OOM. Full stable archive scan finds8260 unique rows;2360 completed+
+4327 truncated in-window equal6687, not task accuracy. Eight-log audit matches
+P2D Host five sets11567, D2P Direct21473 sent/received/mapped D release and
+Host134 durable/D release. Seven measured Host snapshots restore/release;
+127 post-window drain snapshots have no individual restore evidence. No
+instantaneous owner/latency or complete local P2D Direct release proof is inferred.
+Controller1148718/launcher1148742 are absent; fresh independent GPU/ports/helpers/
+keeper/zero-memory-event gates and frozen-source checks pass, without restart
+or intervention. Planned120s owned-group stop is not OOM or natural child exit0.
+Result SHA256:f9c7ee874bfbace806a2cba03d8fc57595bdbb3307fa2bad02d72f495f2fab77.
+The released freeze permits docs-only handoff, not another GPU launch.
+
+## Stage evidence and historical preparation chronology
 
 Stages1–4 have accepted full300+1200 local BrowseComp comparisons. The latest
 Scheduler-components-r2 gives11238.17 Decode token/s, −0.24% versus ORIGINAL

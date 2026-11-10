@@ -23,6 +23,7 @@ final cleanup; those gates do not imply benchmark answer accuracy.
 |`benchmark-components-r1`|75079.41|11193.29|−0.637%|100%|
 |`replay-archive-r1`|75472.07|11279.34|+0.127%|100%|
 |`installed-router-entry-r1`|74964.76|11200.41|−0.573%|100%|
+|`shared-tool-paths-r1`|75288.22|11239.01|−0.231%|100%|
 
 The first eight rows (through `scheduler-workset-r1`) are under
 `/orcd/scratch/orcd/003/shangy/dualpd/runs/engine-cleanup-validation-20261108/`;
@@ -31,7 +32,7 @@ later cases are under
 The table is in implementation order, not filename sort order. The slight
 non-unit reuse in the early DMA case is retained rather than rounded to100%.
 
-The final Decode measurement is0.573% below the original. These are individual
+The final Decode measurement is0.231% below the original. These are individual
 regression runs, not repeated-trial confidence intervals, so the small variation
 must not be presented as a statistically established optimization or regression.
 Despite its name, `router-tcp-r1` is the local TP1 performance comparison after
@@ -43,4 +44,4 @@ See [SEQUENTIAL_ENGINE_CLEANUP.md](SEQUENTIAL_ENGINE_CLEANUP.md) for stage tests
 source proofs and independent acceptance, [FINAL_ENGINE_VALIDATION_PLAN.md](FINAL_ENGINE_VALIDATION_PLAN.md)
 for representative protocol coverage, and [HYBRID_RUNTIME_VALIDATION.md](HYBRID_RUNTIME_VALIDATION.md)
 for the inherited stable-prefix compatibility limitation. This summary does
-not declare the full cleanup goal complete.
+not turn representative tests into measurements of all historical experiments.

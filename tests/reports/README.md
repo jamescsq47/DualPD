@@ -3,7 +3,27 @@
 Validated in the new isolated `DualPD/.venv`; source worktrees and their Python
 environments were retained. Runtime SGLang version is 0.5.10.post1.
 
-Current CPU gate: **665 passing JUnit records** (208 frontend, 455 engine and
+## Current verification index
+
+The final runtime-code CPU gate at frontend `fab82e1`, engine `d265f7946` has
+**1228 passing JUnit records**:315 frontend tests+308 subtests,568 engine
+tests+37 subtests; no failures/errors/skips and7 non-fatal warnings. The tracked
+`frontend.xml`, `engine.xml` and `cpu-results.json` describe that run. Earlier
+stage-specific reports and failures are retained; counts below are chronological
+and must not be added as unique tests or mistaken for the latest XML totals.
+
+The15 baseline/stage comparisons, actual dense TCP/TP2 and bounded hybrid probes,
+packaging/CLI evidence and remaining limitations are indexed in
+`../../docs/CLEANUP_HANDOFF.md` and `../../docs/ENGINE_CLEANUP_RESULTS.md`.
+The final shared-tool comparison gives11239.01 Decode token/s (−0.23% versus
+original),100% parent reuse, no measured failure/OOM and independently accepted
+GPU/port/helper cleanup. This does not remeasure SWE T450/accuracy or run every
+historical model/TP/switch combination. Recheck Slurm for allocation availability;
+historical job-state statements below are not live allocation probes.
+
+## Historical Host/writer-stage verification
+
+At that stage the CPU gate had **665 passing JUnit records** (208 frontend, 455 engine and
 two engine subtests). The 25 new frontend tests cover the reusable allocation
 regression runner: exact audited source/config, untracked source detection,
 single per-job lock, real nested-shell TERM cleanup and already-exited leader

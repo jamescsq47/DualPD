@@ -4,6 +4,12 @@ This is a new staged validation record, not a replacement for the historical
 300 s + 1200 s BrowseComp benchmark tables. The baseline below is measured from
 the extracted projects; each subsequent cleanup still needs its own comparison.
 
+The current organization/evidence handoff is
+[CLEANUP_HANDOFF.md](../docs/CLEANUP_HANDOFF.md), with a compact original-baseline
+comparison in [ENGINE_CLEANUP_RESULTS.md](../docs/ENGINE_CLEANUP_RESULTS.md).
+Historical status/pending paragraphs below record their stage-time observations;
+later acceptances supersede them without rewriting old failures.
+
 ## Dedicated allocation request
 
 | Item | Requested value |
@@ -63,6 +69,32 @@ allocation was submitted.
 | Router control-plane dependency cleanup | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11223.49 | 75081.77 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `control-dependencies-r1`; Decode−0.37%; actual TCP/hybrid coverage remains open |
 | Case configuration/parser consolidation (frontend `152a620`) | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11212.44 | 75041.43 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `case-configuration-r1`; Decode−0.47%; profile/TCP input validation covered by CPU gates, not this model path |
 | Maintained benchmark recipe/measurement extraction (frontend `6bc1523`) | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11193.29 | 75079.41 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `benchmark-components-r1`; Decode−0.64%; historical replay migration and actual TCP/TP2 remain open |
+| Historical replay/source-address closure | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11279.34 | 75472.07 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `replay-archive-r1`; Decode+0.13%; not execution of every historical job |
+| Installed Router entry selection | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11200.41 | 74964.76 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `installed-router-entry-r1`; Decode−0.57% |
+| Maintained shared-tool/site paths (frontend `fab82e1`) | `d265f7946aa3d1369ecdadf9d2d39a77c84e300b` | 11239.01 | 75288.22 | 100.00% | 0 failures/OOM; GPU/ports/helpers all0 | Accepted `shared-tool-paths-r1`; Decode−0.23% |
+
+### Final shared-tool stage acceptance
+
+`shared-tool-paths-r1` under the pool004 validation root completes300.725907s
+warmup+1200.001417s measurement. Independent request scanning finds8260 unique
+stable rows;6687 measured protocol successes=2360 completed+4327 truncated,
+errors0. These counts are not an answer-accuracy score. Independent8-log audit
+matches P2D Host five sets11567, D2P Direct21473 sent/received/mapped D release,
+and Host134 durable/D release. Seven measured Host snapshots restore/release;
+127 become durable only in post-window drain without individual restore evidence.
+Event-set equality is not instantaneous ownership/latency proof; complete local
+P2D Direct source-release sets are not reconstructed.
+
+Controller1148718/launcher1148742 are absent; independent/main fresh SSH gates
+confirm GPU0, configured ports free, Apptainer/FUSE0, six memory events0 and
+original keeper939831 retained. Planned bounded process termination after the
+window is not OOM or natural child exit0. No restart/intervention occurred.
+The result SHA256 is
+`f9c7ee874bfbace806a2cba03d8fc57595bdbb3307fa2bad02d72f495f2fab77`.
+See case plan/result/request-integrity/ownership-summary/acceptance-audit and
+the handoff for separate TCP/TP2/hybrid functionality and unmeasured SWE scope.
+
+### Historical earlier-stage notes
 
 Physical buffer stage retains twelve function/class and sixteen libc initializer
 ASTs exactly. Historical aliases are preserved; manager/lifecycle bodies and143

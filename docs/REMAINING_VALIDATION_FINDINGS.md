@@ -1,6 +1,13 @@
 # Findings and subsequent verification
 
-Current status: stages1–6 and stage7a are independently accepted on the local
+This file preserves stage-time findings and follow-up history. Current evidence
+and genuinely unmeasured scope are indexed in [CLEANUP_HANDOFF.md](CLEANUP_HANDOFF.md).
+Old pending statements are superseded by later dated acceptances; unmeasured
+accuracy/algorithm extensions are not declared fixed by code organization.
+
+## Historical status before hybrid/shared-tool follow-up
+
+At that checkpoint stages1–6 and stage7a are independently accepted on the local
 TP1 BrowseComp comparison; stage7a Decode11193.29 token/s,−0.64% versus ORIGINAL,
 100% reuse and clean final gates. Stage7b historical archival is independently
 accepted at11279.34 Decode token/s (+0.13% versus ORIGINAL),100% reuse and clean

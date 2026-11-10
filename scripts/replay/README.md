@@ -5,6 +5,12 @@ launchers. `manifest.json` maps all201 original launcher files:142 historical
 files move here and59 maintained/core/shared/compatibility files stay at their
 canonical addresses. Original hashes refer to immutable frontend6bc1523.
 
+Current source/contract and full BrowseComp archival acceptance is recorded in
+`../../docs/CLEANUP_HANDOFF.md` and `../../docs/SEQUENTIAL_ENGINE_CLEANUP.md`.
+The current retained-code proof has52 byte-identical files,2 exact Router-entry
+updates and2 exact shared-tool path updates. No changed retained file is waived.
+This is not authorization to execute the historical operational recipes below.
+
 - `cluster/`: historical matrix/autopilot/watchdog, model-specific Slurm
   recipes, old V1 smoke and their tests. Keep these siblings together because
   experiments reuse controller module objects across model families.
@@ -40,9 +46,9 @@ and unchanged: no blanket path substitution. Independent audit accepted these
 paths and pinned dependencies may still be unavailable; historical operational
 replay is not claimed validated by these static checks.
 
-Migration is still in progress: syntax and selected import/contracts pass, but
-all caller/provenance contracts, independent code audit and the new300+1200
-BrowseComp comparison remain required. Complete immutable source reconstruction
+The following records migration preparation, before its subsequent independent
+code and full300+1200 BrowseComp acceptance; its pending wording is historical.
+Complete immutable source reconstruction
 and the five-shell/28-case full environment+argv A/B pass. Seven more wrappers
 pass22 comparisons at the common-case boundary, not the final pipeline; only
 WORKLOAD_CONFIG/RUN_DIR path spellings are resolved there. The six complex

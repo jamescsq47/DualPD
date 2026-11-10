@@ -5,6 +5,11 @@ existing workspace. The original slime and SGLang worktrees are retained for
 comparison. It does not replace the environments or allocations used by other
 experiments.
 
+The current handoff is [CLEANUP_HANDOFF.md](CLEANUP_HANDOFF.md), with all15
+measured stage/baseline comparisons in [ENGINE_CLEANUP_RESULTS.md](ENGINE_CLEANUP_RESULTS.md).
+Detailed earlier progress below is chronology, not a claim that an old pending
+gate is still pending or that historical test counts equal the latest reports.
+
 ## Scope and lifecycle mapping
 
 The migration changes Python namespaces, source organization and launch paths.
@@ -14,8 +19,10 @@ workset accounting, failure, timeout and cancellation semantics remain in the
 preserved engine implementation. Both local and TCP runtime paths are retained.
 
 `sglang_pd/dualpd-source-map.json` identifies the original engine commit and
-records every relocated implementation/test SHA-256. Native scheduler, allocator,
-model and forward integration files remain unchanged. A type-only HostKVCache
+records every relocated implementation/test SHA-256. Initial extraction kept
+native integration files byte-identical; subsequent Host/Router/Scheduler
+component moves have complete reviewed source/AST reconstruction proofs.
+Unmodified allocator/model/forward files retain byte-level comparisons. A type-only HostKVCache
 import is deferred in hicache_storage so CPU routers do not need CUDA kernels
 solely to import metadata definitions.
 
@@ -42,8 +49,10 @@ these are literal documentation/diagnostic changes, not serving logic.
 
 Both Router implementations and their unit tests now live in the engine's
 `python/sglang/srt/disaggregation/dualpd/router/` package. The local
-late-binding and TCP/global implementations are byte-identical to the frontend
-snapshot. The frontend keeps only thin launch entries, deployment planning and
+late-binding and TCP/global implementations initially matched the frontend
+snapshot byte-for-byte; subsequent component separation preserves their complete
+reconstructed method bodies, native callbacks and policy differences. The
+frontend keeps only thin launch entries, deployment planning and
 the application-side request/ACK protocol. No engine Router imports DualPD.
 The package initializer is lazy so importing one variant never activates the
 other variant's FastAPI routes.
@@ -78,7 +87,9 @@ are checked; invalid/empty engine overrides still fail. Eleven focused tests
 cover source/installed address selection, exact exception propagation and
 stdlib-only direct-script execution. Complete source proof still reconstructs
 all142 archived files,54 unchanged retained code files and the two exact
-post-archive Router entry transforms; the new helper is whole-file hash pinned.
+post-archive Router entry transforms at that stage; the new helper is whole-file
+hash pinned. The later shared-tool path boundary has52 byte-identical retained
+code files plus2 exact Router-entry and2 exact shared-tool reconstructions.
 This is not a source-tree-free Slurm deployment claim: cluster defaults still
 expect an engine source root. Wheels do not include all root reconstruction
 source maps/locks or original Git history, and source-verification tools remain
@@ -161,7 +172,10 @@ use an available allocation, and record:
 - Source release and durable handoff ownership conservation.
 - Identical sampling/workload/placement/capacity values in old and new plans.
 - Full 300 s warmup + 1200 s measurement for final BrowseComp throughput.
-- SWE T450 and preceding tokens/rounds/accuracy with unchanged task order.
+- New SWE performance/accuracy claims additionally require T450 and preceding
+  tokens/rounds/accuracy with unchanged task order. These have not been remeasured
+  by this BrowseComp-based cleanup; preserving source/harness contracts is not
+  a new measured accuracy result.
 - Post-run GPU, port, container and FUSE cleanup.
 
 Initial extraction checks alone did not establish end-to-end model performance.
@@ -169,11 +183,14 @@ Subsequent staged cleanup has accepted real local Qwen3-8B TP1 BrowseComp
 comparisons on node2700; exact revisions, full windows, original-baseline
 comparisons, ownership evidence and final gates are recorded in
 `SEQUENTIAL_ENGINE_CLEANUP.md` and
-`../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md`. That local result does not
-establish actual TCP, TP2, hybrid model forwards or SWE accuracy preservation.
-Focused TP/Mamba/Host/fault regressions and real CUDA roundtrips are additional
-evidence, not substitutes for those missing model-path checks. Their execution
-boundary is recorded in ../tests/reports/README.md.
+`../runs-host/ENGINE_CLEANUP_QUICKCHECK_H100.md`. That local result alone does
+not establish TCP/TP2/hybrid forwards or SWE accuracy preservation. Subsequent
+dense r7/r8 and hybrid r9 probes provide separate, bounded real-model TCP/TP2
+evidence, documented in [FINAL_ENGINE_VALIDATION_PLAN.md](FINAL_ENGINE_VALIDATION_PLAN.md)
+and [HYBRID_RUNTIME_VALIDATION.md](HYBRID_RUNTIME_VALIDATION.md). The latter
+preserves the original stable-prefix compatibility mode, not full-parent
+page-tail-only reuse. Focused faults/CUDA tests, model functionality, throughput
+and benchmark accuracy remain distinct evidence classes.
 All eight lifecycle acceptance criteria in
 `AGENTIC_PD_DESIGN_INVARIANTS.md` remain binding. Deleting an
 apparently obsolete transport branch is a separate change requiring reachability
@@ -183,12 +200,14 @@ from `legacy`/`v2` naming or from a default-off experiment switch.
 ## Historical experiment replay
 
 The shared BrowseComp matrix implementation is tracked in
-`scripts/cluster/matrix_controller.py`. Existing model-specific wrappers can use it
+`scripts/replay/cluster/matrix_controller.py`. Existing model-specific wrappers can use it
 without loading code from a scratch run directory. The maintained staged
 quickcheck no longer imports that historical controller: its fixed recipe and
 measurement helpers live in `scripts/benchmarks/`. Classification and relocation
-of the historical controller families remain in progress; this separation does
-not imply that their scripts or retained feature switches can be deleted.
+of201 original launcher files are accepted with immutable source reconstruction,
+layered import/argv contracts and a separate full BrowseComp comparison. This
+does not mean all historical Slurm/Docker recipes were executed, or imply that
+their scripts or retained feature switches can be deleted.
 Frozen DRAM rerun controllers
 still intentionally require their immutable launch_config/code_identity and
 engine snapshot. Those are experiment data dependencies, not project libraries.
