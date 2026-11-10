@@ -15,6 +15,24 @@ workloads and configs live directly here. There is no `src/dualpd/` wrapper or
 | `docs/` | Design and usage documentation |
 | `runs-host/` | Existing experiment result documents |
 | `patches/` | Dependency/compatibility patches retained for reproducibility |
+| `3rdparty/sglang/` | Modified SGLang engine, pinned as a Git submodule |
+
+Clone both the application and its pinned engine:
+
+```bash
+git clone --recurse-submodules https://github.com/jamescsq47/DualPD.git
+cd DualPD
+# For an existing clone:
+git submodule update --init --recursive
+```
+
+For this standalone layout, select the bundled engine before sourcing the
+environment or running launchers:
+
+```bash
+export DUALPD_ENGINE_ROOT="$PWD/3rdparty/sglang"
+export SGLANG_OVERLAY_ROOT="$DUALPD_ENGINE_ROOT/python"
+```
 
 From this directory:
 
@@ -27,9 +45,12 @@ source scripts/env.sh
 .venv/bin/python scripts/check_cpu.py
 ```
 
-The sibling `../sglang_pd` is the modified engine. Install it in the isolated
-environment with `pip install --no-deps --no-build-isolation -e ../sglang_pd/python`
-(the build needs setuptools-scm). Baseline experiments retain their explicitly
+Install the pinned engine in the isolated environment with
+`pip install --no-deps --no-build-isolation -e "$DUALPD_ENGINE_ROOT/python"`
+(the build needs setuptools-scm). The original workspace's sibling
+`../sglang_pd` remains supported by the existing defaults; the exports above
+select the GitHub clone's submodule without changing runtime behavior.
+Baseline experiments retain their explicitly
 configured baseline Python and engine. Models, datasets, retrieval caches and
 container images remain external inputs.
 
