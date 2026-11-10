@@ -21,6 +21,32 @@ BrowseComp 整理回归使用 `engine_cleanup_quickcheck.py`，固定配方及�
 `../../docs/SEQUENTIAL_ENGINE_CLEANUP.md`；当前完整 CPU 门禁是
 `python scripts/check_cpu.py`，不能用默认 pytest 选择范围替代。
 
+## 离线工具的项目地址与站点资源
+
+`dram_complete_frame_analysis.prepare_analysis(directory, *, python=None,
+project_root=None)` 默认从当前工具文件定位项目里的
+`scripts/tools/analyze_pd_offload.py`，不回到旧工作区找代码。为保留历史分析
+依赖，默认解释器仍为 `DEFAULT_ANALYSIS_PYTHON` 指向的站点 `pd` 环境；
+在其他环境中应显式传 `python=sys.executable`，也可显式选择 `project_root`。
+这两个参数不修改原始指标、窗口或分析算法，显式根目录拼写也不会被 realpath 改写。
+
+`run_swe_sif_shards_in_step.sh` 仍只在 Slurm task 内运行，converter 和
+policy 从脚本所在项目定位。默认日志放项目父目录（保留当前站点的 workspace
+布局），默认数据、OCI、SIF 与临时目录仍为历史站点配置。迁移机器时应显式设置：
+
+- `SWE_SIF_DATASET`、`SWE_SIF_OCI_LAYOUT`：已准备的数据与 OCI 缓存；
+- `SWE_SIF_DIR`、`SWE_SIF_TEMP_BASE`、`SWE_SIF_LOG_DIR`：输出、临时与日志目录；
+- `SWE_SIF_PYTHON`：转换解释器，默认仍为 PATH 中的 `python`；
+- `SWE_SIF_POLICY`：已批准的 containers/image 签名 policy 文件；
+- `SWE_SIF_WORKERS_PER_NODE`：每个 task 的 worker 数，默认4。
+
+项目没有附带放宽验证的默认 policy。若不显式设置 `SWE_SIF_POLICY`，会检查脚本
+旁的历史名字 `skopeo-public-policy.json`；所选文件缺失或不可读时，在创建输出目录
+或启动 worker 前拒绝执行，不自动生成 policy。应由操作者提供其站点批准的策略。
+
+分片公式、转换参数、失败汇总和 CPU-only 范围均未改变。CPU 合约测试只在
+临时目录截获 argv，不执行 Docker/Apptainer/SIF 转换，也不代表转换已成功。
+
 ## 硬件和拓扑采集
 
 在每个计划参与实验的节点运行一次。最好在实际运行推理服务的容器和 Python 环境内执行；如怀疑容器隐藏了 RDMA/NUMA 信息，可在宿主机再采一份并注明区别。

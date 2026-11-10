@@ -33,6 +33,68 @@ ROUTER_ENTRY_UPDATES = {
 POST_ARCHIVE_HELPERS = {
     'runtime/engine_entry.py': '976877dd18509a8e2c55cbd448a5503f1fd085f3052195fa2c474e51b4f99402',
 }
+# Exact, separately reviewed maintained-tool address changes. Preserve the
+# original immutable bytes in the manifest; never waive these retained files.
+SHARED_TOOL_PATH_UPDATES = {
+    'scripts/cluster/dram_complete_frame_analysis.py': [
+        ('VIEW = "analysis-complete-frames-v1"\n',
+         'VIEW = "analysis-complete-frames-v1"\n'
+         '# Historical controllers intentionally use the analysis environment even when\n'
+         '# the controller itself runs under another interpreter. Portable callers may\n'
+         '# select their own interpreter explicitly; project code never comes from a\n'
+         '# hard-coded site checkout.\n'
+         'DEFAULT_ANALYSIS_PYTHON = "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python3.12"\n'),
+        ('def prepare_analysis(directory):',
+         'def prepare_analysis(directory, *, python=None, project_root=None):'),
+        ('    python = "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python3.12"\n'
+         '    analyzer = Path("/home/shangy/dualpd/DualPD/scripts/tools/analyze_pd_offload.py")\n',
+         '    python = DEFAULT_ANALYSIS_PYTHON if python is None else str(python)\n'
+         '    root = (Path(__file__).resolve().parents[2] if project_root is None\n'
+         '            else Path(project_root))\n'
+         '    analyzer = root / "scripts/tools/analyze_pd_offload.py"\n'),
+    ],
+    'scripts/cluster/run_swe_sif_shards_in_step.sh': [
+        ('workers_per_node="${SWE_SIF_WORKERS_PER_NODE:-4}"\n',
+         'script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"\n'
+         'project_root="$(cd -- "${script_dir}/../.." && pwd)"\n'
+         'workspace_root="$(cd -- "${project_root}/.." && pwd)"\n'
+         'workers_per_node="${SWE_SIF_WORKERS_PER_NODE:-4}"\n'),
+        ('sif_dir="${SWE_SIF_DIR:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-sif}"\n',
+         'sif_dir="${SWE_SIF_DIR:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-sif}"\n'
+         'dataset="${SWE_SIF_DATASET:-/orcd/scratch/orcd/003/shangy/dualpd/datasets/swe-bench-verified/test.jsonl}"\n'
+         'oci_layout="${SWE_SIF_OCI_LAYOUT:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-oci}"\n'
+         'log_dir="${SWE_SIF_LOG_DIR:-${workspace_root}}"\n'
+         'python="${SWE_SIF_PYTHON:-python}"\n'
+         'policy="${SWE_SIF_POLICY:-${script_dir}/skopeo-public-policy.json}"\n'),
+        ('mkdir -p "${temporary_base}"\n',
+         'if [[ ! -f "${policy}" || ! -r "${policy}" ]]; then\n'
+         '  echo "Select a readable signature policy with SWE_SIF_POLICY: ${policy}" >&2\n'
+         '  exit 2\n'
+         'fi\n\n'
+         'mkdir -p "${temporary_base}"\n'),
+        ('mkdir -p "${sif_dir}"\n',
+         'mkdir -p "${sif_dir}"\nmkdir -p "${log_dir}"\n'),
+        ('  stdout="/home/shangy/dualpd/swe-sif-step-${log_tag}-${shard}.out"\n'
+         '  stderr="/home/shangy/dualpd/swe-sif-step-${log_tag}-${shard}.err"\n'
+         '  python /home/shangy/dualpd/DualPD/scripts/cluster/convert_swe_oci_to_sif.py \\\n'
+         '    --dataset /orcd/scratch/orcd/003/shangy/dualpd/datasets/swe-bench-verified/test.jsonl \\\n'
+         '    --oci-layout /orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-oci \\\n',
+         '  stdout="${log_dir}/swe-sif-step-${log_tag}-${shard}.out"\n'
+         '  stderr="${log_dir}/swe-sif-step-${log_tag}-${shard}.err"\n'
+         '  "${python}" "${script_dir}/convert_swe_oci_to_sif.py" \\\n'
+         '    --dataset "${dataset}" \\\n'
+         '    --oci-layout "${oci_layout}" \\\n'),
+        ('    --policy /home/shangy/dualpd/DualPD/scripts/cluster/skopeo-public-policy.json \\\n',
+         '    --policy "${policy}" \\\n'),
+    ],
+}
+
+
+def shared_tool_path_update(relative, source):
+    for before, after in SHARED_TOOL_PATH_UPDATES[relative]:
+        assert source.count(before) == 1, (relative, 'ambiguous tool path edit')
+        source = source.replace(before, after, 1)
+    return source
 
 
 def router_entry_update(relative, source):
@@ -133,7 +195,7 @@ def verify(root=ROOT):
     special = {row['original']: row for row in edits['files']}
     assert len(special) == len(edits['files']) == 24
     assert set(special) <= set(mapping)
-    moved = retained = updated_entries = docs = 0
+    moved = retained = updated_entries = updated_tools = docs = 0
     for row in rows:
         old, new = row['original'], row['path']
         assert (root / new).is_file() and not (root / new).is_symlink(), (new, 'source must be a regular file')
@@ -152,6 +214,11 @@ def verify(root=ROOT):
                 expected = router_entry_update(old, source_bytes.decode())
                 assert (root / old).read_bytes() == expected.encode(), (old, 'whole package entry differs')
                 updated_entries += 1
+                continue
+            if old in SHARED_TOOL_PATH_UPDATES:
+                expected = shared_tool_path_update(old, source_bytes.decode())
+                assert (root / old).read_bytes() == expected.encode(), (old, 'whole shared tool differs')
+                updated_tools += 1
                 continue
             assert (root / old).read_bytes() == source_bytes, (old, 'maintained code changed')
             retained += 1
@@ -182,12 +249,13 @@ def verify(root=ROOT):
         source = original(relative)
         assert source.count(before) == 1
         assert (root / relative).read_text() == source.replace(before, after, 1), (relative, 'caller differs')
-    assert (moved, retained, updated_entries, docs) == (142, 54, 2, 3)
+    assert (moved, retained, updated_entries, updated_tools, docs) == (142, 52, 2, 2, 3)
     return {
         'immutable_revision': BASE, 'inventory_entries_verified': 201,
         'executable_modes_verified': 201,
         'whole_replay_files_reconstructed': moved, 'byte_identical_retained_code': retained,
         'post_archive_whole_router_entries_reconstructed': updated_entries,
+        'post_archive_whole_shared_tools_reconstructed': updated_tools,
         'post_archive_helper_hashes_verified': len(POST_ARCHIVE_HELPERS),
         'navigation_documents_not_called_byte_identical': docs,
         'finite_special_edit_files': len(special), 'complete_outside_callers_verified': len(callers),

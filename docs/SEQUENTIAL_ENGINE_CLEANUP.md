@@ -5,6 +5,9 @@ BrowseComp throughput after each stage before continuing. CPU/AST checks alone
 do not satisfy the performance gate. Existing actual feature/ablation switches
 and local/TCP paths must remain supported.
 
+The consolidated [measured before/after table](ENGINE_CLEANUP_RESULTS.md) compares
+all accepted stages with the original baseline, rather than only adjacent stages.
+
 ## Allocation
 
 The user requested one dedicated H100 node for seven days, reused for all
@@ -100,6 +103,61 @@ outputs still exactly match their references, and D2P Direct/Host paths still
 work. Final gates and source freeze pass independent review. This closes the
 specified dense TP2 P2D Host functional case, not throughput, concurrent
 pressure, global allocator quiescence or hybrid/Mamba/MoE verification.
+
+### Hybrid TCP/TP2 probe r9: partial verification only
+
+Actual Qwen3.5-35B-A3B model forwards and natural XML tool calls now run through
+the same maintained TCP/TP2 entry. Both13-token child outputs and finish reasons
+equal fresh full recomputation. Final GPU/helpers0, nine free ports, unchanged
+zero memory events and matching source/input freeze are recorded. Independent
+offline audit accepts the bounded Direct/D2P Host route/fence/release evidence
+under the original stable-prefix compatibility contract and releases the freeze.
+
+The full-parent reuse gate is not passed: both P ranks restore256 of321 logical
+parent tokens, exceeding the page64 tail allowance. This is the existing opt-in
+stable-prompt Mamba checkpoint contract, which deliberately recomputes generated
+suffixes to preserve compatibility with history-rewriting templates. It is not
+a new cleanup regression; changing its algorithm is not a mechanical extraction.
+See [HYBRID_RUNTIME_VALIDATION.md](HYBRID_RUNTIME_VALIDATION.md). The limitation
+is retained explicitly, not hidden by output equality or a smaller test prompt.
+Final acceptance remains open.
+
+### Final maintained-tool site-path boundary
+
+Final read-only inventory found two retained shared tools still addressing the
+old project explicitly. The DRAM complete-frame analyzer now resolves its
+analyzer from the selected project, with keyword-only interpreter/root overrides;
+its historical site analysis-interpreter default is preserved. The SIF shard
+wrapper resolves converter/policy beside itself and exposes dataset/OCI/log/Python
+overrides, retaining original resource defaults and workspace-parent log layout.
+Neither change alters serving, measurement counters/windows, sharding, lifecycle,
+baseline engine selection or retained ablations. The immutable201-file replay
+proof reconstructs both whole tools with finite explicit edits:52 retained code
+files remain byte-identical,2 Router entries and2 tools have complete reviewed
+reconstructions,142 archived sources retain their existing proof. No changed
+file is exempted or given a replacement historical hash.
+
+New isolated contracts cover selected project/interpreter, unchanged raw inputs,
+the full300+1200 gate, real Bash shard argv/logs, quoted paths and failure
+aggregation. Original Bash fixtures only relocate code/log addresses (quoting
+the old unquoted code addresses for a space-containing fixture) and intercept
+Python before conversion. They do not run a historical job or build an image.
+Independent applied-code review and the next frozen BrowseComp comparison are
+still required; no acceptance is inferred from the source proof alone.
+
+The applied-code review subsequently gives scoped CODE GO. New and replay proof
+tests pass19 cases plus91 subtests; the reviewer independently passes12 new
+contracts, the full201-file source proof and directory/unreadable-policy early
+rejection. A missing selected signature policy now fails before any worker or
+output directory is created. No permissive policy is copied from the old local
+workspace. Full CPU regression and exact-plan GPU review remain distinct gates.
+
+Full CPU regression subsequently terminates0: frontend315 tests+308 subtests,
+engine568 tests+37 subtests, no failures/errors/skips and7 non-fatal engine
+warnings. The next isolated `shared-tool-paths-r1` plan compares against the
+original baseline with99 environment entries unchanged exceptRUN_DIR; it retains
+c256, seed2026, temperature0 and300+1200. Its preparation does not itself
+authorize launch or constitute throughput acceptance.
 
 ## Current accepted state
 

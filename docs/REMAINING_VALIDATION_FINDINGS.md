@@ -25,6 +25,17 @@ below are retained as chronology, not a claim that those fixes are unapplied.
 The findings below retain their original chronology. They do not override the
 dated accepted stages or claim the whole goal is complete.
 
+## Hybrid r9: inherited stable-prefix limitation, not output failure
+
+The actual Qwen3.5-35B-A3B TP2 probe now finishes with matching natural-tool
+child/reference outputs and clean final gates. It does not meet the strict
+page-tail-only full-parent reuse gate:321 logical parent tokens restore256.
+The existing stable-prompt checkpoint intentionally avoids overwriting the
+state needed by history-rewriting harnesses; this predates the extraction.
+Do not disable that mode or change prompts to manufacture full-tail acceptance.
+[HYBRID_RUNTIME_VALIDATION.md](HYBRID_RUNTIME_VALIDATION.md) separates actual
+measurements, source-derived explanation and the still-open acceptance scope.
+
 ## Historical read-only findings during scheduler-workset-r1
 
 No runtime edits in this note. The active model case freezes engine and frontend

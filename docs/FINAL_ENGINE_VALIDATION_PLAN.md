@@ -124,6 +124,22 @@ This closes only the specified dense TCP/TP2 P2D Host functional coverage.
 The0grace recipe is not the original BrowseComp performance configuration;
 hybrid/Mamba/MoE, multi-host, stress and full-goal acceptance remain unproven.
 
+## Hybrid probe r9: output pass, full-parent reuse not accepted
+
+The actual Qwen3.5-35B-A3B TP2 model probe has now completed with controller
+exit0, clean final GPU/port/helper/OOM gates and matching postrun input/source
+freeze. Both natural XML-tool trajectories produce the same13 output IDs and
+finish reason as fresh full recomputation. However, each P rank restores256
+of321 logical parent tokens: this exceeds the page64 tail allowance. Source
+inspection identifies the pre-existing opt-in frozen prompt checkpoint, which
+intentionally preserves a stable prefix for a history-rewriting harness rather
+than tracking the Decode tail. This is not newly introduced by extraction.
+See [HYBRID_RUNTIME_VALIDATION.md](HYBRID_RUNTIME_VALIDATION.md) for measured
+values, evidence limits and why changing the checkpoint silently is not a
+semantics-preserving cleanup. Independent offline review now accepts the bounded
+stable-prefix Direct/D2P Host route/fence/release chains and releases the source
+freeze. Final integration remains separate; strict full-parent reuse stays open.
+
 ## Actual TCP/TP model probe
 
 Use the maintained scripts/cluster/multinode.py and its real group_control V2

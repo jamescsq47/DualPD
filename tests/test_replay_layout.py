@@ -28,7 +28,8 @@ class ReplayLayoutTests(unittest.TestCase):
         result = proof.verify()
         self.assertEqual(result['inventory_entries_verified'], 201)
         self.assertEqual(result['whole_replay_files_reconstructed'], 142)
-        self.assertEqual(result['byte_identical_retained_code'], 54)
+        self.assertEqual(result['byte_identical_retained_code'], 52)
+        self.assertEqual(result['post_archive_whole_shared_tools_reconstructed'], 2)
         self.assertEqual(result['post_archive_whole_router_entries_reconstructed'], 2)
         self.assertEqual(result['post_archive_helper_hashes_verified'], 1)
         self.assertEqual(result['finite_special_edit_files'], 24)
@@ -69,6 +70,16 @@ class ReplayLayoutTests(unittest.TestCase):
             ('scripts/cluster/qwen35_slurm.py',
              'DEFAULT_DIRECT_LANES = 2', 'DEFAULT_DIRECT_LANES = 4'),
             ('scripts/cluster/dram_resource_sampler.py', 'GIB = 1024**3', 'GIB = 1024**2'),
+            ('scripts/cluster/dram_complete_frame_analysis.py',
+             '"--run-dir", str(view)', '"--run-dir", str(directory)'),
+            ('scripts/cluster/dram_complete_frame_analysis.py',
+             'boundary["measurement_seconds"] < 1200', 'boundary["measurement_seconds"] < 120'),
+            ('scripts/cluster/run_swe_sif_shards_in_step.sh',
+             'SLURM_PROCID + SLURM_NTASKS * local_worker', 'SLURM_PROCID + local_worker'),
+            ('scripts/cluster/run_swe_sif_shards_in_step.sh',
+             'status=1', 'status=0'),
+            ('scripts/cluster/run_swe_sif_shards_in_step.sh',
+             '! -f "${policy}"', 'false'),
             ('scripts/tools/run_swe_aiohttp_matrix.py',
              "PD_FUSED_CONGESTION_RECOMPUTE='false'", "PD_FUSED_CONGESTION_RECOMPUTE='true'"),
             ('tests/test_qwen35_fused_swe_topology.py',

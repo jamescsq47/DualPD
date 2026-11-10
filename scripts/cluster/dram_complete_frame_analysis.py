@@ -19,6 +19,11 @@ D_TOKEN = "sglang_realtime_tokens_total|mode=decode"
 P_GPU = "sglang_gpu_execution_seconds_total|category=forward_extend"
 D_GPU = "sglang_gpu_execution_seconds_total|category=forward_decode"
 VIEW = "analysis-complete-frames-v1"
+# Historical controllers intentionally use the analysis environment even when
+# the controller itself runs under another interpreter. Portable callers may
+# select their own interpreter explicitly; project code never comes from a
+# hard-coded site checkout.
+DEFAULT_ANALYSIS_PYTHON = "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python3.12"
 
 
 def complete_frames(rows, env, start, end):
@@ -99,7 +104,7 @@ def complete_frames(rows, env, start, end):
     return frames, audit
 
 
-def prepare_analysis(directory):
+def prepare_analysis(directory, *, python=None, project_root=None):
     directory = Path(directory)
     boundary = json.loads((directory / "closed_loop_boundaries.json").read_text())
     if boundary["warmup_seconds"] < 300 or boundary["measurement_seconds"] < 1200:
@@ -133,8 +138,10 @@ def prepare_analysis(directory):
                            decode_transfer_requests=metrics.get("sglang_num_decode_transfer_queue_reqs", 0),
                            prefill_inflight_requests=metrics.get("sglang_num_prefill_inflight_queue_reqs", 0))
                 stream.write(json.dumps(row) + "\n")
-    python = "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python3.12"
-    analyzer = Path("/home/shangy/dualpd/DualPD/scripts/tools/analyze_pd_offload.py")
+    python = DEFAULT_ANALYSIS_PYTHON if python is None else str(python)
+    root = (Path(__file__).resolve().parents[2] if project_root is None
+            else Path(project_root))
+    analyzer = root / "scripts/tools/analyze_pd_offload.py"
     subprocess.run([python, str(analyzer), "--run-dir", str(view)], check=True, timeout=600)
     for name in ("offload_analysis_summary.json", "steady_offload_analysis.png"):
         old = directory / name

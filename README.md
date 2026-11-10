@@ -49,3 +49,10 @@ Run the local search service with
 
 See `docs/EXTRACTION.md` for migration scope and `tests/reports/README.md` for
 validation evidence. The original source worktrees remain available for comparison.
+
+The staged cleanup's measured before/after results are in
+[ENGINE_CLEANUP_RESULTS.md](docs/ENGINE_CLEANUP_RESULTS.md). Actual TCP/TP2
+coverage and remaining gates are tracked in
+[FINAL_ENGINE_VALIDATION_PLAN.md](docs/FINAL_ENGINE_VALIDATION_PLAN.md);
+[HYBRID_RUNTIME_VALIDATION.md](docs/HYBRID_RUNTIME_VALIDATION.md) distinguishes
+the preserved stable-prompt Mamba compatibility mode from full-parent reuse.

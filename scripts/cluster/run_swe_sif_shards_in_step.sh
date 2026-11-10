@@ -7,10 +7,18 @@ set -euo pipefail
 : "${SLURM_PROCID:?must run as an srun task}"
 : "${SLURM_NTASKS:?must run as an srun task}"
 
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+project_root="$(cd -- "${script_dir}/../.." && pwd)"
+workspace_root="$(cd -- "${project_root}/.." && pwd)"
 workers_per_node="${SWE_SIF_WORKERS_PER_NODE:-4}"
 log_tag="${SWE_SIF_LOG_TAG:-${SLURM_JOB_ID}}"
 temporary_base="${SWE_SIF_TEMP_BASE:-/tmp/shangy}"
 sif_dir="${SWE_SIF_DIR:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-sif}"
+dataset="${SWE_SIF_DATASET:-/orcd/scratch/orcd/003/shangy/dualpd/datasets/swe-bench-verified/test.jsonl}"
+oci_layout="${SWE_SIF_OCI_LAYOUT:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-oci}"
+log_dir="${SWE_SIF_LOG_DIR:-${workspace_root}}"
+python="${SWE_SIF_PYTHON:-python}"
+policy="${SWE_SIF_POLICY:-${script_dir}/skopeo-public-policy.json}"
 if [[ ! "${workers_per_node}" =~ ^[1-9][0-9]*$ ]]; then
   echo "SWE_SIF_WORKERS_PER_NODE must be positive" >&2
   exit 2
@@ -20,25 +28,31 @@ if [[ "${temporary_base}" != /* ]]; then
   exit 2
 fi
 
+if [[ ! -f "${policy}" || ! -r "${policy}" ]]; then
+  echo "Select a readable signature policy with SWE_SIF_POLICY: ${policy}" >&2
+  exit 2
+fi
+
 mkdir -p "${temporary_base}"
 mkdir -p "${sif_dir}"
+mkdir -p "${log_dir}"
 
 total_shards=$((SLURM_NTASKS * workers_per_node))
 pids=()
 for ((local_worker = 0; local_worker < workers_per_node; local_worker++)); do
   shard=$((SLURM_PROCID + SLURM_NTASKS * local_worker))
   temporary_root="${temporary_base}/pd-sif-convert-${log_tag}-${shard}"
-  stdout="/home/shangy/dualpd/swe-sif-step-${log_tag}-${shard}.out"
-  stderr="/home/shangy/dualpd/swe-sif-step-${log_tag}-${shard}.err"
-  python /home/shangy/dualpd/DualPD/scripts/cluster/convert_swe_oci_to_sif.py \
-    --dataset /orcd/scratch/orcd/003/shangy/dualpd/datasets/swe-bench-verified/test.jsonl \
-    --oci-layout /orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-oci \
+  stdout="${log_dir}/swe-sif-step-${log_tag}-${shard}.out"
+  stderr="${log_dir}/swe-sif-step-${log_tag}-${shard}.err"
+  "${python}" "${script_dir}/convert_swe_oci_to_sif.py" \
+    --dataset "${dataset}" \
+    --oci-layout "${oci_layout}" \
     --sif-dir "${sif_dir}" \
     --temporary-root "${temporary_root}" \
     --shard-count "${total_shards}" \
     --shard-index "${shard}" \
     --skopeo /usr/bin/skopeo \
-    --policy /home/shangy/dualpd/DualPD/scripts/cluster/skopeo-public-policy.json \
+    --policy "${policy}" \
     --mksquashfs-processors 4 \
     >"${stdout}" 2>"${stderr}" &
   pids+=("$!")

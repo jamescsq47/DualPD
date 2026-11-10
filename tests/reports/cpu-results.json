@@ -26,6 +26,7 @@
       "tests/test_benchmark_structure.py",
       "tests/test_replay_core.py",
       "tests/test_replay_layout.py",
+      "tests/test_shared_tool_paths.py",
       "tests/test_replay_shell.py",
       "tests/test_replay_complex_shell.py",
       "scripts/cluster/test_multinode.py",
@@ -36,7 +37,7 @@
     ],
     "cwd": "/home/shangy/dualpd/DualPD",
     "returncode": 0,
-    "elapsed_seconds": 199.34009170532227
+    "elapsed_seconds": 209.1149718761444
   },
   {
     "group": "engine",
@@ -78,6 +79,6 @@
     ],
     "cwd": "/home/shangy/dualpd/sglang_pd",
     "returncode": 0,
-    "elapsed_seconds": 160.01646733283997
+    "elapsed_seconds": 188.93856930732727
   }
 ]

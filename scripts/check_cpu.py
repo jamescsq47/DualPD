@@ -32,6 +32,7 @@ FRONTEND = [
     "tests/test_benchmark_structure.py",
     "tests/test_replay_core.py",
     "tests/test_replay_layout.py",
+    "tests/test_shared_tool_paths.py",
     "tests/test_replay_shell.py",
     "tests/test_replay_complex_shell.py",
     "scripts/cluster/test_multinode.py",
