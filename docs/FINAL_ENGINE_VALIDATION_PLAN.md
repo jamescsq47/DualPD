@@ -26,6 +26,64 @@ Nine model/TP dry plans
 and real-kernel TP/Mamba fault fixtures are source/functionality evidence, not
 actual distributed model forwards or accuracy verification.
 
+## Accepted dense same-host TCP/TP2 probe, 2026-11-10
+
+`dense-tp2-native-r7-20261110` now provides independently audited real-model
+evidence for the specified Qwen3-8B two-turn scenarios. P uses GPUs0/1, D uses
+GPUs4/5 on the retained node2700 allocation, with distinct logical groups and
+the maintained TCP relay, router, worker protocol and HTTP final callbacks.
+
+| Tool wait | Observed parent return | Imported parent, each P rank | Child vs fresh full recompute |
+|---|---|---|---|
+|0s|D2P Direct|192/195 tokens|13 output IDs and finish reason equal|
+|2s|D2P Host store and restore|192/195 tokens|13 output IDs and finish reason equal|
+
+Inputs use the actual native tools template, original TOOL classification,
+returned token IDs and a deterministic tool-response suffix; no forced output,
+retokenized parent or synthetic lifecycle marker substitutes for the model.
+The3-token difference is the allowed page tail, not full recomputation.
+Decode HTTP `cached_tokens=0` is not the P-side imported-parent metric.
+
+Four healthy hash-bound final checkpoints (request12),14 Direct source chains,
+two-rank Host READ receipts/commit and actual source Host extent reclamation
+support the named transfers. Both normally stopped provisional children receive
+genuine final callbacks; terminal Host extent release and coordinator retirement
+are observed before shutdown, not inferred from callback ACKs. Independent
+review verifies final GPU/helpers0, nine free ports, unchanged zero memory
+events, original keeper identity and matching postrun source/input freeze.
+Peer-disconnect logs occur after the final checkpoint during dependency-ordered
+stop; controller exit0 does not imply every stopped child naturally exited0.
+
+### Transport setting and reproduction boundary
+
+For this exact node-local TCP recipe, set the existing `ucx_net_devices` field
+to `"mlx5_0:1"` on **both** P and D node entries. The maintained launcher already
+maps this field to each worker's `UCX_NET_DEVICES`; no runtime source, shared
+environment or global default was changed. Confirm the actual NIC/port is
+active on the intended allocation; do not copy this machine-specific name into
+unrelated machines or publish it as a universally optimal setting.
+
+The default-device r6 failed during Host READ. Separate CPU-only partial/full
+metadata tests pass6/6, while the default-device memfd DRAM-to-VRAM probe stays
+PROC at its15s deadline6/6. Its UCX protocol table selects two InfiniBand rails
+for the actual Host-to-GPU read. Restricting the same tiny probe to the above
+NIC passes6/6 full1MiB payload checks; r7 subsequently completes the real-model
+Host path. This supports the configuration remedy, not a precise distinction
+between a bad NIC, multirail selection, topology or fabric connectivity. It
+does not justify changing ownership/fence logic or NIXL versions.
+
+Artifacts are under the external validation pool's `tcp-tp2-probes/`:
+`native-read-diagnostic-summary-20261110.json` and
+`dense-tp2-native-r7-20261110/` (runtime result, source/input freeze, checkpoint
+journals, runbook, final gates). The reviewed freeze covers5631 files and the
+unchanged258-library native provenance. Preparation passes231 tests plus227
+subtests,121 existing Host/TP fault tests, and30 independent contract tests.
+
+This is bounded dense functionality, not concurrency/throughput acceptance,
+multi-host failure-domain validation, complete allocator/Radix quiescence,
+TCP P2D Host spill, hybrid/Mamba/MoE runtime or benchmark accuracy. Those
+remaining requirements below stay open; old failed runs are not relabeled.
+
 ## Actual TCP/TP model probe
 
 Use the maintained scripts/cluster/multinode.py and its real group_control V2
@@ -87,6 +145,10 @@ The probe must cover:
    port, Apptainer/squashfuse_ll/fuse-overlayfs and owned-process zero gates.
 
 ## Observability and same-host launcher gaps to resolve
+
+The following paragraphs retain the prerequisites identified before r7. The
+dated result above records their scoped implementation and evidence for that
+case, not a new public historical-query service or coverage of other models.
 
 Current V2 progress_diagnostics exposes aggregate policy/entry counts and prints
 at10-second intervals; a successful short two-turn probe can vanish between
@@ -176,7 +238,10 @@ and distinguish new releases from idempotent retries. Do not replace completion
 sinks, add CUDA copies/synchronization, invoke protocol/release actions, acquire
 new scheduling locks or block on file I/O in the hot callback. Deferred recording
 must treat dropped/overflowed records as evidence failure, not success. No such
-observer is implemented or accepted by these design findings.
+observer was implemented or accepted at the time of these design findings.
+The external test-only observer subsequently used for r7 is covered by the
+dated scoped evidence above; these historical requirements are not a claim
+that observer preparation alone validates any additional model/path.
 
 Observe physical after-state on exceptional exits too: native cleanup or lease
 removal can succeed before a later capacity callback or transport cleanup raises.

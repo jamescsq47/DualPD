@@ -60,7 +60,33 @@ job memory events zero; allocation keeper939831 remains. The independent GO
 releases the source freeze for subsequent code work, not a new GPU launch.
 Evidence is in the pool installed-router-entry-r1 case, result SHA256
 f742952cf91488b8bf60c04c67b9b5274ff30824e6a7f2e755716195407f579b.
-Actual TCP/TP2/hybrid and remaining final integration remain open.
+At that checkpoint actual TCP/TP2/hybrid and final integration remained open;
+the subsequent dense TCP/TP2 result is recorded below.
+
+### Dense TCP/TP2 functional verification, 2026-11-10
+
+The subsequent `dense-tp2-native-r7-20261110` case independently passes the
+specified Qwen3-8B same-host TCP/TP2 two-turn functional gate, with P GPUs0/1
+and D GPUs4/5. Natural tool calls with0s and2s waits take actual Direct and
+Host-return paths respectively. Both13-token child outputs exactly match
+fresh full-recompute references. Both P ranks import192 of195 parent tokens;
+the remaining3 are a page tail. Four healthy hash-bound final checkpoint
+prefixes establish14 Direct source-release chains and the specified two-rank
+Host-store/restore, source extent reclaim and terminal retirement. Controller
+exit0, GPU/helpers0, nine ports bindable, unchanged zero memory events and
+postrun source/input freeze pass independent review.
+
+This required only the maintained per-node `ucx_net_devices: "mlx5_0:1"`
+configuration knob, not an engine/shared-environment patch. With default NIC
+selection, a tiny memfd DRAM-to-VRAM probe failed to complete6/6 transfers;
+restricting both peers to that NIC passed6/6 exact1MiB comparisons. Both partial
+and full metadata forms show the same contrast. This isolates a useful
+transport configuration, not the precise bad-NIC/multirail/fabric cause.
+The earlier failed r6 remains failed; no historical throughput result changes.
+See [the final validation plan](FINAL_ENGINE_VALIDATION_PLAN.md) for scope and
+reproduction constraints. Hybrid/Mamba/MoE, TCP P2D Host spill, remaining final
+integration and the overall cleanup goal remain open. This short functional
+case is not a new300+1200 throughput comparison.
 
 ## Current accepted state
 

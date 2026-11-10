@@ -4,8 +4,13 @@ Current status: stages1–6 and stage7a are independently accepted on the local
 TP1 BrowseComp comparison; stage7a Decode11193.29 token/s,−0.64% versus ORIGINAL,
 100% reuse and clean final gates. Stage7b historical archival is independently
 accepted at11279.34 Decode token/s (+0.13% versus ORIGINAL),100% reuse and clean
-final gates under full300+1200. ActualTCP/TP2/hybrid model paths and final
-package/source integration remain open; historical operational suffix execution
+final gates under full300+1200. The later installed-Router entry comparison
+passes at11200.41 Decode token/s (−0.57% versus ORIGINAL),100% reuse and clean
+gates. Dense Qwen3-8B same-hostTCP/TP2 Direct and D2P Host two-turn functionality
+is independently verified by `dense-tp2-native-r7-20261110`, using the existing
+per-node single-NIC configuration knob; see FINAL_ENGINE_VALIDATION_PLAN.md.
+Hybrid/Mamba/MoE, TCP P2D Host spill and final package/source integration remain
+open; historical operational suffix execution
 is not established by the archival source/contract tests.
 Stage6 formally fixes trusted-profile-loader
 partial application and three same-IP listener checks, and extracts16 common
@@ -14,7 +19,8 @@ CODE GO pass; the new full300+1200 comparison is accepted at11212.44 Decode
 token/s (−0.47% versus ORIGINAL),100% parent reuse and clean final gates.
 Historical observations
 below are retained as chronology, not a claim that those fixes are unapplied.
-Maintained/replay classification and actualTCP/TP2/hybrid acceptance remain open.
+The findings below retain their original chronology. They do not override the
+dated accepted stages or claim the whole goal is complete.
 
 ## Historical read-only findings during scheduler-workset-r1
 
