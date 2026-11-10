@@ -1,8 +1,123 @@
-# DualPD
+<h1 align="center">DualPD</h1>
 
-DualPD serves multi-turn agent workloads with prefill/decode disaggregation and
-KV reuse across tool calls. These examples use the pinned
-[SGLang fork](https://github.com/jamescsq47/sglang/tree/main).
+<p align="center">
+  <strong>Bidirectional Dual-Path KV Transfer for Efficient Prefill–Decode Disaggregated Agentic LLM Serving</strong>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 license"></a>
+  <a href="https://github.com/jamescsq47/sglang"><img src="https://img.shields.io/badge/SGLang-0.5.10.post1-3c873a" alt="Based on SGLang 0.5.10.post1"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/Platform-Linux%20%7C%20NVIDIA-76b900" alt="Linux and NVIDIA GPUs"></a>
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> ·
+  <a href="#method">Method</a> ·
+  <a href="#results">Results</a> ·
+  <a href="#installation">Installation</a> ·
+  <a href="#usage">Usage</a> ·
+  <a href="#documentation">Documentation</a>
+</p>
+
+**DualPD keeps KV states with the task across agentic turns.** It co-schedules
+each task with its complete logical KV states, moving them between prefill (P),
+decode (D), and temporary CPU staging as execution progresses. This improves
+cross-turn reuse without requiring a historical copy to remain cached on a
+particular P worker.
+
+Across the paper's BrowseComp and SWE-Bench Verified experiments, DualPD achieves
+**2.54× average decode throughput over SGLang** and **1.87× over SGLang with
+HiCache and Mooncake**.
+
+<p align="center">
+  <img src="docs/images/dualpd-teaser.png" width="1000" alt="DualPD returns KV states from decode to prefill through direct GPU transfer or CPU staging, improving cross-turn reuse and decode throughput.">
+</p>
+
+## Overview
+
+Agentic tasks alternate between model generation and tool execution. Each tool
+result introduces new input that must be prefilled before decoding resumes.
+As the conversation grows, losing historical KV states causes repeated prefill
+of the same context. Long tool waits and high concurrency make this problem
+particularly costly.
+
+DualPD aligns KV placement with task progress: P workers construct or extend
+the states, D workers use and extend them during generation, and CPU memory
+temporarily holds states that are waiting for tools or GPU capacity. KV
+ownership moves after a successful handoff, so the source can release the
+task's references rather than retaining another competing copy.
+
+<p align="center">
+  <img src="docs/images/dualpd-overview.png" width="1100" alt="DualPD architecture: separate prefill and decode pools, bidirectional direct GPU paths, CPU staging buffers, and P and D routers.">
+</p>
+
+## Method
+
+DualPD combines the following mechanisms into a cross-turn state pipeline:
+
+| Component | What it does |
+| --- | --- |
+| **Task-coupled KV management** | Schedules each task with its complete logical KV states. Physical radix-cache prefix sharing remains supported; releasing one task does not delete blocks still referenced by others. |
+| **Bidirectional KV transfer** | Adds D-to-P return to the usual P-to-D flow. The next prefill can reuse the updated history, and routing can select a feasible worker instead of requiring the previous one. |
+| **Tool-aware D-to-P scheduling** | Uses direct GPU transfer when the tool output and P-side admission are ready within their waiting budgets. Otherwise, it stages states in CPU DRAM to free D-side HBM. Eligible tool-ready requests fall back to recomputation when direct admission fails and the Host-to-P restore queue is congested. |
+| **Reservation-free P-to-D admission** | Selects a D worker after prefill completes. States transfer directly when D has capacity or wait in CPU memory, avoiding advance reservations for requests that cannot yet decode. |
+| **Bounded host-memory management** | Keeps P-to-D staged states non-evictable. The D-to-P buffer uses capacity limits and recomputation-cost-aware eviction under pressure. Transfer queues advance independently of GPU forward execution. |
+
+The two directions work together: D-to-P return reduces repeated prefill,
+while late P-to-D admission keeps advance reservations from obstructing the
+state pipeline and occupying memory needed by active decode batches.
+
+### One task, multiple turns
+
+1. **Initial prefill:** a P worker processes the prompt and constructs KV states.
+2. **P-to-D handoff:** the D router selects a worker after prefill completes;
+   direct transfer is preferred, with CPU staging when D cannot yet admit it.
+3. **Decode and tool execution:** D generates tokens until completion or a tool
+   call. The return scheduler chooses direct D-to-P transfer, host staging,
+   or an eligible recomputation fallback.
+4. **Next-turn prefill:** an admitted P worker reuses the returned states and
+   processes the newly appended tool output. The cycle then repeats.
+
+During transfer, the source remains responsible until the destination has
+installed and acknowledged the complete states. Temporary physical copies
+may coexist in flight; the source releases its references after completion.
+
+## Results
+
+The paper evaluates selected models from the **Qwen3, Qwen3.5, Qwen3.8, and
+MiniMax** families on **BrowseComp** and **SWE-Bench Verified**, using single-node
+and two-node H100 deployments. The following figure retains all nine model
+and deployment panels from the paper.
+
+<p align="center">
+  <img src="docs/images/dualpd-main-results.png" width="1200" alt="Nine panels compare normalized decode throughput across models, admission concurrency levels, and single-node and multi-node deployments. DualPD is compared with SGLang and SGLang with HiCache and Mooncake.">
+</p>
+
+| Evaluation group | Average speedup over SGLang | Average speedup over SGLang + HiCache + Mooncake |
+| --- | :---: | :---: |
+| Single-node BrowseComp | **1.74×** | **1.58×** |
+| Single-node SWE-Bench Verified | **2.96×** | **1.61×** |
+| Two-node SWE-Bench Verified | **2.91×** | **2.42×** |
+| **Overall** | **2.54×** | **1.87×** |
+
+Speedups are arithmetic means of per-configuration decode-throughput ratios.
+Single-node experiments use one 8-GPU H100 server; two-node experiments use
+two 8-GPU servers. Each setting uses its profiled P:D allocation, with the
+same configuration for the compared methods. Concurrency denotes admitted
+agentic tasks, rather than the number of requests actively decoding.
+
+**Measurement protocol.** Both benchmarks execute agents and tools rather than
+replaying trajectories. BrowseComp uses a fixed local retrieval corpus, with
+300 seconds of warmup followed by 1,200 seconds of steady-state measurement.
+SWE-Bench Verified throughput counts all output tokens generated until 90% of
+tasks finish, divided by elapsed wall-clock time, to exclude the final long-tail
+phase. KV-cache hit rate is the fraction of tokens submitted for prefill whose
+KV states can be reused.
+
+These results summarize the paper's evaluated configurations. The launch
+examples below use the pinned [SGLang fork](https://github.com/jamescsq47/sglang/tree/main)
+and provide a concrete Qwen3-8B setup; model paths, topology, memory capacities,
+and tool environments must match the experiment being run.
 
 ## Installation
 
@@ -264,3 +379,30 @@ confirm its GPU processes and ports are gone before restarting; do not bypass
 resource gates. Slurm, network and container settings must match your site.
 See the [validation handoff](docs/CLEANUP_HANDOFF.md) for verified scope and
 remaining limitations.
+
+## Documentation
+
+| Resource | Contents |
+| --- | --- |
+| [Case configuration](docs/CASE_CONFIGURATION.md) | Workload configuration and launch settings. |
+| [New-method launchers](scripts/new_method/README.md) | DualPD launch scripts and experiment entry points. |
+| [Baseline launchers](scripts/baseline/README.md) | Separate SGLang and HiCache + Mooncake environments. |
+| [Multi-node execution](scripts/cluster/README.md) | Cluster launch and deployment instructions. |
+| [Workload data](data/README.md) | Dataset preparation and agent harnesses. |
+| [Design invariants](docs/AGENTIC_PD_DESIGN_INVARIANTS.md) | Snapshot ownership, lifecycle, and transfer requirements. |
+| [Validation](docs/VALIDATION.md) | Validation commands and acceptance criteria. |
+| [Validation handoff](docs/CLEANUP_HANDOFF.md) | Verified scope and remaining implementation limitations. |
+
+## Acknowledgments
+
+DualPD builds on [SGLang](https://github.com/sgl-project/sglang). Its direct
+transfer path uses SGLang's NIXL/UCX integration. The installation instructions
+pin the modified engine and the baseline engine separately for reproducibility.
+
+## License
+
+This repository is distributed under the [Apache License 2.0](LICENSE).
+Third-party components retain their respective licenses.
+
+For questions, bug reports, or reproducibility issues, please open a
+[GitHub issue](https://github.com/jamescsq47/DualPD/issues).
