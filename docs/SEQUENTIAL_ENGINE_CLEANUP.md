@@ -88,6 +88,19 @@ reproduction constraints. Hybrid/Mamba/MoE, TCP P2D Host spill, remaining final
 integration and the overall cleanup goal remain open. This short functional
 case is not a new300+1200 throughput comparison.
 
+The subsequent `dense-tp2-p2dhost-r8-20261110` also independently verifies the
+TCP P2D Host path. Only the existing `p2d_late_bind_grace_seconds` knob changes
+to0, deliberately encouraging the original unbound-snapshot spill timer;
+defaults and production sources stay unchanged. All six logical snapshots
+(parent, child and full-recompute reference for each tool delay) actually take
+Host. The final healthy checkpoint establishes12 successful source-rank stores,
+12 native source HBM release chains,12 destination-rank READ/ready transitions
+and12 P-side Host extent returns, with coordinator retirement. Both child
+outputs still exactly match their references, and D2P Direct/Host paths still
+work. Final gates and source freeze pass independent review. This closes the
+specified dense TP2 P2D Host functional case, not throughput, concurrent
+pressure, global allocator quiescence or hybrid/Mamba/MoE verification.
+
 ## Current accepted state
 
 Stages1–4 have accepted full300+1200 local BrowseComp comparisons. The latest

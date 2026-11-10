@@ -9,8 +9,11 @@ passes at11200.41 Decode token/s (−0.57% versus ORIGINAL),100% reuse and clean
 gates. Dense Qwen3-8B same-hostTCP/TP2 Direct and D2P Host two-turn functionality
 is independently verified by `dense-tp2-native-r7-20261110`, using the existing
 per-node single-NIC configuration knob; see FINAL_ENGINE_VALIDATION_PLAN.md.
-Hybrid/Mamba/MoE, TCP P2D Host spill and final package/source integration remain
-open; historical operational suffix execution
+The subsequent `dense-tp2-p2dhost-r8-20261110` also independently verifies six
+actual TCP P2D Host snapshots across both ranks using the existing0grace knob,
+with source HBM/Host release, destination READ/ready and terminal retirement.
+Hybrid/Mamba/MoE and final package/source integration remain open; historical
+operational suffix execution
 is not established by the archival source/contract tests.
 Stage6 formally fixes trusted-profile-loader
 partial application and three same-IP listener checks, and extracts16 common

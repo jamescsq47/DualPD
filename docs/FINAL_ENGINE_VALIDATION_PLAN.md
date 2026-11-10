@@ -84,6 +84,46 @@ multi-host failure-domain validation, complete allocator/Radix quiescence,
 TCP P2D Host spill, hybrid/Mamba/MoE runtime or benchmark accuracy. Those
 remaining requirements below stay open; old failed runs are not relabeled.
 
+## Accepted dense TCP/TP2 P2D Host probe, 2026-11-10
+
+`dense-tp2-p2dhost-r8-20261110` subsequently covers the P2D Host case left open
+by r7. It retains the same model, TP/GPU layout, fixed NIC, capacities,
+tool/admission thresholds and native two-turn client. The sole transport
+configuration change is the existing `p2d_late_bind_grace_seconds=0`. This
+expires the normal unbound-snapshot timer immediately, without replacing
+ownership/fence logic; if D wins the binding race, Direct remains legal and
+would not count as Host coverage. In this actual run all six logical
+parent/child/reference snapshots take Host.
+
+| Actual per-rank evidence in final checkpoint12 | Count |
+|---|---:|
+|P2D Host store, successful physical DMA|12|
+|P source Req/authority/registry retirement after store|12|
+|D Host READ complete and destination ready/bound|12|
+|P source Host extent live-to-absent after loaded READ receipts|12|
+
+The two D-rank READ receipts are observed at both source ranks:24 receipt
+observations describe12 rank reads, not24 transfers. All six P2D coordinator
+records retire. The0s parent still returns D2P Direct; the2s parent returns
+D2P Host. Both P ranks import192 of195 parent tokens, and each13-token child
+output and finish reason equals its fresh full-recompute reference. Normally
+stopped provisional children receive genuine final callbacks; their terminal
+Host extents and coordinator state retire before shutdown.
+
+Independent audit verifies four healthy hash-bound checkpoint prefixes, actual
+source release and target-ready states, final GPU/helpers0, nine free ports,
+unchanged zero memory events and matching postrun source/input freeze. Controller
+exit0 and planned dependency-stop logs do not mean all child services exited
+naturally. Source extents returned to an arena do not prove that the entire
+arena mapping/registration was removed before process shutdown.
+
+Artifacts are in `tcp-tp2-probes/dense-tp2-p2dhost-r8-20261110/` under the same
+external validation pool. Preparation passes231 tests plus227 subtests,
+102 existing Host/transfer/provider tests and9 independent contract tests.
+This closes only the specified dense TCP/TP2 P2D Host functional coverage.
+The0grace recipe is not the original BrowseComp performance configuration;
+hybrid/Mamba/MoE, multi-host, stress and full-goal acceptance remain unproven.
+
 ## Actual TCP/TP model probe
 
 Use the maintained scripts/cluster/multinode.py and its real group_control V2
