@@ -5,6 +5,11 @@ helpers. Model-specific historical recipes are under `../replay/new_method/`.
 Router, allocator, transport and lifecycle implementations belong to
 the sibling `sglang_pd` engine.
 
+For a portable Qwen3-8B single-node example, use `run_qwen3_8b.sh browsecomp`
+or `run_qwen3_8b.sh swe`. This public wrapper holds the README's defaults,
+preserves explicit environment overrides, and invokes the existing 4P:4D case
+without changing older recipes. See the root README for input preparation.
+
 ## Maintained execution chain
 
 The current staged regression enters through

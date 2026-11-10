@@ -157,85 +157,32 @@ and the workload client. It uses c256, **300 seconds of business warmup +
 of **512/256 GiB**.
 
 ```bash
-export MODEL_PATH=/path/to/models/Qwen3-8B
-export QA_DATA="$PD_DATA_ROOT/browsecomp/bc_train.jsonl"
-export PREFILL_GPUS="0 2 4 6"
-export DECODE_GPUS="1 3 5 7"
-export PREFILL_TP_SIZE=1
-export DECODE_TP_SIZE=1
-export SEARCH_GPU=7
-export SEARCH_START_AFTER_MODELS=true
-export MEM_FRACTION_STATIC=0.80
-# GPU 7 also hosts retrieval.
-export DECODE_MEM_FRACTION_STATICS="0.80 0.80 0.80 0.60"
-export MATH_RATIO=0
-export REQUESTS=680
-export SCHEDULE_FILE="$PWD/configs/workloads/fixed_browsecomp_source_order_n680.json"
-export PRESERVE_SOURCE_ORDER=true
-export SEED=2026
-export TEMPERATURE=0
-export TOP_P=1
-export TOP_K=-1
-export MAX_CONTEXT_LENGTH=40960
-export MAX_RESPONSE_LENGTH=36864
-export MAX_INFLIGHT=256
-export CLOSED_LOOP=1
-export WARMUP_REQUESTS=0
-export WARMUP_SECONDS=300
-export MAX_WARMUP_SECONDS=420
-export MEASURE_SECONDS=1200
-export FAST_TOOL_THRESHOLD_SECONDS=1
-export DIRECT_WAIT_SECONDS=1
-
-# PER PREFILL RANK: multiply by four for node totals.
-export D2P_HOST_ARENA_GIB_PER_P=128
-export P2D_HOST_ARENA_GIB_PER_P=64
-export P2D_HOST_STAGING=true
-export SGLANG_AGENTIC_KV_SHARED_HOST_ARENA_BACKEND=memfd
-export SGLANG_AGENTIC_KV_P2D_HOST_ARENA_BACKEND=memfd
-export SGLANG_AGENTIC_KV_REGISTER_CACHE_GIB=768
-export SGLANG_AGENTIC_KV_REGISTER_EAGER_ARENA=1
-export P_H2D_MAX_INFLIGHT=2
-export SGLANG_AGENTIC_KV_D2H_INFLIGHT=2
-export SGLANG_AGENTIC_KV_P2D_D2H_WORKERS=2
-export SGLANG_AGENTIC_KV_P2D_H2D_WORKERS=2
-export SGLANG_AGENTIC_KV_D2H_CHUNK_TOKENS=4096
-export SGLANG_AGENTIC_KV_P_H2D_CHUNK_TOKENS=4096
-export SGLANG_AGENTIC_KV_P2D_D2H_CHUNK_TOKENS=4096
-export SGLANG_AGENTIC_KV_P2D_H2D_CHUNK_TOKENS=4096
-export SGLANG_AGENTIC_KV_SLOW_CONGESTION_HIGH=32
-export SGLANG_AGENTIC_KV_SLOW_CONGESTION_LOW=8
-
-unset WORKLOAD_CONFIG EXPERIMENT_CONFIG
-export RUN_DIR=/path/to/results/browsecomp-qwen3-8b-c256
-bash scripts/new_method/run_4p4d_numa_case.sh
+MODEL_PATH=/path/to/models/Qwen3-8B \
+PD_DATA_ROOT=/path/to/datasets \
+RUN_DIR=/path/to/results/browsecomp-qwen3-8b-c256 \
+  bash scripts/new_method/run_qwen3_8b.sh browsecomp
 ```
 
 Startup, model loading and Host registration precede business warmup and are
 not included in the measurement window. Closed-loop mode keeps agents in
 flight and cycles through the question pool as needed. To change concurrency,
-set `MAX_INFLIGHT` and a new `RUN_DIR` and rerun. The registered-cache bound is
-not an additional physical Host arena.
+pass `MAX_INFLIGHT=512` and a new `RUN_DIR` before the same command.
+Topology, sampling, transfer and Host settings are already defaults in
+`scripts/new_method/run_qwen3_8b.sh`; set an environment variable only when
+overriding one. Host sizes are per Prefill rank (128/64 GiB × four ranks).
+GPU 7 shares retrieval and uses a lower Decode memory fraction. These examples
+do not export workload-specific settings into your shell.
 
 ### SWE-bench: 500 tasks with Docker
 
-Set the common environment and Host parameters in the BrowseComp example,
-then use these overrides **instead of executing the BrowseComp command**.
-This example keeps Qwen3-8B/4P:4D, disables retrieval and evaluates a finite
+This independent command keeps Qwen3-8B/4P:4D, disables retrieval and evaluates a finite
 500-task workload, not a timed closed-loop workload:
 
 ```bash
-export WORKLOAD_CONFIG="$PWD/configs/experiments/swe_bench_verified_openenv_structured_tool_8k_t64_500.yaml"
-export PD_SKIP_SEARCH=1
-export DECODE_MEM_FRACTION_STATICS="0.80 0.80 0.80 0.80"
-export MODEL_REASONING_PARSER=qwen3
-export MODEL_TOOL_CALL_PARSER=qwen25
-export REQUESTS=500
-export MAX_INFLIGHT=64
-export CLOSED_LOOP=0
-export WARMUP_REQUESTS=0
-export RUN_DIR=/path/to/results/swebench-qwen3-8b-c64
-bash scripts/new_method/run_4p4d_numa_case.sh
+MODEL_PATH=/path/to/models/Qwen3-8B \
+PD_DATA_ROOT=/path/to/datasets \
+RUN_DIR=/path/to/results/swebench-qwen3-8b-c64 \
+  bash scripts/new_method/run_qwen3_8b.sh swe
 ```
 
 This YAML selects the OpenEnv-style local harness with structured OpenAI
@@ -246,8 +193,10 @@ Container execution and verification need resources independently of the
 model; begin with modest concurrency. This is a usage example, not a claim of
 reproducing another model's published accuracy.
 
-Before returning to BrowseComp, unset `WORKLOAD_CONFIG`, `PD_SKIP_SEARCH`,
-`MODEL_REASONING_PARSER` and `MODEL_TOOL_CALL_PARSER`, and restore its settings.
+The workload configuration, parsers, 500-task limit and c64 concurrency are
+selected automatically. Both commands preserve explicit environment overrides;
+if reusing an old shell with manually exported experiment settings, unset those
+settings first or use a fresh shell.
 
 ### Outputs and checks
 
