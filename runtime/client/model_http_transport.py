@@ -120,7 +120,7 @@ def transport_config(args):
         "write_timeout_seconds": 10,
         "pool_timeout_seconds": 5,
         "transport_retries": 0,
-        "outer_retry_policy": "unchanged dualpd.runtime.http_utils",
+        "outer_retry_policy": "unchanged dualpd.runtime.client.http_utils",
     }
 
 

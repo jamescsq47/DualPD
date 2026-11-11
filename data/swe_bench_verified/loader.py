@@ -7,7 +7,7 @@ import logging
 from pathlib import Path
 from typing import Any, Iterable
 
-from dualpd.runtime.types import Sample
+from dualpd.runtime.client.types import Sample
 
 from dualpd.runtime.workloads.api import LoadContext
 from dualpd.runtime.workloads.config import DatasetSpec

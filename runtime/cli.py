@@ -13,7 +13,7 @@ def main():
     rest = sys.argv[2:]
     root = Path(__file__).resolve().parents[1]
     if args.command == "doctor":
-        modules = ["dualpd.runtime.types", "dualpd.runtime.generation", "dualpd.runtime.workloads.config",
+        modules = ["dualpd.runtime.client.types", "dualpd.runtime.client.generation", "dualpd.runtime.workloads.config",
                    "dualpd.data.browsecomp", "dualpd.data.swe_bench_verified"]
         for name in modules:
             module = importlib.import_module(name)

@@ -11,7 +11,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from typing import Any
 
-from dualpd.runtime.types import Sample
+from dualpd.runtime.client.types import Sample
 
 TRACE_VERSION = 1
 SGLANG_TRACE_META_KEYS = (

@@ -188,13 +188,9 @@ def confirm_agentic_generation_final(
     if not p_ready_dir:
         return False
     try:
-        from sglang.srt.disaggregation.agentic_early_claim import (
-            AgenticEarlyClaimStore,
-        )
-        from sglang.srt.disaggregation.agentic_kv_lifecycle import RequestGeneration
+        from sglang.srt.disaggregation.agentic_client import publish_local_ack
 
-        store = AgenticEarlyClaimStore(os.path.join(p_ready_dir, "early-claims"))
-        store.publish_final(RequestGeneration(str(request_id), generation))
+        publish_local_ack(p_ready_dir, str(request_id), generation, event="final")
         return True
     except (OSError, TypeError, ValueError):
         # Missing an optimization ACK must not fail an otherwise valid sample.
@@ -216,13 +212,9 @@ def confirm_agentic_generation_tool(
     if request_id is None:
         return False
     try:
-        from sglang.srt.disaggregation.agentic_early_claim import (
-            AgenticEarlyClaimStore,
-        )
-        from sglang.srt.disaggregation.agentic_kv_lifecycle import RequestGeneration
+        from sglang.srt.disaggregation.agentic_client import publish_local_ack
 
-        store = AgenticEarlyClaimStore(os.path.join(p_ready_dir, "early-claims"))
-        store.publish_tool(RequestGeneration(str(request_id), generation))
+        publish_local_ack(p_ready_dir, str(request_id), generation, event="tool")
         return True
     except (OSError, TypeError, ValueError):
         # Missing this optimization ACK safely disables slow-path preservation

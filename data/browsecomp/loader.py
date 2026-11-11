@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import logging
 
-from dualpd.runtime.dataset import Dataset
-from dualpd.runtime.types import Sample
+from dualpd.runtime.client.dataset import Dataset
+from dualpd.runtime.client.types import Sample
 
 from dualpd.runtime.workloads.api import LoadContext
 from dualpd.runtime.workloads.config import DatasetSpec

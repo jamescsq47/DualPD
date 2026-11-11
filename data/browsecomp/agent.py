@@ -16,7 +16,7 @@ from typing import Any
 
 import yaml
 
-from dualpd.runtime.agentic_kv_request import (
+from dualpd.runtime.client.agentic_kv_request import (
     add_agentic_kv_metadata,
     build_agentic_extra_key,
     confirm_agentic_generation_final,
@@ -25,11 +25,11 @@ from dualpd.runtime.agentic_kv_request import (
     lifecycle_enabled,
 )
 from .env import BrowseCompEnv, SearchBackendError, extract_fn_call
-from dualpd.runtime.pd_metrics import sglang_meta_attrs
-from dualpd.runtime.tracing import span as dashboard_span
-from dualpd.runtime.generation import GenerateState
-from dualpd.runtime.http_utils import post
-from dualpd.runtime.types import Sample
+from dualpd.runtime.observation.pd_metrics import sglang_meta_attrs
+from dualpd.runtime.observation.tracing import span as dashboard_span
+from dualpd.runtime.client.generation import GenerateState
+from dualpd.runtime.client.http_utils import post
+from dualpd.runtime.client.types import Sample
 
 
 BUDGET_MARGIN = 512

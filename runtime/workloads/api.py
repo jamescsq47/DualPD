@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Awaitable, Callable
 
 if TYPE_CHECKING:
-    from dualpd.runtime.types import Sample
+    from dualpd.runtime.client.types import Sample
 
     from .config import DatasetSpec
 

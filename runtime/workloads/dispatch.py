@@ -7,7 +7,7 @@ import math
 import random
 from typing import Any
 
-from dualpd.runtime.types import Sample
+from dualpd.runtime.client.types import Sample
 
 from .config import WorkloadSpec
 

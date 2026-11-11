@@ -118,8 +118,9 @@ Summaries require the completed closed-loop boundaries and at least 95%
 pool/PSS coverage; missing observation is not silently reported as zero usage.
 PSS includes model/runtime allocations and is **not** the Host KV arena usage.
 Shared memfd pages must not be summed as per-process RSS. The observer only
-reads counters; it changes no engine cache/transfer policy. Reorganized and
-legacy engine module paths are both recognized.
+reads counters; it changes no engine cache/transfer policy. The pinned custom
+engine emits its arena counters natively; the external import hook is used
+only for clean native-baseline HostKVCache pools.
 
 Mixed-Math/other unpublished workloads, abandoned probes, bandwidth tests and
 historical retry/watchdog state are intentionally not restored. No new SWE

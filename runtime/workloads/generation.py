@@ -3,7 +3,7 @@
 from typing import Any
 
 from dualpd.runtime.workloads.registry import get_harness
-from dualpd.runtime.types import Sample
+from dualpd.runtime.client.types import Sample
 
 
 _LEGACY_HARNESS = {"qa": "browsecomp"}

@@ -12,7 +12,7 @@ try:
 except ImportError:
     pq = None
 
-from dualpd.runtime.types import MultimodalTypes, Sample
+from dualpd.runtime.client.types import MultimodalTypes, Sample
 
 
 __all__ = ["Dataset"]
@@ -103,7 +103,7 @@ def filter_long_prompt(origin_samples: list[Sample], tokenizer, processor, max_l
                 if len(input_ids) <= max_length:
                     filtered_samples.append(sample)
         if multimodal:
-            from dualpd.runtime.processing_utils import process_vision_info
+            from dualpd.runtime.client.processing_utils import process_vision_info
 
             for sample in multimodal:
                 multimodal_inputs = process_vision_info(sample.prompt, processor)
@@ -236,7 +236,7 @@ class Dataset:
                 output_prompt = prompt
 
             if processor:
-                from dualpd.runtime.processing_utils import process_vision_info
+                from dualpd.runtime.client.processing_utils import process_vision_info
 
                 assert isinstance(
                     prompt, list

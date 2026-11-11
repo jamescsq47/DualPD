@@ -21,18 +21,18 @@ import re
 import time
 from typing import Any
 
-from dualpd.runtime.agentic_kv_request import (
+from dualpd.runtime.client.agentic_kv_request import (
     add_agentic_kv_metadata,
     build_agentic_extra_key,
     confirm_agentic_generation_final,
     confirm_agentic_generation_tool,
     lifecycle_enabled,
 )
-from dualpd.runtime.pd_metrics import sglang_meta_attrs
-from dualpd.runtime.tracing import span as dashboard_span
-from dualpd.runtime.generation import GenerateState
-from dualpd.runtime.http_utils import post
-from dualpd.runtime.types import Sample
+from dualpd.runtime.observation.pd_metrics import sglang_meta_attrs
+from dualpd.runtime.observation.tracing import span as dashboard_span
+from dualpd.runtime.client.generation import GenerateState
+from dualpd.runtime.client.http_utils import post
+from dualpd.runtime.client.types import Sample
 
 from .sandbox import _create_task, _verifier_semaphore
 from dualpd.data.swe_bench_verified.verifier import (

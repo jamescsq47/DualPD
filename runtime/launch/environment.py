@@ -54,6 +54,12 @@ def main() -> None:
         "sglang_package": str(package),
         "mooncake_transfer_engine_version": version("mooncake-transfer-engine"),
         "custom_modules": custom_present,
+        # These public names intentionally resolve into dualpd/ via the
+        # selected engine's package __path__; do not load a second identity.
+        "custom_module_origins": {
+            name: spec.origin if spec is not None else None
+            for name, spec in custom.items()
+        },
         "decode_manager_sha256": digest(disagg / "decode_kvcache_offload_manager.py"),
         "agentic_environment_variables": sorted(
             key for key in os.environ if key.startswith("SGLANG_AGENTIC_KV_")

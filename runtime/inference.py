@@ -18,10 +18,10 @@ from typing import TYPE_CHECKING, Any
 import httpx
 from prometheus_client.parser import text_string_to_metric_families
 
-from dualpd.runtime.pd_metrics import distribution, generation_turns
+from dualpd.runtime.observation.pd_metrics import distribution, generation_turns
 
 if TYPE_CHECKING:
-    from dualpd.runtime.types import Sample
+    from dualpd.runtime.client.types import Sample
 
 LOG = logging.getLogger("pd-inference")
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -539,8 +539,8 @@ async def run_one(
     semaphore: asyncio.Semaphore,
 ) -> dict[str, Any]:
     from dualpd.runtime.workloads.generation import generate_unified
-    from dualpd.runtime.generation import GenerateState
-    from dualpd.runtime.types import Sample
+    from dualpd.runtime.client.generation import GenerateState
+    from dualpd.runtime.client.types import Sample
 
     await asyncio.sleep(max(0.0, scheduled_monotonic - time.monotonic()))
     arrival_ts = time.time()
@@ -1121,7 +1121,7 @@ async def run_closed_loop(
 
 
 async def async_main(cli: argparse.Namespace) -> None:
-    from dualpd.runtime.model_http_transport import http_client_scope
+    from dualpd.runtime.client.model_http_transport import http_client_scope
 
     async with http_client_scope():
         await _async_main(cli)
@@ -1131,9 +1131,9 @@ async def _async_main(cli: argparse.Namespace) -> None:
     from dualpd.runtime.workloads.config import legacy_workload, load_workload
     from dualpd.runtime.workloads.dispatch import select_samples
     from dualpd.runtime.workloads.loading import load_samples
-    from dualpd.runtime.generation import GenerateState
-    from dualpd.runtime.model_http_transport import init_http_client, transport_config
-    from dualpd.runtime.types import Sample
+    from dualpd.runtime.client.generation import GenerateState
+    from dualpd.runtime.client.model_http_transport import init_http_client, transport_config
+    from dualpd.runtime.client.types import Sample
 
     cli.output_dir.mkdir(parents=True, exist_ok=True)
     workload = (

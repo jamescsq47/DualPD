@@ -1,4 +1,4 @@
-"""Opt-in, run-local Host-memory observation. No cache policy is changed.
+"""Opt-in, external observation of native-baseline HiCache pools only.
 
 The import hook registers constructed pools. A daemon reads counters every two
 seconds; it never waits for an allocator lock or calls a lifecycle method.
@@ -18,16 +18,19 @@ import time
 import weakref
 
 
-TARGETS = {
-    "sglang.srt.mem_cache.memory_pool_host": ("HostKVCache",),
-    "sglang.srt.disaggregation.agentic_host_staging": ("SharedHostSnapshotArena",),
-    "sglang.srt.disaggregation.p2d_host_staging": ("_RegisteredP2DHostArena",),
-    # Current fork layout; retain legacy paths above for frozen baseline runs.
-    "sglang.srt.disaggregation.dualpd.agentic_host_staging": ("SharedHostSnapshotArena",),
-    "sglang.srt.disaggregation.dualpd.p2d_host_staging": ("_RegisteredP2DHostArena",),
-}
+TARGETS = {"sglang.srt.mem_cache.memory_pool_host": ("HostKVCache",)}
 _pools = {}
 _thread_pid = None
+
+
+def _after_fork_child():
+    global _pools, _thread_pid
+    _pools = {}
+    _thread_pid = None
+
+
+if hasattr(os, "register_at_fork"):
+    os.register_at_fork(after_in_child=_after_fork_child)
 
 
 def argument(name, default=None):
@@ -39,18 +42,13 @@ def argument(name, default=None):
 
 def pool_sample(obj, metadata):
     """Read Python counters only; do not acquire locks or touch tensor data."""
-    if metadata["kind"] == "hicache":
-        total_tokens = int(obj.size)
-        free_tokens = len(obj.free_slots)
-        per_token = int(obj.size_per_token)
-        used = (total_tokens - free_tokens) * per_token
-        capacity = total_tokens * per_token
-        extra = dict(used_tokens=total_tokens - free_tokens,
-                     capacity_tokens=total_tokens, bytes_per_token=per_token)
-    else:
-        used, capacity = int(obj.used_bytes), int(obj.capacity_bytes)
-        extra = dict(committed_bytes=getattr(obj, "committed_bytes", None),
-                     closed=bool(getattr(obj, "_closed", False)))
+    total_tokens = int(obj.size)
+    free_tokens = len(obj.free_slots)
+    per_token = int(obj.size_per_token)
+    used = (total_tokens - free_tokens) * per_token
+    capacity = total_tokens * per_token
+    extra = dict(used_tokens=total_tokens - free_tokens,
+                 capacity_tokens=total_tokens, bytes_per_token=per_token)
     if not 0 <= used <= capacity:
         raise ValueError(f"inconsistent counter sample: used={used}, capacity={capacity}")
     return {**metadata, **extra, "used_bytes": used, "capacity_bytes": capacity}
@@ -94,10 +92,7 @@ def writer():
 
 def register(obj, cls_name, args, kwargs):
     global _thread_pid
-    kind = "hicache" if cls_name == "HostKVCache" else "arena"
-    directory = str(kwargs.get("directory", args[0] if args and kind == "arena" else ""))
-    direction = None if kind == "hicache" else ("p2d" if "p2d" in directory else "d2p")
-    metadata = dict(kind=kind, direction=direction, class_name=cls_name,
+    metadata = dict(kind="hicache", direction=None, class_name=cls_name,
                     object_id=id(obj), backing=getattr(obj, "path", None))
     _pools[id(obj)] = (weakref.ref(obj), metadata)
     if _thread_pid != os.getpid():

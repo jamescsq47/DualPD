@@ -20,8 +20,11 @@ def run_case(directory: Path, method: str, endpoints: list[str], command: list[s
     environment = dict(os.environ)
     environment["PD_DRAM_TRACE_DIR"] = str(directory / "dram-pools")
     environment["PD_DRAM_SAMPLE_SECONDS"] = "2"
-    observer = str(Path(__file__).resolve().parent / "host_pools")
-    environment["PYTHONPATH"] = observer + os.pathsep + environment.get("PYTHONPATH", "")
+    # The custom engine exposes its own read-only arena counters. Only stock
+    # HiCache needs an external observer; never patch custom engine classes.
+    if method == "native_mooncake":
+        observer = str(Path(__file__).resolve().parent / "host_pools")
+        environment["PYTHONPATH"] = observer + os.pathsep + environment.get("PYTHONPATH", "")
     sampler = Sampler(directory, method, endpoints, mooncake_endpoint)
     child = None
     handlers = {}

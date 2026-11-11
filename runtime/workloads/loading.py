@@ -6,8 +6,8 @@ from dataclasses import dataclass
 import random
 from typing import Any
 
-from dualpd.runtime.processing_utils import load_processor, load_tokenizer
-from dualpd.runtime.types import Sample
+from dualpd.runtime.client.processing_utils import load_processor, load_tokenizer
+from dualpd.runtime.client.types import Sample
 
 from .api import LoadContext
 from .config import WorkloadSpec

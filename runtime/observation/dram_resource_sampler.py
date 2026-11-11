@@ -144,9 +144,11 @@ class Sampler:
                 row["pool_errors"].append(f"{path.name}: {exc}")
         row["pool_count"] = len(row["pools"])
         for label in ("d2p", "p2d", "prefill", "decode"):
-            matching = [p for p in row["pools"]
-                        if (p["kind"] == "arena" and p["direction"] == label)
-                        or (p["kind"] == "hicache" and p["role"] == label)]
+            # Closed arenas may remain referenced by managers. Retain their
+            # raw diagnostic rows but never count them as active capacity.
+            matching = [p for p in row["pools"] if not p.get("closed", False)
+                        and ((p["kind"] == "arena" and p["direction"] == label)
+                             or (p["kind"] == "hicache" and p["role"] == label))]
             row[label + "_used_bytes"] = sum(p["used_bytes"] for p in matching)
             row[label + "_capacity_bytes"] = sum(p["capacity_bytes"] for p in matching)
             row[label + "_pool_count"] = len(matching)
