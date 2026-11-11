@@ -80,4 +80,13 @@ export SGLANG_OVERLAY_ROOT="${SGLANG_OVERLAY_ROOT:-${DUALPD_ENGINE_ROOT}/python}
 export HF_HOME="${HF_HOME:-${PD_DATA_ROOT}/huggingface-cache}"
 export RUN_DIR="${RUN_DIR:-${PROJECT_ROOT}/runs/${workload}-qwen3-8b-c${MAX_INFLIGHT}-$(date -u +%Y%m%dT%H%M%S)-$$}"
 source "${PROJECT_ROOT}/runtime/env.sh"
+if [[ "${PD_HOST_OBSERVE:-false}" == true ]]; then
+  if [[ "${workload}" != browsecomp ]]; then
+    echo "The DRAM observation recipe requires BrowseComp's closed-loop window" >&2; exit 2
+  fi
+  exec "${DUALPD_PYTHON:-python}" -m dualpd.runtime.observation.run_case \
+    --run-dir "${RUN_DIR}" --method new_method \
+    --ports "${PREFILL_PORTS:-27300 27320 27400 27420} ${DECODE_PORTS:-27301 27321 27401 27421}" \
+    -- bash "${PROJECT_ROOT}/runtime/launch/local/run_4p4d_numa_case.sh"
+fi
 exec bash "${PROJECT_ROOT}/runtime/launch/local/run_4p4d_numa_case.sh"

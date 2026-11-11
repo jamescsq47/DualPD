@@ -22,6 +22,9 @@ TARGETS = {
     "sglang.srt.mem_cache.memory_pool_host": ("HostKVCache",),
     "sglang.srt.disaggregation.agentic_host_staging": ("SharedHostSnapshotArena",),
     "sglang.srt.disaggregation.p2d_host_staging": ("_RegisteredP2DHostArena",),
+    # Current fork layout; retain legacy paths above for frozen baseline runs.
+    "sglang.srt.disaggregation.dualpd.agentic_host_staging": ("SharedHostSnapshotArena",),
+    "sglang.srt.disaggregation.dualpd.p2d_host_staging": ("_RegisteredP2DHostArena",),
 }
 _pools = {}
 _thread_pid = None

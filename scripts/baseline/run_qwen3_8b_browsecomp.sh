@@ -60,4 +60,14 @@ for setting in "${defaults[@]}"; do
   export "${key}"
 done
 export RUN_DIR="${RUN_DIR:-${PROJECT_ROOT}/runs/browsecomp-qwen3-8b-${mode}-c${MAX_INFLIGHT}-$(date -u +%Y%m%dT%H%M%S)-$$}"
+if [[ "${PD_HOST_OBSERVE:-false}" == true ]]; then
+  if [[ "${mode}" != hicache ]]; then
+    echo "Host observation in this entry requires hicache" >&2; exit 2
+  fi
+  exec "${DUALPD_PYTHON:-python}" -m dualpd.runtime.observation.run_case \
+    --run-dir "${RUN_DIR}" --method native_mooncake \
+    --ports "${PREFILL_PORTS} ${DECODE_PORTS}" \
+    --mooncake-port "${MOONCAKE_METRICS_PORT:-57103}" \
+    -- bash "${PROJECT_ROOT}/runtime/launch/baseline/run_pd_case.sh"
+fi
 exec bash "${PROJECT_ROOT}/runtime/launch/baseline/run_pd_case.sh"
