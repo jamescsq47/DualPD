@@ -30,7 +30,7 @@ Across the paper's BrowseComp and SWE-Bench Verified experiments, DualPD achieve
 HiCache and Mooncake**.
 
 <p align="center">
-  <img src="docs/images/dualpd-teaser.png" width="1000" alt="DualPD returns KV states from decode to prefill through direct GPU transfer or CPU staging, improving cross-turn reuse and decode throughput.">
+  <img src="assets/dualpd-teaser.png" width="1000" alt="DualPD returns KV states from decode to prefill through direct GPU transfer or CPU staging, improving cross-turn reuse and decode throughput.">
 </p>
 
 ## Overview
@@ -48,7 +48,7 @@ ownership moves after a successful handoff, so the source can release the
 task's references rather than retaining another competing copy.
 
 <p align="center">
-  <img src="docs/images/dualpd-overview.png" width="1100" alt="DualPD architecture: separate prefill and decode pools, bidirectional direct GPU paths, CPU staging buffers, and P and D routers.">
+  <img src="assets/dualpd-overview.png" width="1100" alt="DualPD architecture: separate prefill and decode pools, bidirectional direct GPU paths, CPU staging buffers, and P and D routers.">
 </p>
 
 ## Method
@@ -90,7 +90,7 @@ and two-node H100 deployments. The following figure retains all nine model
 and deployment panels from the paper.
 
 <p align="center">
-  <img src="docs/images/dualpd-main-results.png" width="1200" alt="Nine panels compare normalized decode throughput across models, admission concurrency levels, and single-node and multi-node deployments. DualPD is compared with SGLang and SGLang with HiCache and Mooncake.">
+  <img src="assets/dualpd-main-results.png" width="1200" alt="Nine panels compare normalized decode throughput across models, admission concurrency levels, and single-node and multi-node deployments. DualPD is compared with SGLang and SGLang with HiCache and Mooncake.">
 </p>
 
 | Evaluation group | Average speedup over SGLang | Average speedup over SGLang + HiCache + Mooncake |
@@ -144,9 +144,7 @@ python -m pip install --upgrade pip setuptools wheel setuptools-scm
 # Install the pinned fork, not stock SGLang from PyPI.
 python -m pip install --no-build-isolation -e ./3rdparty/sglang/python
 python -m pip install -e '.[analysis]'
-python -m pip install 'nixl==1.3.2' \
-  'mooncake-transfer-engine==0.3.12.post1' 'sglang-router==0.3.2' \
-  gdown huggingface_hub
+python -m pip install -r configs/environment/runtime.txt
 
 export DUALPD_ENGINE_ROOT="$PWD/3rdparty/sglang"
 export SGLANG_OVERLAY_ROOT="$DUALPD_ENGINE_ROOT/python"
@@ -234,7 +232,7 @@ workspace storage. Export the official
 
 ```bash
 python -m pip install -e '.[swe]'
-python -m pip install -r requirements-swe-bench.txt
+python -m pip install -r configs/environment/swe.txt
 python scripts/tools/prepare_swe_bench.py \
   --dataset princeton-nlp/SWE-bench_Verified --split test \
   --output "$PD_DATA_ROOT/swe-bench-verified/test.jsonl"
@@ -369,7 +367,7 @@ Closed-loop runs also record `closed_loop_boundaries.json` and
 steady-state metrics.
 
 ```bash
-python inference.py --help
+python -m dualpd inference --help
 python -m dualpd slurm --help
 python -m dualpd multinode --help
 ```
@@ -377,21 +375,20 @@ python -m dualpd multinode --help
 The launcher manages startup and process-group cleanup. After a failed run,
 confirm its GPU processes and ports are gone before restarting; do not bypass
 resource gates. Slurm, network and container settings must match your site.
-See the [validation handoff](docs/CLEANUP_HANDOFF.md) for verified scope and
-remaining limitations.
+This release includes launch code and public workload adapters, not raw
+datasets, internal run outputs or development test fixtures. File organization
+checks are not new GPU throughput or accuracy measurements.
 
 ## Documentation
 
 | Resource | Contents |
 | --- | --- |
-| [Case configuration](docs/CASE_CONFIGURATION.md) | Workload configuration and launch settings. |
 | [New-method launchers](scripts/new_method/README.md) | DualPD launch scripts and experiment entry points. |
 | [Baseline launchers](scripts/baseline/README.md) | Separate SGLang and HiCache + Mooncake environments. |
+| [Ablations](scripts/ablations/README.md) | Transfer, routing and Host-capacity ablation commands. |
 | [Multi-node execution](scripts/cluster/README.md) | Cluster launch and deployment instructions. |
-| [Workload data](data/README.md) | Dataset preparation and agent harnesses. |
-| [Design invariants](docs/AGENTIC_PD_DESIGN_INVARIANTS.md) | Snapshot ownership, lifecycle, and transfer requirements. |
-| [Validation](docs/VALIDATION.md) | Validation commands and acceptance criteria. |
-| [Validation handoff](docs/CLEANUP_HANDOFF.md) | Verified scope and remaining implementation limitations. |
+| [Workload data](data/README.md) | Public data sources, license information and harnesses. |
+| [Application runtime](runtime/README.md) | Client-side workload execution and KV lifecycle notifications, distinct from the GPU engine. |
 
 ## Acknowledgments
 

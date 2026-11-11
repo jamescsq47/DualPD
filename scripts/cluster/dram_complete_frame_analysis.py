@@ -12,6 +12,7 @@ import math
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 
 
 P_TOKEN = "sglang_realtime_tokens_total|mode=prefill_compute"
@@ -19,11 +20,7 @@ D_TOKEN = "sglang_realtime_tokens_total|mode=decode"
 P_GPU = "sglang_gpu_execution_seconds_total|category=forward_extend"
 D_GPU = "sglang_gpu_execution_seconds_total|category=forward_decode"
 VIEW = "analysis-complete-frames-v1"
-# Historical controllers intentionally use the analysis environment even when
-# the controller itself runs under another interpreter. Portable callers may
-# select their own interpreter explicitly; project code never comes from a
-# hard-coded site checkout.
-DEFAULT_ANALYSIS_PYTHON = "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python3.12"
+DEFAULT_ANALYSIS_PYTHON = sys.executable
 
 
 def complete_frames(rows, env, start, end):

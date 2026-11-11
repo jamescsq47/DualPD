@@ -1,10 +1,10 @@
 {
-  "run_id": "qwen3-32b-tp8-smoke-CHANGE-ME",
+  "run_id": "qwen3-32b-tp8-main",
   "local_root": "/tmp/dualpd-local",
-  "sglang_root": "/jizhicfs/pkuhetu/siwei/dualpd/sglang",
-  "slime_root": "/jizhicfs/pkuhetu/siwei/dualpd/slime",
-  "python": "/REPLACE/WITH/pd_multi_node/bin/python",
-  "model_path": "/REPLACE/WITH/Qwen3-32B",
+  "sglang_root": "/path/to/DualPD/3rdparty/sglang",
+  "dualpd_root": "/path/to/DualPD",
+  "python": "/path/to/envs/dualpd/bin/python",
+  "model_path": "/path/to/models/Qwen3-32B",
   "tp_size": 8,
   "page_size": 64,
   "context_length": 40960,
@@ -19,7 +19,7 @@
     "enabled": true,
     "node_id": "node-p",
     "listen_host": "0.0.0.0",
-    "advertise_host": "28.49.24.105",
+    "advertise_host": "10.0.0.1",
     "port": 62080,
     "token": "REPLACE-WITH-RANDOM-SECRET"
   },
@@ -28,13 +28,13 @@
   "nodes": [
     {
       "node_id": "node-p", "engine_id": "prefill-0", "role": "prefill",
-      "host_ip": "28.49.24.105", "gpus": [0,1,2,3,4,5,6,7],
+      "host_ip": "10.0.0.1", "gpus": [0,1,2,3,4,5,6,7],
       "numa_nodes": [], "mem_fraction_static": 0.80,
       "port": 30000, "bootstrap_port": 8998, "reverse_bootstrap_port": 61000
     },
     {
       "node_id": "node-d", "engine_id": "decode-0", "role": "decode",
-      "host_ip": "28.59.0.110", "gpus": [0,1,2,3,4,5,6,7],
+      "host_ip": "10.0.0.2", "gpus": [0,1,2,3,4,5,6,7],
       "numa_nodes": [], "mem_fraction_static": 0.80,
       "port": 30000, "bootstrap_port": 8998, "reverse_bootstrap_port": 61000
     }

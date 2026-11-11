@@ -7,14 +7,18 @@ build/
 dist/
 *.log
 *.lock
-tests/reports/*.jsonl
 .cache/
-runs-host/**/*.jsonl
-runs-host/**/*.csv
 
 __pycache__/
 artifacts/
 runs/
-runs-host/**/logs/
 *.nsys-rep
 *.sqlite
+*.jsonl
+*.parquet
+*.pkl
+*.sif
+*.safetensors
+models/
+datasets/
+containers/

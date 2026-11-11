@@ -10,7 +10,7 @@ source "${SCRIPT_DIR}/../common/runtime.sh"
 pd_install_cleanup_traps
 cd "${PD_DIR}"
 
-PD_ENV_BIN="${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd_baseline/bin}"
+PD_ENV_BIN="${PD_ENV_BIN:-${BASELINE_ENV_BIN:?Set BASELINE_ENV_BIN}}"
 MODEL_PATH="${MODEL_PATH:-/dataset/model/qwen3/Qwen3-8B}"
 MODEL_CONTEXT_LENGTH="${MODEL_CONTEXT_LENGTH:-40960}"
 MODEL_MAX_RESPONSE_LENGTH="${MODEL_MAX_RESPONSE_LENGTH:-36864}"
@@ -21,7 +21,7 @@ MATH_DATA="${MATH_DATA:-${WORKSPACE_ROOT}/data/dapo-math-17k/dapo-math-17k.jsonl
 QA_DATA="${QA_DATA:-${WORKSPACE_ROOT}/data/browsecomp/bc_train.jsonl}"
 WORKLOAD_CONFIG="${WORKLOAD_CONFIG:-}"
 CASE_MODE="${CASE_MODE:-no_reverse}"
-RUN_DIR="${RUN_DIR:-${PD_DIR}/runs-host/baseline-${CASE_MODE}}"
+RUN_DIR="${RUN_DIR:-${PD_DIR}/runs/baseline-${CASE_MODE}}"
 PREFILL_GPUS="${PREFILL_GPUS:-0}"
 DECODE_GPUS="${DECODE_GPUS:-1 2 3 4 5}"
 PREFILL_GPU_GROUPS="${PREFILL_GPU_GROUPS:-}"
@@ -55,10 +55,10 @@ TOP_K="${TOP_K:--1}"
 WARMUP_SECONDS="${WARMUP_SECONDS:-300}"
 MEASURE_SECONDS="${MEASURE_SECONDS:-1200}"
 CLOSED_LOOP="${CLOSED_LOOP:-true}"
-SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_random_s2026_n4096.json}"
+SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_browsecomp_source_order_n680.json}"
 DISPATCH_POLICY="${DISPATCH_POLICY:-fixed}"
 PAGE_SIZE="${PAGE_SIZE:-64}"
-MATH_RATIO="${MATH_RATIO:-0.5}"
+MATH_RATIO="${MATH_RATIO:-0}"
 P_HICACHE_SIZE="${P_HICACHE_SIZE:-128}"
 D_HICACHE_SIZE="${D_HICACHE_SIZE:-56}"
 HICACHE_MEM_LAYOUT="${HICACHE_MEM_LAYOUT:-page_first}"
@@ -392,7 +392,7 @@ fi
 # An interruptible wait lets the launcher run its cleanup trap immediately.
 # A foreground Python command would defer SIGTERM handling until it exits.
 setsid env SLIME_HTTP_READ_TIMEOUT_SECONDS="${SLIME_HTTP_READ_TIMEOUT_SECONDS:-3600}" \
-"${PD_ENV_BIN}/python" inference.py "${infer_args[@]}" >"${RUN_DIR}/inference.log" 2>&1 &
+"${PD_ENV_BIN}/python" -m dualpd.runtime.inference "${infer_args[@]}" >"${RUN_DIR}/inference.log" 2>&1 &
 inference_pid=$!; pd_track_group "${inference_pid}"
 wait "${inference_pid}"
 case "${POST_ANALYZER}" in

@@ -11,31 +11,23 @@ dependencies = [
   "aiohttp>=3.12,<4", "httpx[http2]>=0.28,<0.29", "numpy>=2,<3",
   "transformers>=4.51", "PyYAML>=6,<7", "jinja2>=3.1,<4",
   "prometheus-client>=0.20,<1", "psutil>=5.9,<8", "orjson>=3.10",
-  "fastapi>=0.115", "uvicorn>=0.30", "pyarrow>=19", "datasets>=3",
+  "fastapi>=0.115", "uvicorn>=0.30", "pyarrow>=19", "datasets>=3", "pillow",
 ]
 
 [project.optional-dependencies]
-test = ["pytest>=8", "pytest-asyncio>=0.24"]
 analysis = ["matplotlib>=3.9", "pandas>=2", "scipy>=1.13"]
-swe = ["docker>=7", "swebench", "mini-swe-agent==2.4.6"]
+swe = ["docker>=7", "swebench==4.0.3"]
 
 [project.scripts]
 dualpd = "dualpd.runtime.cli:main"
 
-[tool.setuptools.package-data]
-dualpd = ["configs/**/*", "scripts/**/*", "docs/*.md", "data/**/*.yaml", "data/**/*.json", "data/**/*.txt", "data/**/*.j2", "requirements*.txt", "requirement.txt"]
+[tool.setuptools]
+packages = ["dualpd", "dualpd.runtime", "dualpd.runtime.workloads", "dualpd.data",
+            "dualpd.data.browsecomp", "dualpd.data.swe_bench_verified"]
+package-dir = {dualpd = "."}
+include-package-data = false
 
-[tool.pytest.ini_options]
-testpaths = [
-  "tests/test_standalone.py",
-  "tests/test_layout_references.py",
-  "tests/test_agentic_kv_request.py",
-  "tests/test_workload_plugins.py",
-  "tests/test_swe_bench_openenv_harness.py",
-  "tests/test_swe_bench_harness.py",
-  "tests/test_model_http_transport.py",
-  "scripts/cluster/test_multinode.py",
-  "scripts/cluster/test_process_supervisor.py", "scripts/cluster/test_qwen35_slurm.py",
-  "scripts/cluster/test_qwen35_native_pd_slurm.py", "scripts/cluster/test_qwen35_colocated_slurm.py",
-]
-pythonpath = [".", "scripts/cluster"]
+[tool.setuptools.package-data]
+dualpd = ["configs/**/*.yaml", "configs/**/*.json", "configs/**/*.yml",
+          "configs/environment/*.txt", "scripts/**/*.sh", "scripts/**/*.py",
+          "scripts/**/*.json", "data/**/*.j2", "data/**/*.yaml"]

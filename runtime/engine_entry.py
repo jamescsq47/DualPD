@@ -5,7 +5,7 @@ from pathlib import Path
 import runpy
 
 
-DEFAULT_ENGINE = Path(__file__).resolve().parents[2] / "sglang_pd"
+DEFAULT_ENGINE = Path(__file__).resolve().parents[1] / "3rdparty/sglang"
 ROUTERS = {
     "current": "launch_late_binding_router.py",
     "legacy_mamba": "legacy_mamba_router.py",

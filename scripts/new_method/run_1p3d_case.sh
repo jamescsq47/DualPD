@@ -3,9 +3,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PD_DIR="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
-RUN_DIR="${RUN_DIR:-${PD_DIR}/runs-host/new-method/1p3d-c256-s2026-w300-m1200}"
+RUN_DIR="${RUN_DIR:-${PD_DIR}/runs/new-method/1p3d-c256-s2026-w300-m1200}"
 mkdir -p "${RUN_DIR}"
-"${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd/bin}/python" \
+"${PD_ENV_BIN:-$(dirname -- "$(command -v python)")}/python" \
   "${SCRIPT_DIR}/../tools/check_environments.py" --expect modified \
   --output "${RUN_DIR}/environment.json"
 
@@ -16,13 +16,13 @@ source "${SCRIPT_DIR}/internal/agentic_case_environment.sh"
 dualpd_build_agentic_case_environment
 env \
   "${DUALPD_AGENTIC_COMMON_ENV[@]}" \
-  PD_ENV_BIN="${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd/bin}" RUN_DIR="${RUN_DIR}" \
+  PD_ENV_BIN="${PD_ENV_BIN:-$(dirname -- "$(command -v python)")}" RUN_DIR="${RUN_DIR}" \
   PREFILL_GPU=0 PREFILL_PORT=27300 BOOTSTRAP_PORT=28300 \
   DECODE_GPUS="${DECODE_GPUS:-1 2 3}" DECODE_PORTS="${DECODE_PORTS:-27301 27302 27303}" \
   ROUTER_PORT="${ROUTER_PORT:-27310}" ROUTER_PROMETHEUS_PORT="${ROUTER_PROMETHEUS_PORT:-27320}" \
   SEARCH_GPU="${SEARCH_GPU:-4}" SEARCH_PORT="${SEARCH_PORT:-8730}" \
-  MATH_RATIO="${MATH_RATIO:-0.5}" DISPATCH_POLICY=fixed \
-  SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_random_s2026_n4096.json}" \
+  MATH_RATIO="${MATH_RATIO:-0}" DISPATCH_POLICY=fixed \
+  SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_browsecomp_source_order_n680.json}" \
   SEED="${SEED:-2026}" REQUESTS="${REQUESTS:-4096}" MAX_INFLIGHT="${MAX_INFLIGHT:-256}" \
   PD_LATE_BINDING=1 \
   SGLANG_PD_LATE_BIND_MAX_PREFILL_INFLIGHT="${MAX_PREFILL_INFLIGHT:-4}" \

@@ -24,11 +24,8 @@ from pathlib import Path
 from prefetch_swe_oci import PINNED_DATASET_SHA256, image_name, sha256
 
 
-DEFAULT_APPTAINER = "/orcd/software/core/001/pkg/apptainer/1.5.2/bin/apptainer"
-DEFAULT_MKSQUASHFS = (
-    "/orcd/software/core/001/pkg/apptainer/1.5.2/"
-    "x86_64/libexec/apptainer/bin/mksquashfs"
-)
+DEFAULT_APPTAINER = shutil.which("apptainer") or "apptainer"
+DEFAULT_MKSQUASHFS = shutil.which("mksquashfs") or "mksquashfs"
 
 
 def instance_tag(row):

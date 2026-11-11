@@ -13,8 +13,8 @@ def main():
     rest = sys.argv[2:]
     root = Path(__file__).resolve().parents[1]
     if args.command == "doctor":
-        modules = ["dualpd.runtime.types", "dualpd.runtime.generation", "dualpd.data.config",
-                   "dualpd.data.browsecomp", "dualpd.data.swe_bench_openenv"]
+        modules = ["dualpd.runtime.types", "dualpd.runtime.generation", "dualpd.runtime.workloads.config",
+                   "dualpd.data.browsecomp", "dualpd.data.swe_bench_verified"]
         for name in modules:
             module = importlib.import_module(name)
             print(f"{name}: {module.__file__}")
@@ -22,7 +22,7 @@ def main():
             raise SystemExit("unexpected slime dependency loaded")
         print("OK: standalone workload imports; no slime modules loaded")
         return
-    modules = {"inference": "dualpd.inference"}
+    modules = {"inference": "dualpd.runtime.inference"}
     if args.command in modules:
         sys.argv = [f"dualpd {args.command}", *rest]
         runpy.run_module(modules[args.command], run_name="__main__")

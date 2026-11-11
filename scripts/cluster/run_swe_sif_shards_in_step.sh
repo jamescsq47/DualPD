@@ -12,13 +12,13 @@ project_root="$(cd -- "${script_dir}/../.." && pwd)"
 workspace_root="$(cd -- "${project_root}/.." && pwd)"
 workers_per_node="${SWE_SIF_WORKERS_PER_NODE:-4}"
 log_tag="${SWE_SIF_LOG_TAG:-${SLURM_JOB_ID}}"
-temporary_base="${SWE_SIF_TEMP_BASE:-/tmp/shangy}"
-sif_dir="${SWE_SIF_DIR:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-sif}"
-dataset="${SWE_SIF_DATASET:-/orcd/scratch/orcd/003/shangy/dualpd/datasets/swe-bench-verified/test.jsonl}"
-oci_layout="${SWE_SIF_OCI_LAYOUT:-/orcd/scratch/orcd/003/shangy/dualpd/containers/swebench-verified-oci}"
+temporary_base="${SWE_SIF_TEMP_BASE:-/tmp/dualpd-sif}"
+sif_dir="${SWE_SIF_DIR:?Set SWE_SIF_DIR}"
+dataset="${SWE_SIF_DATASET:?Set SWE_SIF_DATASET}"
+oci_layout="${SWE_SIF_OCI_LAYOUT:?Set SWE_SIF_OCI_LAYOUT}"
 log_dir="${SWE_SIF_LOG_DIR:-${workspace_root}}"
 python="${SWE_SIF_PYTHON:-python}"
-policy="${SWE_SIF_POLICY:-${script_dir}/skopeo-public-policy.json}"
+policy="${SWE_SIF_POLICY:?Set SWE_SIF_POLICY to a site-approved signature policy}"
 if [[ ! "${workers_per_node}" =~ ^[1-9][0-9]*$ ]]; then
   echo "SWE_SIF_WORKERS_PER_NODE must be positive" >&2
   exit 2

@@ -8,9 +8,9 @@ cd "${PD_DIR}"
 # Compatibility entry point retained for existing experiment scripts.  The
 # new method has no Mooncake service: lifecycle metadata lives in /dev/shm and
 # KV payloads use only Direct and the two Shared Host Arenas.
-RUN_DIR="${RUN_DIR:-${PD_DIR}/runs-host/new-method/manual-agentic-pd}"
+RUN_DIR="${RUN_DIR:-${PD_DIR}/runs/new-method/manual-agentic-pd}"
 PD_RUN_QWEN_SCRIPT="${PD_RUN_QWEN_SCRIPT:-${SCRIPT_DIR}/run_pd_servers.sh}"
-PD_ENV_BIN="${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd/bin}"
+PD_ENV_BIN="${PD_ENV_BIN:-$(dirname -- "$(command -v python)")}"
 mkdir -p "${RUN_DIR}/logs"
 
 experiment_pid=""

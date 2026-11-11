@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Public single-node Qwen3-8B defaults; older topology/replay entries stay intact.
+# Public single-node Qwen3-8B defaults, shared by main and ablation entries.
 set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
@@ -60,7 +60,7 @@ if [[ "${workload}" == browsecomp ]]; then
   )
 else
   defaults+=(
-    "WORKLOAD_CONFIG=${PROJECT_ROOT}/configs/experiments/swe_bench_verified_openenv_structured_tool_8k_t64_500.yaml"
+    "WORKLOAD_CONFIG=${PROJECT_ROOT}/configs/experiments/swe_bench_verified.yaml"
     'PD_SKIP_SEARCH=1' 'MODEL_REASONING_PARSER=qwen3'
     'MODEL_TOOL_CALL_PARSER=qwen25' 'EXPERIMENT_CONFIG='
     'DECODE_MEM_FRACTION_STATICS=0.80 0.80 0.80 0.80'

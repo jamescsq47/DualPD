@@ -1,16 +1,14 @@
-# Experiment tools
+# Input preparation and result analysis
 
-- `check_environments.py`: enforce clean-baseline versus modified environment.
-- `analyze_pd_offload.py` / `analyze_run.sh`: summarize one formal run.
-- `compare_*_baselines.py`: render retained baseline comparison tables/plots.
-- `capture_*` and `compare_pd_correctness.py`: deterministic correctness checks.
-- `analyze_agentic_kv_v1.py`: summarize request-generation lifecycle events.
-- `validate_agentic_kv_v1_runtime.py`: small serving-level path validation.
-- `plot_direct_pipeline_summary.py`: visualize Direct/slow pipeline counters.
-- `select_rate.py`: select the best point from an arrival-rate sweep.
-- `prepare_workloads.py`: convert the FoldAgent BrowseComp parquet files into
-  the JSONL schema used by this example.
-- `hold_node.sh`: optional bounded experiment holder; not part of formal tests.
+- `prepare_workloads.py browsecomp`: convert the upstream question Parquet.
+- `prepare_swe_bench.py`: export official SWE-bench Verified tasks to JSONL.
+- `prefetch_swe_bench_images.py`: prefetch official per-task Docker images.
+- `check_environments.py`: fail closed if modified/baseline engines are mixed.
+- `analyze_pd_offload.py`: final-run PD/Host observations.
+- `analyze_swe_bench_run.py`: task completion, T450/T500 and verifier results.
+- `analyze_agentic_kv_v1.py`: request-generation lifecycle observations.
+- `load_experiment_profile.py`: checked optional launcher profiles.
+- `select_rate.py`: summarize a caller-configured request-rate sweep.
 
-Analysis utilities are safe to run on completed result directories.  Capture,
-validation and holder tools may allocate GPUs; inspect their arguments first.
+Use each command's `--help`. Inputs and outputs are external run directories;
+raw logs, result tables, development probes and test fixtures are not shipped.

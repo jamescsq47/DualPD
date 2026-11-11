@@ -1,50 +1,15 @@
-# Unmodified SGLang baselines
+# Native baselines
 
-The portable Qwen3-8B BrowseComp entry is `run_qwen3_8b_browsecomp.sh`:
-select `no_reverse` or `hicache` and set `BASELINE_ENV_BIN`, `MODEL_PATH` and
-`PD_DATA_ROOT`. Its editable concurrency default is 512. See the root README
-for installation and complete commands. It delegates to `run_pd_case.sh` and
-does not modify the native baseline engine or older launcher defaults.
+Use a separate clean baseline Python/engine, never the modified submodule.
+The environment gate rejects custom agentic modules before GPU startup.
 
-All launchers in this directory default to
-`/homes/siqic/anaconda3/envs/pd_baseline`.  Before allocating a GPU they run
-`check_environments.py`; the run is rejected if any custom agentic KV module
-is present.  The resulting fingerprint is saved as `environment.json`.
+`run_qwen3_8b_browsecomp.sh no_reverse` selects native PD without reverse reuse;
+`run_qwen3_8b_browsecomp.sh hicache` selects native HiCache + Mooncake with
+Decode offload. Set BASELINE_ENV_BIN, MODEL_PATH, PD_DATA_ROOT and RUN_DIR.
+The editable concurrency default is c512. Full commands are in the root README.
 
-The reusable baseline entry points are:
-
-| Directory | Layout | Reverse KV behavior |
-|---|---|---|
-| `run_four_gpu_comparison_suite.sh` | 4 colocated / 1P:3D | colocated, no reverse KV, native Mooncake |
-| `run_two_p_two_d_comparison_suite.sh` | 2P:2D | no reverse KV, native Mooncake |
-| `run_comparison_suite.sh` | 6 colocated / 1P:5D / 2P:4D | larger architecture sweep |
-| `run_qwen3_32b_tp2_swe_bench_colocated.sh` | 4 colocated TP=2 replicas | SWE-bench Docker shell-agent validation |
-| `run_qwen35_27b_tp2_swe_bench_openenv_colocated.sh` | 4 colocated TP=2 replicas | Qwen3.5-27B + OpenEnv-style SWE-bench + official verifier |
-
-The four-GPU formal cases use Mixed 1:1, fixed seed 2026, the same c256 request
-sequence, a 300-second warmup, and a 1200-second measurement.
-
-Run the complete suite with:
-
-```bash
-bash examples/pd/scripts/baseline/run_four_gpu_comparison_suite.sh
-```
-
-Individual cases can override `RUN_DIR`, `MAX_INFLIGHT`, `WARMUP_SECONDS`, and
-`MEASURE_SECONDS`.  For example:
-
-```bash
-CASE_MODE=no_reverse PREFILL_GPUS='0 1' PREFILL_PORTS='27500 27501' \
-PREFILL_BOOTSTRAP_PORTS='28500 28501' DECODE_GPUS='2 3 4 5' \
-DECODE_PORTS='27502 27503 27504 27505' \
-bash scripts/baseline/run_pd_case.sh
-```
-
-The SWE-bench launcher additionally requires `PD_DATA_ROOT` and the official
-task images referenced by the selected dataset rows. It uses random dispatch
-rather than a legacy Retool/BrowseComp fixed schedule:
-
-```bash
-PD_DATA_ROOT=/path/to/pd-data \
-bash examples/pd/scripts/baseline/run_qwen3_32b_tp2_swe_bench_colocated.sh
-```
+`run_pd_case.sh` and `run_colocated_case.sh` are reusable launch components.
+Cluster baseline commands are in `../cluster/qwen35_native_pd_slurm.py` and
+`qwen35_colocated_slurm.py`. Keep sampling, model limits and physical-GPU
+memory fractions aligned with the main method. No custom method policy is
+added to the native baseline engine.

@@ -7,7 +7,7 @@ source "${SCRIPT_DIR}/../common/runtime.sh"
 pd_install_cleanup_traps
 cd "${PD_DIR}"
 
-PD_ENV_BIN="${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd_baseline/bin}"
+PD_ENV_BIN="${PD_ENV_BIN:-${BASELINE_ENV_BIN:?Set BASELINE_ENV_BIN}}"
 MODEL_PATH="${MODEL_PATH:-/dataset/model/qwen3/Qwen3-8B}"
 WORKSPACE_ROOT="$(dirname -- "${PD_DIR}")"
 MATH_DATA="${MATH_DATA:-${WORKSPACE_ROOT}/data/dapo-math-17k/dapo-math-17k.jsonl}"
@@ -28,7 +28,7 @@ ROUTER_PORT="${ROUTER_PORT:-27210}"
 SEARCH_GPU="${SEARCH_GPU:-6}"
 SEARCH_PORT="${SEARCH_PORT:-8720}"
 START_SEARCH_SERVER="${START_SEARCH_SERVER:-true}"
-RUN_DIR="${RUN_DIR:-${PD_DIR}/runs-host/baseline-colocated-6gpu-c384}"
+RUN_DIR="${RUN_DIR:-${PD_DIR}/runs/baseline-colocated-6gpu-c384}"
 MAX_INFLIGHT="${MAX_INFLIGHT:-384}"
 REQUESTS="${REQUESTS:-4096}"
 SEED="${SEED:-2026}"
@@ -38,9 +38,9 @@ TOP_K="${TOP_K:--1}"
 WARMUP_SECONDS="${WARMUP_SECONDS:-300}"
 MEASURE_SECONDS="${MEASURE_SECONDS:-1200}"
 CLOSED_LOOP="${CLOSED_LOOP:-true}"
-SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_random_s2026_n4096.json}"
+SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_browsecomp_source_order_n680.json}"
 DISPATCH_POLICY="${DISPATCH_POLICY:-fixed}"
-MATH_RATIO="${MATH_RATIO:-0.5}"
+MATH_RATIO="${MATH_RATIO:-0}"
 MEM_FRACTION_STATIC="${MEM_FRACTION_STATIC:-0.80}"
 MODEL_MEM_FRACTION_STATICS="${MODEL_MEM_FRACTION_STATICS:-}"
 PRESERVE_SOURCE_ORDER="${PRESERVE_SOURCE_ORDER:-false}"
@@ -201,7 +201,7 @@ elif [[ "${CLOSED_LOOP}" != "false" ]]; then
   exit 2
 fi
 SLIME_HTTP_READ_TIMEOUT_SECONDS="${SLIME_HTTP_READ_TIMEOUT_SECONDS:-3600}" \
-"${PD_ENV_BIN}/python" inference.py --model "${MODEL_PATH}" \
+"${PD_ENV_BIN}/python" -m dualpd.runtime.inference --model "${MODEL_PATH}" \
   "${workload_args[@]}" --router-port "${ROUTER_PORT}" \
   --prefill-port "${model_ports[0]}" --prefill-ports "${ports_csv}" \
   --decode-port "${model_ports[0]}" --decode-ports "${ports_csv}" \

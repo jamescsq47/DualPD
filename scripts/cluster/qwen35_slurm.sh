@@ -4,5 +4,5 @@
 # never SSH between compute nodes.
 set -euo pipefail
 dualpd_tools="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-dualpd_py="${DUALPD_PYTHON:-/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python}"
+dualpd_py="${DUALPD_PYTHON:-$(command -v python)}"
 exec "$dualpd_py" "$dualpd_tools/qwen35_slurm.py" "$@"

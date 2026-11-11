@@ -17,6 +17,7 @@ from pathlib import Path
 import re
 import secrets
 import shlex
+import shutil
 import subprocess
 import sys
 import time
@@ -26,11 +27,11 @@ import urllib.request
 
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parents[1]
-DEFAULT_PYTHON = "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python"
-DEFAULT_ENGINE = ROOT.parent / "sglang_pd"
+DEFAULT_PYTHON = sys.executable
+DEFAULT_ENGINE = ROOT / "3rdparty/sglang"
 DEFAULT_MODEL = ROOT.parent / "models/Qwen3.8-27B"
 DEFAULT_DATA = ROOT.parent / "datasets"
-DEFAULT_APPTAINER = "/orcd/software/core/001/pkg/apptainer/1.5.2/bin/apptainer"
+DEFAULT_APPTAINER = shutil.which("apptainer") or "/usr/bin/apptainer"
 DEFAULT_CC = "/usr/bin/gcc"
 DEFAULT_CXX = "/usr/bin/g++"
 DEFAULT_NVCC_CCBIN = DEFAULT_CXX
@@ -56,17 +57,14 @@ DEFAULT_FORWARD_STREAM_PRIORITY = -5
 # bandwidth.  Two leaves independent progress for each agent while keeping
 # the CPU control plane small enough not to contend with the scheduler.
 DEFAULT_NIXL_PROGRESS_THREADS = 2
-DEFAULT_SIF_DIR = (
-    Path("/orcd/pool/004") / getpass.getuser()
-    / "dualpd/containers/swebench-verified-sif"
-)
+DEFAULT_SIF_DIR = ROOT.parent / "containers/swebench-verified-sif"
 DEFAULT_DOCKER_WORKLOAD = (
     ROOT / "configs/experiments/"
-    "swe_bench_verified_openenv_structured_tool_8k_t64_500.yaml"
+    "swe_bench_verified.yaml"
 )
 DEFAULT_APPTAINER_WORKLOAD = (
     ROOT / "configs/experiments/"
-    "swe_bench_verified_openenv_structured_tool_8k_t64_500_apptainer.yaml"
+    "swe_bench_verified_apptainer.yaml"
 )
 SAFE_NAME = re.compile(r"[A-Za-z0-9_.-]+")
 DEFAULT_LOCAL_ROOT = Path("/var/tmp") / getpass.getuser() / "dualpd-v3"
@@ -209,7 +207,7 @@ def build_config(args, prefill, decode, run_dir, workload_config, swe_work_root,
         raise ValueError("run ID must contain only letters, numbers, '.', '_' or '-'")
     token = args.control_token or secrets.token_urlsafe(32)
     workload_output = run_dir / "workload"
-    inference = ROOT / "inference.py"
+    inference = ROOT / "runtime/inference.py"
     mixed = bool(getattr(args, "mixed_one_prefill_per_node", False))
     single_node_1p3d = bool(getattr(args, "single_node_1p3d", False))
     single_node_2p6d = bool(getattr(args, "single_node_2p6d", False))

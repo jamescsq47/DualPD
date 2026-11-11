@@ -1,65 +1,16 @@
-# Local request-generation KV launchers
+# DualPD main experiments
 
-This directory contains reusable topology entries and retained compatibility
-helpers. Model-specific historical recipes are under `../replay/new_method/`.
-Router, allocator, transport and lifecycle implementations belong to
-the sibling `sglang_pd` engine.
+`run_qwen3_8b.sh browsecomp` and `run_qwen3_8b.sh swe` are the public
+single-node entries; see the root README for input preparation and commands.
+Editable concurrency defaults are c512 for BrowseComp and c64 for SWE.
+Explicit environment values override defaults.
 
-For a portable Qwen3-8B single-node example, use `run_qwen3_8b.sh browsecomp`
-or `run_qwen3_8b.sh swe`. This public wrapper holds the README's defaults,
-preserves explicit environment overrides, and invokes the existing 4P:4D case
-without changing older recipes. See the root README for input preparation.
+Generic `run_*case.sh` files construct P:D topology. TP2 wrappers select logical
+GPU groups. For those lower-level entries, set MODEL_PATH, PD_ENV_BIN and an
+appropriate WORKLOAD_CONFIG explicitly. The `internal/` directory supervises
+workers, search and Router processes and shares the same cleanup path.
+It is not a second Router implementation.
 
-## Maintained execution chain
-
-The current staged regression enters through
-`scripts/cluster/engine_cleanup_quickcheck.py`. Its recipe and measurement
-helpers are in `scripts/benchmarks/`; see that directory's README. It explicitly
-selects Qwen3-8B TP1 4P:4D/c256, 680 source-order samples, seed2026,
-temperature0, tool/admission1s, total D→P512/P→D256GiB Host capacity and
-300s business warmup+1200s measurement.
-
-Reusable execution components remain:
-
-- `run_1p3d_case.sh`, `run_1p5d_case.sh`, `run_2p6d_numa_case.sh`,
-  `run_4p4d_numa_case.sh` and the TP2 topology wrappers construct case arguments.
-- `internal/run_agentic_pipeline.sh` and `run_pd_servers.sh` supervise model/
-  workload services and dependency-ordered cleanup.
-- `internal/agentic_case_environment.sh` builds16 common case argv entries.
-- `internal/apply_experiment_profile.sh` preserves explicit caller overrides
-  and fails before startup on trusted profile-loader errors.
-- `internal/launch_late_binding_router.py` is a thin engine launch bridge.
-
-Case-layer historical fallback thresholds remain2s/2s; the maintained
-regression explicitly selects1s/1s. Only4P4D applies the optional profile at this
-case layer. Fingerprint, allocation, NUMA and resource gates remain mandatory.
-
-## Host and transfer configuration
-
-Host payloads use ordinary CPU DRAM through memfd; small control metadata uses
-run-scoped `/dev/shm` directories. The current regression configures128GiB D→P
-and64GiB P→D per physical P rank, four ranks total. Both directions retain
-independent capacity/ownership. Slow Host landing and later Prefill placement
-are independent; an arena's P domain does not bind all recovery computation.
-
-The current recipe explicitly selects registered final-extent DMA,8GiB windows,
-a768GiB per-process registered-cache bound, startup prewarm/barrier, two lanes
-and4096-token chunks. The cache bound is not an extra physical arena allocation.
-Before-DMA unsupported registration/batch operations retain the bounce fallback.
-Actual ablations and Direct/Host/fence/workset/TP semantics remain governed by
-`docs/AGENTIC_PD_DESIGN_INVARIANTS.md`, not redefined here.
-
-## Retained historical recipes
-
-Model/workload-named and fused launch recipes now live under
-`scripts/replay/new_method/`. Their checkpoint and pinned-Mamba compatibility
-helpers stay at canonical `internal/` addresses because baseline snapshot tools
-also reference them. In particular, the archived
-`run_qwen3_8b_tp1_browsecomp_4p4d.sh` defaults to
-c384,1200s warmup,2s/2s and different Host/cache values. It is not the current
-regression entry. The existing profile YAML likewise records an earlier trial,
-not a substitute for the maintained recipe.
-
-Preserve recorded parameters and pinned inputs. Historical dependency closure
-validation remain pending stage7 work; these retained recipes do not imply new
-acceptance of every historical model/TP/default configuration.
+D→P and P→D capacities are independent and specified per Prefill rank. The
+public 4P:4D entry uses 128/64 GiB per P rank (512/256 GiB node totals).
+Native HiCache/Mooncake storage and native Decode offload remain baseline-only.

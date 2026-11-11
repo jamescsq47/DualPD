@@ -7,8 +7,8 @@ import logging
 from dualpd.runtime.dataset import Dataset
 from dualpd.runtime.types import Sample
 
-from dualpd.data.api import LoadContext
-from dualpd.data.config import DatasetSpec
+from dualpd.runtime.workloads.api import LoadContext
+from dualpd.runtime.workloads.config import DatasetSpec
 
 
 LOG = logging.getLogger(__name__)

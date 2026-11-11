@@ -27,25 +27,16 @@ import qwen35_slurm as site
 
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parents[1]
-DEFAULT_PYTHON = (
-    "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/"
-    "pd_baseline/bin/python"
-)
-DEFAULT_WORKLOAD_PYTHON = (
-    "/orcd/compute/songhan/001/home/shangy/miniconda3/envs/pd/bin/python"
-)
-DEFAULT_SGLANG_ROOT = ROOT.parent / "sglang-src/pd_baseline"
+DEFAULT_PYTHON = os.environ.get("BASELINE_PYTHON", sys.executable)
+DEFAULT_WORKLOAD_PYTHON = sys.executable
+DEFAULT_SGLANG_ROOT = Path(os.environ.get("BASELINE_ENGINE_ROOT", ROOT.parent / "sglang-baseline"))
 DEFAULT_MODEL = ROOT.parent / "models/Qwen3.8-27B"
 DEFAULT_DATA = ROOT.parent / "datasets"
-DEFAULT_SIF = (
-    Path("/orcd/pool/004")
-    / getpass.getuser()
-    / "dualpd/containers/swebench-verified-sif"
-)
+DEFAULT_SIF = ROOT.parent / "containers/swebench-verified-sif"
 DEFAULT_WORKLOAD = (
     ROOT
     / "configs/experiments/"
-    "swe_bench_verified_openenv_structured_tool_8k_t64_500_apptainer.yaml"
+    "swe_bench_verified_apptainer.yaml"
 )
 DEFAULT_LOCAL_ROOT = Path("/var/tmp") / getpass.getuser() / "dualpd-colocated"
 SAFE_NAME = re.compile(r"[A-Za-z0-9_.-]+")
@@ -307,7 +298,7 @@ def build_manifest(args, nodes: list[str], inventories: list[dict[str, str]]) ->
         "environment": workload_env,
         "command": [
             workload_python,
-            str(ROOT / "inference.py"),
+            str(ROOT / "runtime/inference.py"),
             "--model",
             str(args.model.resolve()),
             "--workload-config",

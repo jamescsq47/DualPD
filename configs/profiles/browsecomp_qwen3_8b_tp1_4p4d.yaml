@@ -7,9 +7,7 @@ description: >-
 # These are defaults, not hidden constants. A value explicitly exported by the
 # caller overrides the profile and is shown as such in the startup summary.
 environment:
-  WORKLOAD_CONFIG: ../experiments/browsecomp_source_order.yaml
-  MODEL_PATH: /dataset/model/qwen3/Qwen3-8B
-  PD_DATA_ROOT: /homes/siqic/data
+  WORKLOAD_CONFIG: ../experiments/browsecomp.yaml
 
   PREFILL_GPUS: "0 2 4 6"
   PREFILL_PORTS: "27300 27320 27400 27420"
@@ -37,12 +35,11 @@ environment:
 
   # Agentic KV data-plane settings under test.
   D_TARGET_KV_FRACTION: 1.0
-  # Trial on restored 4888 baseline: claimed fast Direct failures also recompute.
   FAST_TOOL_THRESHOLD_SECONDS: 1
   DIRECT_WAIT_SECONDS: 1
-  SGLANG_AGENTIC_KV_FAST_DIRECT_FAILURE_RECOMPUTE: true
+  SGLANG_AGENTIC_KV_FAST_DIRECT_FAILURE_RECOMPUTE: false
   D2P_HOST_ARENA_GIB_PER_P: 128
-  P2D_HOST_ARENA_GIB_PER_P: 32
+  P2D_HOST_ARENA_GIB_PER_P: 64
   P2D_HOST_STAGING: true
   P_TO_D_CONSUMERS: 24
   MAX_PREFILL_INFLIGHT: 12

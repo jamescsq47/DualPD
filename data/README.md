@@ -1,95 +1,24 @@
-# Workload harnesses
+# Published workloads and data licenses
 
-`data/` contains inference workload plugins, not the raw datasets. Raw JSONL
-or Parquet files remain outside the repository and are referenced by a
-workload YAML/JSON file.
+This directory contains **harness code, not raw datasets**. Only two workloads
+are supported: `browsecomp/` and `swe_bench_verified/`. Download data and
+container images separately as described in the root [README](../README.md).
+Shared configuration, sampling and loading live in `runtime/workloads/`.
 
-Each `data/<harness>/` package exports one `HARNESS` from `__init__.py`. A
-harness contains only two operations:
+| Workload/resource | Public source | Access and upstream license information |
+| --- | --- | --- |
+| SWE-bench Verified, 500 test instances | [Official dataset](https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified) | Publicly downloadable benchmark. The [SWE-bench implementation](https://github.com/SWE-bench/SWE-bench/blob/main/LICENSE) is MIT; original task repositories and container dependencies retain their own licenses. The dataset card does not declare a separate blanket dataset license; do not equate the code license with all task content. |
+| BrowseComp question split, 680 training questions | [FoldAgent release](https://github.com/sunnweiwei/FoldAgent) and its linked data archive | Publicly downloadable benchmark split. [FoldAgent code](https://github.com/sunnweiwei/FoldAgent/blob/main/LICENSE) is Apache-2.0; that alone does not establish a separate license for the linked archive or third-party question content. Use the upstream data terms; this repository does not redistribute it. |
+| BrowseComp local retrieval corpus | [Tevatron/browsecomp-plus-corpus](https://huggingface.co/datasets/Tevatron/browsecomp-plus-corpus) | Dataset card declares MIT. Original document contents may retain third-party rights. |
+| Precomputed corpus embeddings | [miaolu3/browsecomp-plus](https://huggingface.co/datasets/miaolu3/browsecomp-plus) | Hosting dataset card declares Apache-2.0; underlying corpus rights remain separate. |
 
-1. `load_samples(context, dataset_spec)` converts that dataset into Slime
-   `Sample` objects.
-2. `generate(args, sample, sampling_params)` runs one complete inference
-   trajectory, including its tools.
+These are external public benchmarks, not DualPD-owned data released under
+DualPD's Apache-2.0 license. Check upstream terms before redistribution. Model
+weights likewise retain the licenses on their model cards.
 
-The registry imports a harness lazily. Importing a harness must never launch a
-GPU service, download a corpus, or create an external environment. Services
-listed in `HARNESS.required_services` are started and supervised separately.
-
-## Workload configuration
-
-An experiment config declares dataset identities, harnesses, source paths,
-mixture weights and the sampling rule:
-
-```yaml
-schema_version: 1
-datasets:
-  - id: math
-    harness: retool
-    path: ${PD_DATA_ROOT}/dapo-math-17k/dapo-math-17k.jsonl
-    weight: 1
-    options:
-      max_response_tokens: 8192
-  - id: qa
-    harness: browsecomp
-    path: ${PD_DATA_ROOT}/browsecomp/bc_train.jsonl
-    weight: 1
-    options:
-      search_url: http://127.0.0.1:8000
-sampling:
-  policy: random
-  seed: 2026
-  preserve_source_order: false
-  shuffle_algorithm: legacy_two_stage_v1
-  count_algorithm: legacy_two_dataset_round_v1
-  pool_reuse_algorithm: cover_all_cycle_v1
-```
-
-`legacy_two_stage_v1` reproduces the original Retool/BrowseComp shuffle and
-`legacy_two_dataset_round_v1` preserves its exact two-pool rounding. New
-multi-dataset workloads should use `largest_remainder_v1`.
-`cover_all_cycle_v1` also preserves the old behavior where a smaller dataset
-is deterministically recycled until the mixed epoch covers every row of the
-largest dataset. `cycle_as_needed_v1` only repeats rows when the requested run
-is longer than a source.
-Every run writes both `resolved_workload.json` and the exact reusable
-`dispatch_sequence.json`; use the latter as a fixed schedule when an A/B test
-must consume identical sample identities in identical order.
-
-To replay a run, copy its workload config, change `sampling.policy` to
-`fixed`, and set `sampling.schedule_file` to that run's
-`dispatch_sequence.json`. Keep the same seed, shuffle algorithm, count
-algorithm, dataset order and source files.
-
-## Adding a dataset
-
-Create `data/<name>/__init__.py`, `loader.py`, and `harness.py`, then export a
-`HarnessSpec`. No central `if dataset == ...` branch is needed. Add the source
-to a workload config and select its mixture using `weight`. Dataset-specific
-settings belong under `options`; generic serving settings remain command-line
-arguments.
-
-The `terminal_bench` package is a concrete third example. Its OpenEnv service
-must be started manually and its endpoint passed as `environment_url`.
-
-`swe_bench` is a shell-agent example whose environment is inherently
-per-trajectory. It accepts official SWE-bench JSONL, JSON, or Parquet rows and
-starts one isolated Docker container per active agent. Each row may provide an
-explicit `image_name`; otherwise the official
-`docker.io/swebench/sweb.eval.x86_64.<instance>:latest` name is derived from
-`instance_id`. Host shell interpolation is never used for model commands.
-`sandbox_backend` selects local `docker`, local `apptainer`, or optional remote
-`daytona` without changing the agent loop. The Apptainer backend uses an
-immutable per-instance SIF plus either a private bound `/testbed` or a sparse
-writable overlay; home and `/tmp` remain private. A task-owned plain
-`apptainer exec` command broker amortizes tool startup; it does not depend on
-persistent Apptainer instances.
-`verifier_mode=inline` runs the hidden Miles/Harbor
-SWE-bench verifier after generation, `capture` only saves the complete patch,
-and `disabled` avoids verifier overhead during serving-only profiling.
-
-`swe_bench_openenv` reuses the same loader, sandbox transports, baseline
-validation, patch capture, and canonical verifier, but uses the Miles PR #51
-OpenEnv-style episode protocol. It intentionally lives in a separate plugin so
-old mini-SWE-agent artifacts remain reproducible. New correctness experiments
-should select `harness: swe_bench_openenv`.
+BrowseComp tools call a local search/open service over the fixed corpus.
+SWE-bench tools execute shell commands in isolated Docker or Apptainer task
+environments; hidden tests are injected only after agent termination.
+`swe_bench_verified/sandbox.py` owns sandbox setup/teardown and `verifier.py`
+owns official task grading. No benchmark payloads, task images, trajectories
+or internal experiment results are bundled here.

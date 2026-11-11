@@ -9,11 +9,11 @@ if [[ -n "${EXPERIMENT_CONFIG:-}" ]]; then
   apply_experiment_profile \
     "${EXPERIMENT_CONFIG}" \
     "${SCRIPT_DIR}/../tools/load_experiment_profile.py" \
-    "${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd/bin}/python"
+    "${PD_ENV_BIN:-$(dirname -- "$(command -v python)")}/python"
 fi
-RUN_DIR="${RUN_DIR:-${PD_DIR}/runs-host/new-method/4p4d-numa-c512}"
+RUN_DIR="${RUN_DIR:-${PD_DIR}/runs/new-method/4p4d-numa-c512}"
 mkdir -p "${RUN_DIR}"
-"${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd/bin}/python" \
+"${PD_ENV_BIN:-$(dirname -- "$(command -v python)")}/python" \
   "${SCRIPT_DIR}/../tools/check_environments.py" --expect modified \
   --output "${RUN_DIR}/environment.json"
 
@@ -22,7 +22,7 @@ source "${SCRIPT_DIR}/internal/agentic_case_environment.sh"
 dualpd_build_agentic_case_environment
 env \
   "${DUALPD_AGENTIC_COMMON_ENV[@]}" \
-  PD_ENV_BIN="${PD_ENV_BIN:-/homes/siqic/anaconda3/envs/pd/bin}" RUN_DIR="${RUN_DIR}" \
+  PD_ENV_BIN="${PD_ENV_BIN:-$(dirname -- "$(command -v python)")}" RUN_DIR="${RUN_DIR}" \
   PREFILL_GPU=0 PREFILL_GPUS="${PREFILL_GPUS:-0 2 4 6}" \
   PREFILL_PORT=27300 PREFILL_PORTS="${PREFILL_PORTS:-27300 27320 27400 27420}" \
   BOOTSTRAP_PORT=28300 BOOTSTRAP_PORTS="${BOOTSTRAP_PORTS:-28300 28320 28400 28420}" \
@@ -31,9 +31,9 @@ env \
   DECODE_MEM_FRACTION_STATICS="${DECODE_MEM_FRACTION_STATICS:-0.80 0.80 0.80 0.60}" \
   ROUTER_PORT="${ROUTER_PORT:-27510}" ROUTER_PROMETHEUS_PORT="${ROUTER_PROMETHEUS_PORT:-27520}" \
   SEARCH_GPU="${SEARCH_GPU:-7}" SEARCH_PORT="${SEARCH_PORT:-8750}" \
-  MATH_RATIO="${MATH_RATIO:-0.5}" DISPATCH_POLICY=fixed \
+  MATH_RATIO="${MATH_RATIO:-0}" DISPATCH_POLICY=fixed \
   PD_INFERENCE_RETURN_LOGPROB=false \
-  SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_random_s2026_n4096.json}" \
+  SCHEDULE_FILE="${SCHEDULE_FILE:-${PD_DIR}/configs/workloads/fixed_browsecomp_source_order_n680.json}" \
   SEED="${SEED:-2026}" REQUESTS="${REQUESTS:-4096}" MAX_INFLIGHT="${MAX_INFLIGHT:-512}" \
   PD_LATE_BINDING=1 PD_LATE_BIND_NUMA_DOMAINS="${PD_LATE_BIND_NUMA_DOMAINS:-1}" \
   SGLANG_PD_LATE_BIND_DYNAMIC_PREFILL_DOMAINS="${SGLANG_PD_LATE_BIND_DYNAMIC_PREFILL_DOMAINS:-1}" \

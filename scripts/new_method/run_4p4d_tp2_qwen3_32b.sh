@@ -6,7 +6,7 @@ set -euo pipefail
 #   P [0,4] [2,6]
 #   D [1,5] [3,7]
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-export MODEL_PATH="${MODEL_PATH:-/homes/siqic/Qwen3-32B}"
+export MODEL_PATH="${MODEL_PATH:?Set MODEL_PATH to Qwen3-32B}"
 export PREFILL_GPU_GROUPS="${PREFILL_GPU_GROUPS:-0,4;2,6}"
 export DECODE_GPU_GROUPS="${DECODE_GPU_GROUPS:-1,5;3,7}"
 export PREFILL_TP_SIZE=2
@@ -20,6 +20,6 @@ export DECODE_MEM_FRACTION_STATICS="${DECODE_MEM_FRACTION_STATICS:-0.80 0.60}"
 # group already uses GPU7's lower, uniform KV-pool fraction, so the remaining
 # free-memory difference is expected rather than evidence of a stray process.
 export SGLANG_ENABLE_TP_MEMORY_INBALANCE_CHECK="${SGLANG_ENABLE_TP_MEMORY_INBALANCE_CHECK:-false}"
-export RUN_DIR="${RUN_DIR:-${SCRIPT_DIR}/../../runs-host/new-method/qwen3-32b-tp2-4p4d}"
+export RUN_DIR="${RUN_DIR:-${SCRIPT_DIR}/../../runs/new-method/qwen3-32b-tp2-4p4d}"
 
 exec bash "${SCRIPT_DIR}/run_4p4d_numa_case.sh"

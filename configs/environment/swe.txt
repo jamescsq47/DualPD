@@ -1,0 +1,2 @@
+# Official verifier API used by data/swe_bench_verified/verifier.py.
+swebench==4.0.3

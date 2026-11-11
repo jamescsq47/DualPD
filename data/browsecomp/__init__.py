@@ -1,6 +1,6 @@
 """BrowseComp dataset adapter and search-agent harness."""
 
-from dualpd.data.api import HarnessSpec
+from dualpd.runtime.workloads.api import HarnessSpec
 
 from .harness import generate
 from .loader import load_samples
