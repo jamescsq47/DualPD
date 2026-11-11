@@ -1,0 +1,92 @@
+{
+  "description": "MiniMax-M2.7 TP8/EP8, two-node logical 1P:1D, SWE Verified500",
+  "source": "61e3342:scripts/replay/cluster/minimax_m27_two_node_autopilot.py + minimax_m27_baseline_matrix_autopilot.py",
+  "model": "MiniMax-M2.7",
+  "concurrencies": [
+    64,
+    96,
+    128,
+    192,
+    256,
+    320,
+    384,
+    448
+  ],
+  "workload": "swe_bench_verified_apptainer.yaml",
+  "common": [
+    "--requests",
+    "500",
+    "--concurrency",
+    "128",
+    "--tp-size",
+    "8"
+  ],
+  "new_method": [
+    "--groups-per-node",
+    "1",
+    "--d2p-host-gib-per-rank",
+    "64",
+    "--p2d-host-gib-per-rank",
+    "32",
+    "--d2p-direct-lanes",
+    "2",
+    "--p2d-direct-lanes",
+    "1",
+    "--host-lanes",
+    "2",
+    "--host-load-workers",
+    "1",
+    "--nixl-progress-threads",
+    "2",
+    "--forward-stream-priority",
+    "-5",
+    "--flashinfer-allreduce-max-tokens",
+    "8192",
+    "--launch-transport",
+    "ssh",
+    "--model-family",
+    "minimax_m2"
+  ],
+  "baseline": [
+    "--ep-size",
+    "8",
+    "--reasoning-parser",
+    "minimax-append-think",
+    "--tool-call-parser",
+    "minimax-m2",
+    "--auto-kernel-backends",
+    "--mamba-buffer-strategy",
+    "no_buffer"
+  ],
+  "native": [
+    "--prefill-groups-per-node",
+    "1",
+    "--decode-groups-per-node",
+    "1",
+    "--mamba-cache-strategy-flag",
+    "scheduler",
+    "--launch-transport",
+    "srun"
+  ],
+  "hicache": [
+    "--disable-mlir-multithreading",
+    "--prefill-hicache-size-gb",
+    "64",
+    "--decode-hicache-size-gb",
+    "64",
+    "--mooncake-store-size-gb",
+    "512",
+    "--mooncake-prefetch-policy",
+    "wait_complete"
+  ],
+  "colocated": [
+    "--groups-per-node",
+    "1",
+    "--node0-groups",
+    "1",
+    "--node1-groups",
+    "1",
+    "--cpus-per-node",
+    "224"
+  ]
+}

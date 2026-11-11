@@ -1,0 +1,75 @@
+{
+  "description": "Qwen3.5-122B-A10B TP8, two-node logical 1P:1D, SWE Verified500",
+  "source": "61e3342:scripts/replay/cluster/qwen35_122b_completion_autopilot.py",
+  "model": "Qwen3.5-122B-A10B",
+  "concurrencies": [
+    64,
+    128,
+    192,
+    256
+  ],
+  "workload": "swe_bench_verified_apptainer.yaml",
+  "common": [
+    "--requests",
+    "500",
+    "--concurrency",
+    "128",
+    "--tp-size",
+    "8"
+  ],
+  "new_method": [
+    "--groups-per-node",
+    "1",
+    "--d2p-host-gib-per-rank",
+    "64",
+    "--p2d-host-gib-per-rank",
+    "32",
+    "--d2p-direct-lanes",
+    "2",
+    "--p2d-direct-lanes",
+    "1",
+    "--host-lanes",
+    "2",
+    "--host-load-workers",
+    "1",
+    "--nixl-progress-threads",
+    "2",
+    "--forward-stream-priority",
+    "-5",
+    "--flashinfer-allreduce-max-tokens",
+    "8192",
+    "--launch-transport",
+    "ssh"
+  ],
+  "baseline": [],
+  "native": [
+    "--prefill-groups-per-node",
+    "1",
+    "--decode-groups-per-node",
+    "1",
+    "--mamba-cache-strategy-flag",
+    "scheduler",
+    "--launch-transport",
+    "ssh"
+  ],
+  "hicache": [
+    "--mamba-full-memory-ratio",
+    "0.5",
+    "--prefill-hicache-size-gb",
+    "26",
+    "--decode-hicache-size-gb",
+    "26",
+    "--mamba-hicache-size-gb",
+    "16",
+    "--mooncake-store-size-gb",
+    "512",
+    "--mooncake-prefetch-policy",
+    "wait_complete"
+  ],
+  "colocated": [
+    "--groups-per-node",
+    "1",
+    "--cpus-per-node",
+    "224"
+  ]
+}

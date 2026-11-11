@@ -258,6 +258,12 @@ done
 
 ## Usage
 
+Model-specific Qwen3.5, Qwen3.8 and MiniMax experiment launchers are listed in
+[the main-method model/topology table](scripts/new-method/README.md#model-specific-swe-experiments-allocated-slurm-nodes),
+with corresponding [native baseline commands](scripts/baseline/README.md#model-specific-entries).
+These preserve model-specific launch recipes; the examples below introduce
+the smaller Qwen3-8B configuration.
+
 Use an exclusively allocated GPU node with idle GPUs and free ports, not a
 login node. Activate the environment and set the variables above first.
 Run one case at a time with a new `RUN_DIR`.

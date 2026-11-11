@@ -1,0 +1,79 @@
+{
+  "description": "Qwen3.5-9B TP1, single-node logical 2P:6D, SWE Verified500 PR51 fenced-shell",
+  "source": "61e3342:scripts/replay/cluster/qwen35_9b_h100_matrix_autopilot.py",
+  "model": "Qwen3.5-9B",
+  "concurrencies": [
+    128,
+    192,
+    256
+  ],
+  "workload": "swe_bench_verified_miles_pr51_apptainer.yaml",
+  "common": [
+    "--requests",
+    "500",
+    "--concurrency",
+    "128",
+    "--tp-size",
+    "1",
+    "--reasoning-parser",
+    "qwen3",
+    "--deterministic-inference"
+  ],
+  "new_method": [
+    "--single-node-2p6d",
+    "--d2p-host-gib-per-rank",
+    "64",
+    "--p2d-host-gib-per-rank",
+    "32",
+    "--d2p-direct-lanes",
+    "2",
+    "--p2d-direct-lanes",
+    "1",
+    "--host-lanes",
+    "2",
+    "--host-load-workers",
+    "1",
+    "--nixl-progress-threads",
+    "2",
+    "--forward-stream-priority",
+    "-5",
+    "--flashinfer-allreduce-max-tokens",
+    "8192",
+    "--launch-transport",
+    "ssh"
+  ],
+  "baseline": [],
+  "native": [
+    "--single-node-2p6d",
+    "--prefill-groups-per-node",
+    "2",
+    "--decode-groups-per-node",
+    "6",
+    "--launch-transport",
+    "ssh",
+    "--mamba-cache-strategy-flag",
+    "scheduler"
+  ],
+  "hicache": [
+    "--disable-mlir-multithreading",
+    "--prefill-hicache-size-gb",
+    "33",
+    "--decode-hicache-size-gb",
+    "33",
+    "--mamba-hicache-size-gb",
+    "24",
+    "--mooncake-store-size-gb",
+    "256",
+    "--mooncake-prefetch-policy",
+    "wait_complete"
+  ],
+  "colocated": [
+    "--single-node",
+    "--groups-per-node",
+    "8",
+    "--node0-groups",
+    "8",
+    "--cpus-per-node",
+    "224"
+  ]
+}

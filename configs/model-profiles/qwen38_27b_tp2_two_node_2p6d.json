@@ -1,0 +1,76 @@
+{
+  "description": "Qwen3.8-27B TP2, two-node mixed logical 2P:6D, SWE Verified500",
+  "source": "61e3342:scripts/replay/cluster/qwen38_matrix_autopilot.py",
+  "model": "Qwen3.8-27B",
+  "concurrencies": [
+    128,
+    192,
+    256
+  ],
+  "workload": "swe_bench_verified_apptainer.yaml",
+  "common": [
+    "--requests",
+    "500",
+    "--concurrency",
+    "128",
+    "--tp-size",
+    "2"
+  ],
+  "new_method": [
+    "--mixed-one-prefill-per-node",
+    "--d2p-host-gib-per-rank",
+    "64",
+    "--p2d-host-gib-per-rank",
+    "32",
+    "--d2p-direct-lanes",
+    "2",
+    "--p2d-direct-lanes",
+    "1",
+    "--host-lanes",
+    "2",
+    "--host-load-workers",
+    "1",
+    "--nixl-progress-threads",
+    "2",
+    "--forward-stream-priority",
+    "-5",
+    "--flashinfer-allreduce-max-tokens",
+    "8192",
+    "--launch-transport",
+    "ssh"
+  ],
+  "baseline": [],
+  "native": [
+    "--mixed-one-prefill-per-node",
+    "--prefill-groups-per-node",
+    "1",
+    "--decode-groups-per-node",
+    "3",
+    "--mamba-full-memory-ratio",
+    "0.9",
+    "--launch-transport",
+    "ssh",
+    "--mamba-cache-strategy-flag",
+    "scheduler"
+  ],
+  "hicache": [
+    "--mamba-cache-strategy-flag",
+    "radix",
+    "--prefill-hicache-size-gb",
+    "32",
+    "--decode-hicache-size-gb",
+    "32",
+    "--mamba-hicache-size-gb",
+    "32",
+    "--mooncake-store-size-gb",
+    "512",
+    "--mooncake-prefetch-policy",
+    "wait_complete"
+  ],
+  "colocated": [
+    "--groups-per-node",
+    "4",
+    "--cpus-per-node",
+    "224"
+  ]
+}
