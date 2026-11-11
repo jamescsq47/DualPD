@@ -31,7 +31,7 @@ extends the package search path to keep one state-class/module identity.
 Do not mechanically rewrite those imports to `disaggregation.dualpd.*`.
 
 For the modified engine, Host arena managers register read-only byte counters
-with its opt-in `agentic_host_observation` module. DualPD consumes the records
+with its opt-in `agentic_host_observation` module. DPD consumes the records
 and samples PSS/node/cgroup memory; it does not monkey-patch those managers.
 `observation/host_pools/sitecustomize.py` is only an external adapter for stock
 baseline `HostKVCache`, never an engine policy patch or a custom-engine hook.

@@ -1,4 +1,4 @@
-<h1 align="center">DualPD</h1>
+<h1 align="center">DPD</h1>
 
 <p align="center">
   <strong>Bidirectional Dual-Path KV Transfer for Efficient Prefill–Decode Disaggregated Agentic LLM Serving</strong>
@@ -19,18 +19,18 @@
   <a href="#documentation">Documentation</a>
 </p>
 
-**DualPD keeps KV states with the task across agentic turns.** It co-schedules
+**DPD keeps KV states with the task across agentic turns.** It co-schedules
 each task with its complete logical KV states, moving them between prefill (P),
 decode (D), and temporary CPU staging as execution progresses. This improves
 cross-turn reuse without requiring a historical copy to remain cached on a
 particular P worker.
 
-Across the paper's BrowseComp and SWE-Bench Verified experiments, DualPD achieves
+Across the paper's BrowseComp and SWE-Bench Verified experiments, DPD achieves
 **2.54× average decode throughput over SGLang** and **1.87× over SGLang with
 HiCache and Mooncake**.
 
 <p align="center">
-  <img src="assets/dualpd-teaser.png" width="1000" alt="DualPD returns KV states from decode to prefill through direct GPU transfer or CPU staging, improving cross-turn reuse and decode throughput.">
+  <img src="assets/dualpd-teaser.png" width="500" alt="DPD returns KV states from decode to prefill through direct GPU transfer or CPU staging, improving cross-turn reuse and decode throughput.">
 </p>
 
 ## Overview
@@ -41,19 +41,19 @@ As the conversation grows, losing historical KV states causes repeated prefill
 of the same context. Long tool waits and high concurrency make this problem
 particularly costly.
 
-DualPD aligns KV placement with task progress: P workers construct or extend
+DPD aligns KV placement with task progress: P workers construct or extend
 the states, D workers use and extend them during generation, and CPU memory
 temporarily holds states that are waiting for tools or GPU capacity. KV
 ownership moves after a successful handoff, so the source can release the
 task's references rather than retaining another competing copy.
 
 <p align="center">
-  <img src="assets/dualpd-overview.png" width="1100" alt="DualPD architecture: separate prefill and decode pools, bidirectional direct GPU paths, CPU staging buffers, and P and D routers.">
+  <img src="assets/dualpd-overview.png" width="1100" alt="DPD architecture: separate prefill and decode pools, bidirectional direct GPU paths, CPU staging buffers, and P and D routers.">
 </p>
 
 ## Method
 
-DualPD combines the following mechanisms into a cross-turn state pipeline:
+DPD combines the following mechanisms into a cross-turn state pipeline:
 
 | Component | What it does |
 | --- | --- |
@@ -90,7 +90,7 @@ and two-node H100 deployments. The following figure retains all nine model
 and deployment panels from the paper.
 
 <p align="center">
-  <img src="assets/dualpd-main-results.png" width="1200" alt="Nine panels compare normalized decode throughput across models, admission concurrency levels, and single-node and multi-node deployments. DualPD is compared with SGLang and SGLang with HiCache and Mooncake.">
+  <img src="assets/dualpd-main-results.png" width="1200" alt="Nine panels compare normalized decode throughput across models, admission concurrency levels, and single-node and multi-node deployments. DPD is compared with SGLang and SGLang with HiCache and Mooncake.">
 </p>
 
 | Evaluation group | Average speedup over SGLang | Average speedup over SGLang + HiCache + Mooncake |
@@ -316,7 +316,7 @@ python -m pip install -e '.[analysis]' \
   'mooncake-transfer-engine==0.3.12.post1' 'sglang-router==0.3.2'
 ```
 
-From the DualPD root, run **one command at a time**:
+From the DPD repository root, run **one command at a time**:
 
 ```bash
 # No-reverse PD: no D→P KV reuse.
@@ -393,7 +393,7 @@ checks are not new GPU throughput or accuracy measurements.
 
 | Resource | Contents |
 | --- | --- |
-| [New-method launchers](scripts/new-method/README.md) | DualPD launch scripts and experiment entry points. |
+| [New-method launchers](scripts/new-method/README.md) | DPD launch scripts and experiment entry points. |
 | [Baseline launchers](scripts/baseline/README.md) | Separate SGLang and HiCache + Mooncake environments. |
 | [Ablations](scripts/ablation/README.md) | Transfer, routing and Host-capacity ablation commands. |
 | [Service deployment](runtime/launch/README.md) | Shared local and multi-node launch implementation. |
@@ -402,7 +402,7 @@ checks are not new GPU throughput or accuracy measurements.
 
 ## Acknowledgments
 
-DualPD builds on [SGLang](https://github.com/sgl-project/sglang). Its direct
+DPD builds on [SGLang](https://github.com/sgl-project/sglang). Its direct
 transfer path uses SGLang's NIXL/UCX integration. The installation instructions
 pin the modified engine and the baseline engine separately for reproducibility.
 

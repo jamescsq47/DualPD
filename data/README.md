@@ -12,8 +12,8 @@ Shared configuration, sampling and loading live in `runtime/workloads/`.
 | BrowseComp local retrieval corpus | [Tevatron/browsecomp-plus-corpus](https://huggingface.co/datasets/Tevatron/browsecomp-plus-corpus) | Dataset card declares MIT. Original document contents may retain third-party rights. |
 | Precomputed corpus embeddings | [miaolu3/browsecomp-plus](https://huggingface.co/datasets/miaolu3/browsecomp-plus) | Hosting dataset card declares Apache-2.0; underlying corpus rights remain separate. |
 
-These are external public benchmarks, not DualPD-owned data released under
-DualPD's Apache-2.0 license. Check upstream terms before redistribution. Model
+These are external public benchmarks, not DPD-owned data released under
+DPD's Apache-2.0 license. Check upstream terms before redistribution. Model
 weights likewise retain the licenses on their model cards.
 
 BrowseComp tools call a local search/open service over the fixed corpus.

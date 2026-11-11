@@ -1,4 +1,4 @@
-# DualPD main experiments
+# DPD main experiments
 
 `run_qwen3_8b.sh browsecomp` and `run_qwen3_8b.sh swe` are the public
 single-node entries; see the root README for input preparation and commands.
@@ -39,7 +39,7 @@ Every row has the same named entry under `scripts/baseline/`, selecting
 The concurrency lists document historical settings, not an automatic matrix
 or a guarantee that every method completed every listed setting.
 
-For example, after installing DualPD in the frontend environment:
+For example, after installing DPD in the frontend environment:
 
 ```bash
 bash scripts/new-method/run_qwen35_35b_a3b_tp2_1p3d_swe.sh launch \
