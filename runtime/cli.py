@@ -27,12 +27,12 @@ def main():
         sys.argv = [f"dualpd {args.command}", *rest]
         runpy.run_module(modules[args.command], run_name="__main__")
         return
-    scripts = {"router": root / "scripts/new_method/internal/launch_late_binding_router.py",
-               "multinode": root / "scripts/cluster/multinode.py",
-               "slurm": root / "scripts/cluster/qwen35_slurm.py"}
+    scripts = {"router": root / "runtime/launch/local/launch_late_binding_router.py",
+               "multinode": root / "runtime/launch/cluster/multinode.py",
+               "slurm": root / "runtime/launch/cluster/qwen35_slurm.py"}
     path = scripts[args.command]
     if not path.is_file():
-        raise SystemExit("cluster launch commands require an editable DualPD checkout: pip install -e /path/to/DualPD")
+        raise SystemExit(f"missing runtime component: {path}; reinstall DualPD")
     sys.path.insert(0, str(path.parent))
     sys.argv = [str(path), *rest]
     runpy.run_path(str(path), run_name="__main__")

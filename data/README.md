@@ -22,3 +22,14 @@ environments; hidden tests are injected only after agent termination.
 `swe_bench_verified/sandbox.py` owns sandbox setup/teardown and `verifier.py`
 owns official task grading. No benchmark payloads, task images, trajectories
 or internal experiment results are bundled here.
+
+Preparation commands also live alongside their workload, not under `scripts`:
+
+```bash
+python -m dualpd.data.browsecomp.prepare --help
+python -m dualpd.data.swe_bench_verified.prepare --help
+python -m dualpd.data.swe_bench_verified.images.prefetch_docker --help
+python -m dualpd.data.swe_bench_verified.images.prefetch_oci --help
+python -m dualpd.data.swe_bench_verified.images.convert_to_sif --help
+python -m dualpd.data.swe_bench_verified.images.load_oci --help
+```

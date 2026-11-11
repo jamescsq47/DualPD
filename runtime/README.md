@@ -10,6 +10,9 @@ This is the shared **client-side runtime**, not SGLang's model-serving engine.
   tokenizer and generation state used by the two harnesses.
 - Metrics/tracing modules: measurement and request observations.
 - `cli.py`, `engine_entry.py`: command dispatch and the engine launch bridge.
+- `launch/`: shared local/Slurm process startup and cleanup used by experiments.
+- `analysis/`, `observation/`: final-run summaries and non-policy-changing
+  resource samples needed by the measurement and memory-ablation workflows.
 
 GPU KV allocation, Router scheduling, DMA and Host storage implementation live
 in `3rdparty/sglang`, not here. Run the driver with

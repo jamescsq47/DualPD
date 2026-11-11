@@ -60,4 +60,4 @@ for setting in "${defaults[@]}"; do
   export "${key}"
 done
 export RUN_DIR="${RUN_DIR:-${PROJECT_ROOT}/runs/browsecomp-qwen3-8b-${mode}-c${MAX_INFLIGHT}-$(date -u +%Y%m%dT%H%M%S)-$$}"
-exec bash "${SCRIPT_DIR}/run_pd_case.sh"
+exec bash "${PROJECT_ROOT}/runtime/launch/baseline/run_pd_case.sh"

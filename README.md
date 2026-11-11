@@ -149,15 +149,15 @@ python -m pip install -r configs/environment/runtime.txt
 export DUALPD_ENGINE_ROOT="$PWD/3rdparty/sglang"
 export SGLANG_OVERLAY_ROOT="$DUALPD_ENGINE_ROOT/python"
 export PD_ENV_BIN="$(dirname "$(command -v python)")"
-source scripts/env.sh
+source runtime/env.sh
 
 python -m pip check
 python -m dualpd doctor
-python scripts/tools/check_environments.py --expect modified
+python runtime/launch/environment.py --expect modified
 ```
 
 Run the remaining commands from the repository root. Set the engine variables
-and source `scripts/env.sh` again in each new shell. The engine's dependency
+and source `runtime/env.sh` again in each new shell. The engine's dependency
 metadata selects PyTorch, Transformers, FlashInfer and kernel versions; do not
 replace them with unrelated latest versions. Native kernels may compile on
 first use. Registered batched-DMA support depends on available CUDA APIs;
@@ -202,7 +202,7 @@ unzip "$PD_DATA_ROOT/browsecomp/raw/browsecomp_data.zip" \
 find "$PD_DATA_ROOT/browsecomp/raw" -name bc_train.parquet
 
 # Adjust --input if the archive contains an extra directory level.
-python scripts/tools/prepare_workloads.py browsecomp \
+python -m dualpd.data.browsecomp.prepare \
   --input "$PD_DATA_ROOT/browsecomp/raw/bc_train.parquet" \
   --output "$PD_DATA_ROOT/browsecomp/bc_train.jsonl"
 ```
@@ -233,7 +233,7 @@ workspace storage. Export the official
 ```bash
 python -m pip install -e '.[swe]'
 python -m pip install -r configs/environment/swe.txt
-python scripts/tools/prepare_swe_bench.py \
+python -m dualpd.data.swe_bench_verified.prepare \
   --dataset princeton-nlp/SWE-bench_Verified --split test \
   --output "$PD_DATA_ROOT/swe-bench-verified/test.jsonl"
 docker info
@@ -262,6 +262,10 @@ Use an exclusively allocated GPU node with idle GPUs and free ports, not a
 login node. Activate the environment and set the variables above first.
 Run one case at a time with a new `RUN_DIR`.
 
+`scripts/` contains only `ablation/`, `baseline/` and `new-method/` experiment
+entries. Shared process startup/cleanup is implemented in `runtime/launch/`;
+data preparation belongs to the corresponding workload under `data/`.
+
 ### BrowseComp: single-node 4P:4D, TP=1
 
 This starts four Prefill workers, four Decode workers, the router, local search
@@ -273,17 +277,17 @@ of **512/256 GiB**.
 MODEL_PATH=/path/to/models/Qwen3-8B \
 PD_DATA_ROOT=/path/to/datasets \
 RUN_DIR=/path/to/results/browsecomp-qwen3-8b-c512 \
-  bash scripts/new_method/run_qwen3_8b.sh browsecomp
+  bash scripts/new-method/run_qwen3_8b.sh browsecomp
 ```
 
 Startup, model loading and Host registration precede business warmup and are
 not included in the measurement window. Closed-loop mode keeps agents in
 flight and cycles through the question pool as needed. Concurrency is set in
 the launch script: edit `BROWSECOMP_CONCURRENCY=512` in
-`scripts/new_method/run_qwen3_8b.sh` to change it (SWE uses
+`scripts/new-method/run_qwen3_8b.sh` to change it (SWE uses
 `SWE_CONCURRENCY=64`). No concurrency export is required.
 Topology, sampling, transfer and Host settings are already defaults in
-`scripts/new_method/run_qwen3_8b.sh`; set an environment variable only when
+`scripts/new-method/run_qwen3_8b.sh`; set an environment variable only when
 overriding one. Host sizes are per Prefill rank (128/64 GiB × four ranks).
 GPU 7 shares retrieval and uses a lower Decode memory fraction. These examples
 do not export workload-specific settings into your shell.
@@ -342,7 +346,7 @@ This independent command keeps Qwen3-8B/4P:4D, disables retrieval and evaluates 
 MODEL_PATH=/path/to/models/Qwen3-8B \
 PD_DATA_ROOT=/path/to/datasets \
 RUN_DIR=/path/to/results/swebench-qwen3-8b-c64 \
-  bash scripts/new_method/run_qwen3_8b.sh swe
+  bash scripts/new-method/run_qwen3_8b.sh swe
 ```
 
 This YAML selects the OpenEnv-style local harness with structured OpenAI
@@ -383,10 +387,10 @@ checks are not new GPU throughput or accuracy measurements.
 
 | Resource | Contents |
 | --- | --- |
-| [New-method launchers](scripts/new_method/README.md) | DualPD launch scripts and experiment entry points. |
+| [New-method launchers](scripts/new-method/README.md) | DualPD launch scripts and experiment entry points. |
 | [Baseline launchers](scripts/baseline/README.md) | Separate SGLang and HiCache + Mooncake environments. |
-| [Ablations](scripts/ablations/README.md) | Transfer, routing and Host-capacity ablation commands. |
-| [Multi-node execution](scripts/cluster/README.md) | Cluster launch and deployment instructions. |
+| [Ablations](scripts/ablation/README.md) | Transfer, routing and Host-capacity ablation commands. |
+| [Service deployment](runtime/launch/README.md) | Shared local and multi-node launch implementation. |
 | [Workload data](data/README.md) | Public data sources, license information and harnesses. |
 | [Application runtime](runtime/README.md) | Client-side workload execution and KV lifecycle notifications, distinct from the GPU engine. |
 
