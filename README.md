@@ -123,7 +123,8 @@ and tool environments must match the experiment being run.
 
 ### Environment
 
-Use Linux, NVIDIA GPUs with peer-to-peer access, Conda, and an NVIDIA driver
+Use Python 3.12 or newer (the documented environment uses Python 3.12),
+Linux, NVIDIA GPUs with peer-to-peer access, Conda, and an NVIDIA driver
 and CUDA toolkit compatible with the pinned engine's PyTorch dependencies.
 The example below uses **8 × H100 80 GB** and **768 GiB of Host KV arenas**;
 reserve additional CPU RAM for model loading, retrieval, Python and the OS

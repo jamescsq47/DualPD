@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "dualpd"
 version = "0.1.0"
 description = "Agentic inference serving and reproducible PD-disaggregation benchmarks"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
   "aiohttp>=3.12,<4", "httpx[http2]>=0.28,<0.29", "numpy>=2,<3",
   "transformers>=4.51", "PyYAML>=6,<7", "jinja2>=3.1,<4",
