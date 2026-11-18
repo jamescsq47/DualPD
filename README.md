@@ -1,17 +1,15 @@
-<h1 align="center">DPD: Bidirectional Dual-Path KV Transfer for Efficient Prefill–Decode Disaggregated Agentic LLM Serving</h1>
-
-DPD reuses KV states across agentic turns through bidirectional GPU transfers
-and CPU staging.
-
-<p align="center">
-  <img src="assets/dualpd-teaser.png" width="500" alt="DPD cross-turn KV reuse through direct GPU transfer and CPU staging.">
-</p>
+<h5 align="center">DPD: Bidirectional Dual-Path KV Transfer for Efficient Prefill–Decode Disaggregated Agentic LLM Serving</h5>
 
 ## Overview
 
-DPD moves KV states between prefill, decode and CPU memory as tasks alternate
-between generation and tool execution, reducing repeated prefill without
-requiring affinity to a previous worker.
+DPD couples each agentic task with its KV states and transfers them in both
+directions between prefill (P) and decode (D) workers. After a tool call, D-to-P
+return lets the next prefill reuse the updated history rather than recompute
+it. Each direction supports direct GPU transfer and CPU staging: tool-aware
+D-to-P scheduling stages states when tool execution or P admission takes too
+long, while late P-to-D admission selects a D worker after prefill completes.
+Transfers progress independently of model computation, reducing repeated
+prefill and freeing GPU memory without requiring affinity to a previous worker.
 
 <p align="center">
   <img src="assets/dualpd-overview.png" width="1100" alt="DPD architecture with separate prefill and decode pools, bidirectional GPU transfer and CPU staging.">
